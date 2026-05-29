@@ -3,7 +3,7 @@ export const siteConfig = {
   title: "Frontend Developer",
   intro:
     "I build modern, fast, and user-friendly web applications using React, Next.js, and TypeScript.",
-  email: "karimian.dev@email.com",
+  email: "karimian.dev@gmail.com",
   github: "https://github.com/amirmohamadkarimian",
   linkedin: "https://linkedin.com/in/amirmohammadkarimian",
   telegram: "https://t.me/amirmohamadkarimian",
