@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="400" y1="0" x2="400" y2="450" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1e1b4b"/>
+      <stop offset="0.5" stop-color="#312e81"/>
+      <stop offset="1" stop-color="#4338ca"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#sky)"/>
+  <circle cx="650" cy="80" r="40" fill="#fbbf24" fill-opacity="0.8"/>
+  <ellipse cx="200" cy="380" rx="180" ry="30" fill="#0f0f14" fill-opacity="0.3"/>
+  <ellipse cx="600" cy="390" rx="200" ry="35" fill="#0f0f14" fill-opacity="0.3"/>
+  <rect x="280" y="120" width="240" height="200" rx="20" fill="#0f0f14" fill-opacity="0.6" stroke="#6366f1" stroke-opacity="0.4"/>
+  <circle cx="400" cy="180" r="40" fill="#6366f1" fill-opacity="0.3"/>
+  <path d="M380 200 L400 170 L420 200 L410 200 L410 220 L390 220 L390 200 Z" fill="#fbbf24"/>
+  <text x="400" y="270" text-anchor="middle" fill="#e0e7ff" font-family="system-ui,sans-serif" font-size="48" font-weight="700">24°</text>
+  <text x="400" y="300" text-anchor="middle" fill="#a5b4fc" font-family="system-ui,sans-serif" font-size="16">Partly Cloudy</text>
+  <text x="400" y="420" text-anchor="middle" fill="#c7d2fe" font-family="system-ui,sans-serif" font-size="20" font-weight="600">Weatherly</text>
+</svg>
