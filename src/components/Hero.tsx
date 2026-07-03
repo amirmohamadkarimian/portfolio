@@ -48,7 +48,7 @@ export function Hero() {
           <a
             href="/resume.pdf"
             download
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-accent/30 bg-background/70 px-8 text-sm font-semibold text-foreground transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:text-accent"
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-accent/30 bg-background/70 px-10 text-sm font-semibold text-foreground transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:text-accent"
           >
             <Download className="h-4 w-4" />
             Download Resume
