@@ -1,4 +1,4 @@
-import { ArrowDown, Mail } from "lucide-react";
+import { ArrowDown, Download, Mail } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 import { GitHubIcon } from "./icons";
 
@@ -41,10 +41,17 @@ export function Hero() {
         <div className="animate-fade-in-up mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row [animation-delay:300ms]">
           <a
             href="#projects"
-            className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-accent px-8 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent-hover hover:shadow-[0_0_30px_rgba(99,102,241,0.35)]"
+            className="inline-flex h-12 items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent-hover hover:shadow-[0_0_30px_rgba(99,102,241,0.35)]"
           >
             View My Work
-            <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+          </a>
+          <a
+            href="/resume.pdf"
+            download
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-accent/30 bg-background/70 px-8 text-sm font-semibold text-foreground transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:text-accent"
+          >
+            <Download className="h-4 w-4" />
+            Download Resume
           </a>
           <a
             href="#contact"
@@ -55,15 +62,15 @@ export function Hero() {
           </a>
         </div>
 
-        <div className="animate-fade-in-up mt-10 flex items-center justify-center gap-4 [animation-delay:400ms]">
+        <div className="animate-fade-in-up mt-10 flex items-center justify-center [animation-delay:400ms]">
           <a
             href={siteConfig.github}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub profile"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface text-muted transition-all duration-300 hover:border-accent/40 hover:text-accent"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface text-muted transition-all duration-300 hover:border-accent/40 hover:text-accent"
           >
-            <GitHubIcon className="h-5 w-5" />
+            <GitHubIcon className="h-5 w-5 leading-none" />
           </a>
         </div>
       </div>

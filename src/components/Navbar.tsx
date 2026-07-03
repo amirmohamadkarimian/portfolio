@@ -26,10 +26,10 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 ${
         scrolled
-          ? "border-b border-border/60 bg-background/80 shadow-sm backdrop-blur-xl"
-          : "bg-transparent"
+          ? "border-b border-border/60 bg-background/90 shadow-sm backdrop-blur-xl"
+          : "border-b border-transparent bg-background/70 backdrop-blur-sm"
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 lg:px-8">
@@ -38,7 +38,6 @@ export function Navbar() {
           className="text-lg font-semibold tracking-tight text-foreground transition-colors hover:text-accent"
         >
           {siteConfig.name.split(" ")[0]}
-          <span className="text-accent">.</span>
         </a>
 
         <ul className="hidden items-center gap-8 md:flex">
@@ -62,7 +61,11 @@ export function Navbar() {
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-foreground md:hidden"
           >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </button>
         </div>
       </nav>
