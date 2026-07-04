@@ -41,21 +41,14 @@ export function Hero() {
         <div className="animate-fade-in-up mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row [animation-delay:300ms]">
           <a
             href="#projects"
-            className="inline-flex h-12 items-center justify-center rounded-full bg-accent px-8 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent-hover hover:shadow-[0_0_30px_rgba(99,102,241,0.35)]"
+            className="inline-flex h-12 min-w-[10.75rem] items-center justify-center rounded-full bg-accent px-6 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent-hover hover:shadow-[0_0_30px_rgba(99,102,241,0.35)]"
           >
             View My Work
           </a>
-          <a
-            href="/resume.pdf"
-            download
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-accent/30 bg-background/70 px-10 text-sm font-semibold text-foreground transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:text-accent"
-          >
-            <Download className="h-4 w-4" />
-            Download Resume
-          </a>
+
           <a
             href="#contact"
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-border bg-surface px-8 text-sm font-semibold text-foreground transition-all duration-300 hover:border-accent/40 hover:text-accent"
+            className="inline-flex h-12 min-w-[10.75rem] items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-all duration-300 hover:border-accent/40 hover:text-accent"
           >
             <Mail className="h-4 w-4" />
             Get In Touch
