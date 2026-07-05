@@ -127,11 +127,7 @@ export function Hero() {
         <div className="animate-fade-in-up mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row [animation-delay:380ms]">
           <a
             href="#projects"
-            className="group relative inline-flex h-12 min-w-[10.75rem] items-center justify-center overflow-hidden rounded-full px-6 text-sm font-semibold text-white transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.5)]"
-            style={{
-              background: "var(--gradient-primary)",
-              backgroundSize: "200% 200%",
-            }}
+            className="group relative inline-flex h-12 min-w-[10.75rem] items-center justify-center overflow-hidden rounded-full px-6 text-sm font-semibold text-white bg-gradient-to-r from-accent via-accent-secondary to-accent transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.5)]"
           >
             <span className="relative z-10">View My Work</span>
             <span className="absolute inset-0 z-0 translate-x-full bg-white/10 transition-transform duration-500 group-hover:translate-x-0" />
@@ -164,7 +160,7 @@ export function Hero() {
       <a
         href="#about"
         aria-label="Scroll to about section"
-        className="animate-bounce-subtle absolute bottom-3 left-1/2 flex flex-col items-center gap-1 text-muted transition-colors hover:text-accent"
+        className="animate-bounce-subtle absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted transition-colors hover:text-accent"
       >
         <span className="text-xs font-medium tracking-widest uppercase opacity-60">
           scroll

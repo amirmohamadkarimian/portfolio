@@ -71,38 +71,43 @@ export function Contact() {
 
         {/* ── Contact Cards ───────────────────────────────────────────── */}
         <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-2">
-          {contactMethods.map(({ icon: Icon, label, value, href, bg, text }) => (
-            <a
-              key={label}
-              href={href}
-              target={href.startsWith("mailto") ? undefined : "_blank"}
-              rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-              className="group flex items-center gap-4 rounded-2xl border border-border bg-surface p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_8px_30px_rgba(99,102,241,0.1)]"
-            >
-              <div
-                className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-accent transition-all duration-300 ${bg} group-hover:text-white`}
+          {contactMethods.map(
+            ({ icon: Icon, label, value, href, bg, text }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("mailto") ? undefined : "_blank"}
+                rel={
+                  href.startsWith("mailto") ? undefined : "noopener noreferrer"
+                }
+                className="group flex items-center gap-4 rounded-2xl border border-border bg-surface p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_8px_30px_rgba(99,102,241,0.1)]"
               >
-                <Icon className="h-5 w-5" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-muted">{label}</p>
-                <p className={`truncate text-sm font-semibold text-foreground transition-colors ${text}`}>
-                  {value}
-                </p>
-              </div>
-              <span className="ml-auto translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 text-muted">
-                →
-              </span>
-            </a>
-          ))}
+                <div
+                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-accent transition-all duration-300 ${bg} group-hover:text-white`}
+                >
+                  <Icon className="h-5 w-5" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-muted">{label}</p>
+                  <p
+                    className={`truncate text-sm font-semibold text-foreground transition-colors ${text}`}
+                  >
+                    {value}
+                  </p>
+                </div>
+                <span className="ml-auto translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 text-muted">
+                  →
+                </span>
+              </a>
+            ),
+          )}
         </div>
 
         {/* ── CTA Button ──────────────────────────────────────────────── */}
         <div className="mt-12 text-center">
           <a
             href={`mailto:${siteConfig.email}`}
-            className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full px-8 text-sm font-semibold text-white transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.5)]"
-            style={{ background: "var(--gradient-primary)" }}
+            className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full px-8 text-sm font-semibold text-white bg-gradient-to-r from-accent via-accent-secondary to-accent transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.5)]"
           >
             <span className="relative z-10 flex items-center gap-2">
               <Mail className="h-4 w-4" />
