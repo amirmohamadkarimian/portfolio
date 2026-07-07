@@ -163,6 +163,19 @@ export function Hero() {
             <GitHubIcon className="h-5 w-5" />
           </a>
         </div>
+
+        <a
+          href="#about"
+          aria-label="Scroll to about section"
+          className="animate-bounce-subtle absolute bottom-3 left-1/2 flex flex-col items-center gap-1 text-muted transition-colors hover:text-accent"
+        >
+          <span className="text-xs font-medium tracking-widest uppercase opacity-60">
+            scroll
+          </span>
+          <span className="flex h-8 w-5 items-start justify-center rounded-full border border-current p-1">
+            <span className="h-1.5 w-0.5 animate-bounce rounded-full bg-current" />
+          </span>
+        </a>
       </div>
     </section>
   );
