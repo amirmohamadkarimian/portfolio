@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Mail } from "lucide-react";
+import { Download, Mail } from "lucide-react";
 import Image from "next/image";
 import { siteConfig } from "@/lib/data";
 import { GitHubIcon } from "./icons";
@@ -134,6 +134,15 @@ export function Hero() {
           </a>
 
           <a
+            href={siteConfig.resume}
+            download
+            className="inline-flex h-12 min-w-[10.75rem] items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
+          >
+            <Download className="h-4 w-4" />
+            Download Resume
+          </a>
+
+          <a
             href="#contact"
             className="inline-flex h-12 min-w-[10.75rem] items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
           >
@@ -155,20 +164,6 @@ export function Hero() {
           </a>
         </div>
       </div>
-
-      {/* ── Scroll Indicator ──────────────────────────────────────────── */}
-      <a
-        href="#about"
-        aria-label="Scroll to about section"
-        className="animate-bounce-subtle absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted transition-colors hover:text-accent"
-      >
-        <span className="text-xs font-medium tracking-widest uppercase opacity-60">
-          scroll
-        </span>
-        <span className="flex h-8 w-5 items-start justify-center rounded-full border border-current p-1">
-          <span className="h-1.5 w-0.5 animate-bounce rounded-full bg-current" />
-        </span>
-      </a>
     </section>
   );
 }

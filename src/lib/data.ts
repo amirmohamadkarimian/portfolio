@@ -7,6 +7,7 @@ export const siteConfig = {
   github: "https://github.com/amirmohamadkarimian",
   linkedin: "https://linkedin.com/in/amirmohammadkarimian",
   telegram: "https://t.me/amirmohamadkarimian",
+  resume: "/resume.pdf",
 };
 
 export const navLinks = [
