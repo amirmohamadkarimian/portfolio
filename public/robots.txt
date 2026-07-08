@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://amirmohamadkarimian.dev/sitemap.xml
+Sitemap: https://amirmohammadkarimian.dev/sitemap.xml

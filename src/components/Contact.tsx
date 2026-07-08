@@ -25,7 +25,7 @@ const contactMethods = [
   {
     icon: LinkedInIcon,
     label: "LinkedIn",
-    value: "linkedin.com/in/amirmohamadkarimian",
+    value: "linkedin.com/in/amirmohammadkarimian",
     href: siteConfig.linkedin,
     color: "from-blue-500 to-blue-700",
     bg: "bg-accent/10 group-hover:bg-blue-600",

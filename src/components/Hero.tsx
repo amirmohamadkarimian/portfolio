@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { Download, Mail } from "lucide-react";
 import Image from "next/image";
 import { siteConfig } from "@/lib/data";
@@ -62,6 +62,26 @@ function TypewriterRole() {
 }
 
 export function Hero() {
+  const handleSectionClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    event.preventDefault();
+
+    const targetId = href.replace("#", "");
+    const target = document.getElementById(targetId);
+
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}${window.location.search}`,
+    );
+  };
+
   return (
     <section
       id="home"
@@ -127,6 +147,7 @@ export function Hero() {
         <div className="animate-fade-in-up mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row [animation-delay:380ms]">
           <a
             href="#projects"
+            onClick={(event) => handleSectionClick(event, "#projects")}
             className="group relative inline-flex h-12 min-w-[10.75rem] items-center justify-center overflow-hidden rounded-full px-6 text-sm font-semibold text-white bg-gradient-to-r from-accent via-accent-secondary to-accent transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.5)]"
           >
             <span className="relative z-10">View My Work</span>
@@ -144,6 +165,7 @@ export function Hero() {
 
           <a
             href="#contact"
+            onClick={(event) => handleSectionClick(event, "#contact")}
             className="inline-flex h-12 min-w-[10.75rem] items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
           >
             <Mail className="h-4 w-4" />
@@ -166,6 +188,7 @@ export function Hero() {
 
         <a
           href="#about"
+          onClick={(event) => handleSectionClick(event, "#about")}
           aria-label="Scroll to about section"
           className="animate-bounce-subtle absolute bottom-3 left-1/2 flex flex-col items-center gap-1 text-muted transition-colors hover:text-accent"
         >

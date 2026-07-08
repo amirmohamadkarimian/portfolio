@@ -1,7 +1,7 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { navLinks, siteConfig } from "@/lib/data";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -28,7 +28,7 @@ export function Navbar() {
         ([entry]) => {
           if (entry.isIntersecting) setActiveSection(id);
         },
-        { rootMargin: "-40% 0px -55% 0px" }
+        { rootMargin: "-40% 0px -55% 0px" },
       );
       obs.observe(el);
       observers.push(obs);
@@ -46,6 +46,27 @@ export function Navbar() {
 
   const handleNavClick = () => setMobileOpen(false);
 
+  const handleSectionClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    event.preventDefault();
+
+    const targetId = href.replace("#", "");
+    const target = document.getElementById(targetId);
+
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}${window.location.search}`,
+    );
+    setMobileOpen(false);
+  };
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 ${
@@ -58,6 +79,7 @@ export function Navbar() {
         {/* ── Logo ─────────────────────────────────────────────────── */}
         <a
           href="#home"
+          onClick={(event) => handleSectionClick(event, "#home")}
           className="group flex items-center gap-1.5 text-lg font-bold tracking-tight transition-colors"
         >
           <span className="text-foreground transition-colors duration-300 group-hover:text-accent-secondary">
@@ -74,6 +96,7 @@ export function Navbar() {
               <li key={link.href}>
                 <a
                   href={link.href}
+                  onClick={(event) => handleSectionClick(event, link.href)}
                   className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 rounded-lg ${
                     isActive
                       ? "text-accent"
@@ -85,7 +108,9 @@ export function Navbar() {
                   {isActive && (
                     <span
                       className="absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-gradient-to-r from-accent to-accent-secondary"
-                      style={{ animation: "slide-in-right 0.25s ease-out both" }}
+                      style={{
+                        animation: "slide-in-right 0.25s ease-out both",
+                      }}
                     />
                   )}
                 </a>
@@ -128,7 +153,10 @@ export function Navbar() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  onClick={handleNavClick}
+                  onClick={(event) => {
+                    handleSectionClick(event, link.href);
+                    handleNavClick();
+                  }}
                   className={`flex items-center gap-3 rounded-xl px-4 py-3 text-lg font-medium transition-colors ${
                     isActive
                       ? "bg-accent/10 text-accent"
