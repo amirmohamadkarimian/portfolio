@@ -3,7 +3,7 @@ import { SectionHeader } from "./ui/SectionHeader";
 
 const stats = [
   { value: "3+", label: "Years Learning" },
-  { value: "10+", label: "Projects Built" },
+  { value: "5+", label: "Projects Built" },
   { value: "7+", label: "Technologies" },
   { value: "100%", label: "Passion" },
 ];

@@ -63,13 +63,13 @@ export const additionalSkills: string[] = [
 /* ── Projects ──────────────────────────────────────────────────────────── */
 export const projects: Project[] = [
   {
-    id: "devboard",
-    title: "Portfolio Website",
-    description: "My personal portfolio built with Next.js",
-    image: "/projects/devboard.svg",
-    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Zustand"],
-    github: "https://github.com/amirmohamadkarimian/portfolio",
-    demo: "https://your-portfolio.vercel.app",
+    id: "banky",
+    title: "Banky",
+    description: "My banky project built with javascrpt",
+    image: "/projects/banky.png",
+    technologies: ["html", "css", "javascript"],
+    github: "https://github.com/amirmohamadkarimian/banky",
+    demo: "https://banky-demo.vercel.app",
   },
   {
     id: "weatherly",
