@@ -1,22 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { Download, Mail } from "lucide-react";
 import Image from "next/image";
-import { siteConfig } from "@/lib/data";
+import { roles, siteConfig } from "@/lib/data";
+import { scrollToSection } from "@/lib/scrollTo";
 import { GitHubIcon } from "./icons";
+import { GradientButton } from "./ui/GradientButton";
+import { SocialIconButton } from "./ui/SocialIconButton";
 
-const roles = [
-  "Frontend Developer",
-  "React Enthusiast",
-  "TypeScript Lover",
-  "UI Craftsman",
-  "Next.js Builder",
-];
+/* ── Typewriter ────────────────────────────────────────────────────────── */
 
 function TypewriterRole() {
   const [displayed, setDisplayed] = useState("");
-  // All mutable animation state in a ref — never causes re-renders
   const meta = useRef({ roleIndex: 0, deleting: false, text: "" });
 
   useEffect(() => {
@@ -40,7 +36,6 @@ function TypewriterRole() {
         setDisplayed(m.text);
         timeout = setTimeout(tick, 40);
       } else {
-        // finished deleting — pause then move to next role
         timeout = setTimeout(() => {
           m.deleting = false;
           m.roleIndex = (m.roleIndex + 1) % roles.length;
@@ -49,49 +44,75 @@ function TypewriterRole() {
       }
     };
 
-    timeout = setTimeout(tick, 500); // initial delay
+    timeout = setTimeout(tick, 500);
     return () => clearTimeout(timeout);
-  }, []); // runs once on mount — no cascading renders
+  }, []);
 
   return (
     <span className="inline-flex items-center gap-1 text-xl font-medium sm:text-2xl">
       <span className="text-gradient">{displayed || "\u00a0"}</span>
-      <span className="animate-blink text-accent leading-none">|</span>
+      <span className="animate-blink leading-none text-accent">|</span>
     </span>
   );
 }
 
+/* ── Mouse-following Glow ──────────────────────────────────────────────── */
+
+function useMouseGlow() {
+  const containerRef = useRef<HTMLElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const glow = glowRef.current;
+    if (!container || !glow) return;
+
+    const handleMove = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      glow.style.transform = `translate(${x - 200}px, ${y - 200}px)`;
+      glow.style.opacity = "1";
+    };
+
+    const handleLeave = () => {
+      glow.style.opacity = "0";
+    };
+
+    container.addEventListener("mousemove", handleMove);
+    container.addEventListener("mouseleave", handleLeave);
+    return () => {
+      container.removeEventListener("mousemove", handleMove);
+      container.removeEventListener("mouseleave", handleLeave);
+    };
+  }, []);
+
+  return { containerRef, glowRef };
+}
+
+/* ── Hero Section ──────────────────────────────────────────────────────── */
+
 export function Hero() {
-  const handleSectionClick = (
-    event: MouseEvent<HTMLAnchorElement>,
-    href: string,
-  ) => {
-    event.preventDefault();
-
-    const targetId = href.replace("#", "");
-    const target = document.getElementById(targetId);
-
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    window.history.replaceState(
-      {},
-      "",
-      `${window.location.pathname}${window.location.search}`,
-    );
-  };
+  const { containerRef, glowRef } = useMouseGlow();
 
   return (
     <section
       id="home"
+      ref={containerRef}
       className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-24 lg:px-8"
     >
       {/* ── Decorative Background ─────────────────────────────────── */}
       <div className="pointer-events-none absolute inset-0">
+        {/* Mouse-following glow */}
+        <div
+          ref={glowRef}
+          className="absolute h-[400px] w-[400px] rounded-full bg-accent/10 blur-[100px] transition-opacity duration-500"
+          style={{ opacity: 0 }}
+        />
         <div className="animate-float absolute -left-40 top-1/4 h-96 w-96 rounded-full bg-accent/10 blur-3xl" />
         <div className="animate-float-slow absolute -right-40 bottom-1/4 h-96 w-96 rounded-full bg-accent-secondary/10 blur-3xl" />
         <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5 blur-3xl" />
+        {/* Dot grid */}
         <div
           className="absolute inset-0 opacity-[0.025] dark:opacity-[0.04]"
           style={{
@@ -100,17 +121,16 @@ export function Hero() {
             backgroundSize: "40px 40px",
           }}
         />
+        {/* Noise overlay */}
+        <div className="noise-overlay absolute inset-0" />
       </div>
 
       <div className="relative mx-auto max-w-4xl pb-24 text-center">
         {/* ── Profile Photo ─────────────────────────────────────────── */}
         <div className="animate-fade-in mb-8 flex justify-center">
           <div className="relative">
-            {/* Outer spinning ring */}
             <div className="animate-spin-slow absolute -inset-1 rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent opacity-60 blur-[2px]" />
-            {/* Glow */}
             <div className="absolute -inset-3 rounded-full bg-accent/20 blur-xl" />
-            {/* Photo frame */}
             <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-accent/40 sm:h-36 sm:w-36">
               <Image
                 src="/profile.png"
@@ -120,7 +140,6 @@ export function Hero() {
                 priority
               />
             </div>
-            {/* Available dot */}
             <span className="absolute bottom-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-background ring-2 ring-background">
               <span className="animate-pulse-dot h-2.5 w-2.5 rounded-full bg-emerald-500" />
             </span>
@@ -145,14 +164,13 @@ export function Hero() {
 
         {/* ── CTA Buttons ───────────────────────────────────────────── */}
         <div className="animate-fade-in-up mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row [animation-delay:380ms]">
-          <a
+          <GradientButton
             href="#projects"
-            onClick={(event) => handleSectionClick(event, "#projects")}
-            className="group relative inline-flex h-12 min-w-[10.75rem] items-center justify-center overflow-hidden rounded-full px-6 text-sm font-semibold text-white bg-gradient-to-r from-accent via-accent-secondary to-accent transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.5)]"
+            onClick={(e) => scrollToSection(e, "#projects")}
+            className="min-w-[10.75rem]"
           >
-            <span className="relative z-10">View My Work</span>
-            <span className="absolute inset-0 z-0 translate-x-full bg-white/10 transition-transform duration-500 group-hover:translate-x-0" />
-          </a>
+            View My Work
+          </GradientButton>
 
           <a
             href={siteConfig.resume}
@@ -165,7 +183,7 @@ export function Hero() {
 
           <a
             href="#contact"
-            onClick={(event) => handleSectionClick(event, "#contact")}
+            onClick={(e) => scrollToSection(e, "#contact")}
             className="inline-flex h-12 min-w-[10.75rem] items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
           >
             <Mail className="h-4 w-4" />
@@ -175,24 +193,21 @@ export function Hero() {
 
         {/* ── Social Links ──────────────────────────────────────────── */}
         <div className="animate-fade-in-up mt-8 flex items-center justify-center gap-3 [animation-delay:460ms]">
-          <a
+          <SocialIconButton
             href={siteConfig.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub profile"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface text-muted transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.15)]"
-          >
-            <GitHubIcon className="h-5 w-5" />
-          </a>
+            icon={GitHubIcon}
+            label="GitHub profile"
+          />
         </div>
 
+        {/* ── Scroll indicator ──────────────────────────────────────── */}
         <a
           href="#about"
-          onClick={(event) => handleSectionClick(event, "#about")}
+          onClick={(e) => scrollToSection(e, "#about")}
           aria-label="Scroll to about section"
           className="animate-bounce-subtle absolute bottom-3 left-1/2 flex flex-col items-center gap-1 text-muted transition-colors hover:text-accent"
         >
-          <span className="text-xs font-medium tracking-widest uppercase opacity-60">
+          <span className="text-xs font-medium uppercase tracking-widest opacity-60">
             scroll
           </span>
           <span className="flex h-8 w-5 items-start justify-center rounded-full border border-current p-1">

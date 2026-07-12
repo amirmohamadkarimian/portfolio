@@ -1,22 +1,96 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useState } from "react";
 import { navLinks, siteConfig } from "@/lib/data";
+import { scrollToSection } from "@/lib/scrollTo";
 import { ThemeToggle } from "./ThemeToggle";
+
+/* ── Desktop NavLink ───────────────────────────────────────────────────── */
+
+function DesktopNavLink({
+  href,
+  label,
+  isActive,
+}: {
+  href: string;
+  label: string;
+  isActive: boolean;
+}) {
+  return (
+    <li>
+      <a
+        href={href}
+        onClick={(e) => scrollToSection(e, href)}
+        className={`relative rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+          isActive
+            ? "text-accent"
+            : "text-muted hover:bg-surface hover:text-foreground"
+        }`}
+      >
+        {label}
+        {isActive && (
+          <span
+            className="absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-gradient-to-r from-accent to-accent-secondary"
+            style={{ animation: "slide-in-right 0.25s ease-out both" }}
+          />
+        )}
+      </a>
+    </li>
+  );
+}
+
+/* ── Mobile NavLink ────────────────────────────────────────────────────── */
+
+function MobileNavLink({
+  href,
+  label,
+  isActive,
+  onNavigate,
+}: {
+  href: string;
+  label: string;
+  isActive: boolean;
+  onNavigate: () => void;
+}) {
+  return (
+    <li>
+      <a
+        href={href}
+        onClick={(e) => {
+          scrollToSection(e, href);
+          onNavigate();
+        }}
+        className={`flex items-center gap-3 rounded-xl px-4 py-3 text-lg font-medium transition-colors ${
+          isActive
+            ? "bg-accent/10 text-accent"
+            : "text-foreground hover:bg-surface hover:text-accent"
+        }`}
+      >
+        {isActive && (
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+        )}
+        {label}
+      </a>
+    </li>
+  );
+}
+
+/* ── Navbar ────────────────────────────────────────────────────────────── */
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
+  /* scroll shadow */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* ── Active Section Tracker ──────────────────────────────────────── */
+  /* active-section tracker */
   useEffect(() => {
     const sectionIds = navLinks.map((l) => l.href.replace("#", ""));
     const observers: IntersectionObserver[] = [];
@@ -37,6 +111,7 @@ export function Navbar() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
+  /* lock body scroll when mobile drawer is open */
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => {
@@ -44,28 +119,7 @@ export function Navbar() {
     };
   }, [mobileOpen]);
 
-  const handleNavClick = () => setMobileOpen(false);
-
-  const handleSectionClick = (
-    event: MouseEvent<HTMLAnchorElement>,
-    href: string,
-  ) => {
-    event.preventDefault();
-
-    const targetId = href.replace("#", "");
-    const target = document.getElementById(targetId);
-
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    window.history.replaceState(
-      {},
-      "",
-      `${window.location.pathname}${window.location.search}`,
-    );
-    setMobileOpen(false);
-  };
+  const closeMobile = () => setMobileOpen(false);
 
   return (
     <header
@@ -79,7 +133,7 @@ export function Navbar() {
         {/* ── Logo ─────────────────────────────────────────────────── */}
         <a
           href="#home"
-          onClick={(event) => handleSectionClick(event, "#home")}
+          onClick={(e) => scrollToSection(e, "#home")}
           className="group flex items-center gap-1.5 text-lg font-bold tracking-tight transition-colors"
         >
           <span className="text-foreground transition-colors duration-300 group-hover:text-accent-secondary">
@@ -89,34 +143,14 @@ export function Navbar() {
 
         {/* ── Desktop Nav ──────────────────────────────────────────── */}
         <ul className="hidden items-center gap-1 md:flex">
-          {navLinks.map((link) => {
-            const id = link.href.replace("#", "");
-            const isActive = activeSection === id;
-            return (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={(event) => handleSectionClick(event, link.href)}
-                  className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 rounded-lg ${
-                    isActive
-                      ? "text-accent"
-                      : "text-muted hover:text-foreground hover:bg-surface"
-                  }`}
-                >
-                  {link.label}
-                  {/* Active underline */}
-                  {isActive && (
-                    <span
-                      className="absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-gradient-to-r from-accent to-accent-secondary"
-                      style={{
-                        animation: "slide-in-right 0.25s ease-out both",
-                      }}
-                    />
-                  )}
-                </a>
-              </li>
-            );
-          })}
+          {navLinks.map((link) => (
+            <DesktopNavLink
+              key={link.href}
+              href={link.href}
+              label={link.label}
+              isActive={activeSection === link.href.replace("#", "")}
+            />
+          ))}
         </ul>
 
         {/* ── Right side ───────────────────────────────────────────── */}
@@ -146,31 +180,15 @@ export function Navbar() {
         }`}
       >
         <ul className="flex flex-col gap-1 px-6 py-8">
-          {navLinks.map((link) => {
-            const id = link.href.replace("#", "");
-            const isActive = activeSection === id;
-            return (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={(event) => {
-                    handleSectionClick(event, link.href);
-                    handleNavClick();
-                  }}
-                  className={`flex items-center gap-3 rounded-xl px-4 py-3 text-lg font-medium transition-colors ${
-                    isActive
-                      ? "bg-accent/10 text-accent"
-                      : "text-foreground hover:bg-surface hover:text-accent"
-                  }`}
-                >
-                  {isActive && (
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  )}
-                  {link.label}
-                </a>
-              </li>
-            );
-          })}
+          {navLinks.map((link) => (
+            <MobileNavLink
+              key={link.href}
+              href={link.href}
+              label={link.label}
+              isActive={activeSection === link.href.replace("#", "")}
+              onNavigate={closeMobile}
+            />
+          ))}
         </ul>
       </div>
     </header>

@@ -1,4 +1,5 @@
 import { AnimatedSection } from "./AnimatedSection";
+import { SectionHeader } from "./ui/SectionHeader";
 
 const stats = [
   { value: "3+", label: "Years Learning" },
@@ -13,13 +14,11 @@ export function About() {
       <div className="mx-auto max-w-6xl">
         {/* ── Header ─────────────────────────────────────────────────── */}
         <div className="mb-12">
-          <p className="text-sm font-medium uppercase tracking-widest text-accent">
-            About Me
-          </p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Crafting{" "}
-            <span className="text-gradient">Digital Experiences</span>
-          </h2>
+          <SectionHeader
+            label="About Me"
+            title="Crafting"
+            gradientWord="Digital Experiences"
+          />
         </div>
 
         {/* ── Stats Row ──────────────────────────────────────────────── */}
@@ -27,9 +26,10 @@ export function About() {
           {stats.map(({ value, label }) => (
             <div
               key={label}
-              className="glass group rounded-2xl p-5 text-center transition-all duration-300 hover:border-accent/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.1)]"
+              className="glass group rounded-2xl p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.1)]"
+              style={{ perspective: "600px" }}
             >
-              <p className="text-3xl font-bold text-gradient">{value}</p>
+              <p className="text-gradient text-3xl font-bold">{value}</p>
               <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted">
                 {label}
               </p>
