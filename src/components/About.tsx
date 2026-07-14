@@ -10,7 +10,7 @@ const stats = [
 
 export function About() {
   return (
-    <AnimatedSection id="about" className="px-6 py-24 lg:px-8">
+    <AnimatedSection id="about" className="border-t border-border bg-surface/30 px-6 py-24 lg:px-8">
       <div className="mx-auto max-w-6xl">
         {/* ── Header ─────────────────────────────────────────────────── */}
         <div className="mb-12">

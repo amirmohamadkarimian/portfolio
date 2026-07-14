@@ -1,4 +1,4 @@
-import type { ComponentType, SVGProps } from "react";
+import type { SVGProps } from "react";
 
 /* ── Icon ──────────────────────────────────────────────────────────────── */
 export type IconProps = SVGProps<SVGSVGElement>;

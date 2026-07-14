@@ -113,9 +113,35 @@ export function AnimatedBackground() {
       createOrb(w, h)
     );
 
+    /* ── Pre-render Gradient Orbs for Performance ────────────────── */
+    const orbCanvases = orbs.map((orb) => {
+      const renderOrbCanvas = (isDarkTheme: boolean) => {
+        const oCanvas = document.createElement("canvas");
+        oCanvas.width = orb.radius * 2;
+        oCanvas.height = orb.radius * 2;
+        const oCtx = oCanvas.getContext("2d");
+        if (oCtx) {
+          const grad = oCtx.createRadialGradient(
+            orb.radius, orb.radius, 0,
+            orb.radius, orb.radius, orb.radius
+          );
+          const alpha = isDarkTheme ? orb.opacity : orb.opacity * 0.6;
+          grad.addColorStop(0, `hsla(${orb.hue}, ${orb.saturation}%, ${isDarkTheme ? 60 : 50}%, ${alpha})`);
+          grad.addColorStop(1, "transparent");
+          oCtx.fillStyle = grad;
+          oCtx.fillRect(0, 0, orb.radius * 2, orb.radius * 2);
+        }
+        return oCanvas;
+      };
+      
+      return {
+        light: renderOrbCanvas(false),
+        dark: renderOrbCanvas(true),
+      };
+    });
+
     /* ── Detect dark mode ────────────────────────────────────────── */
-    const isDark = () =>
-      document.documentElement.classList.contains("dark");
+    const isDark = () => document.documentElement.classList.contains("dark");
 
     /* ── Animation loop ──────────────────────────────────────────── */
     const loop = () => {
@@ -123,7 +149,8 @@ export function AnimatedBackground() {
       ctx.clearRect(0, 0, w, h);
 
       /* ── Draw ambient gradient orbs ────────────────────────────── */
-      for (const orb of orbs) {
+      for (let i = 0; i < orbs.length; i++) {
+        const orb = orbs[i];
         orb.x += orb.vx;
         orb.y += orb.vy;
         if (orb.x < -orb.radius) orb.x = w + orb.radius;
@@ -131,36 +158,30 @@ export function AnimatedBackground() {
         if (orb.y < -orb.radius) orb.y = h + orb.radius;
         if (orb.y > h + orb.radius) orb.y = -orb.radius;
 
-        const grad = ctx.createRadialGradient(
-          orb.x, orb.y, 0,
-          orb.x, orb.y, orb.radius
-        );
-        const alpha = dark ? orb.opacity : orb.opacity * 0.6;
-        grad.addColorStop(0, `hsla(${orb.hue}, ${orb.saturation}%, ${dark ? 60 : 50}%, ${alpha})`);
-        grad.addColorStop(1, "transparent");
-        ctx.fillStyle = grad;
-        ctx.fillRect(orb.x - orb.radius, orb.y - orb.radius, orb.radius * 2, orb.radius * 2);
+        const cachedCanvas = dark ? orbCanvases[i].dark : orbCanvases[i].light;
+        ctx.drawImage(cachedCanvas, orb.x - orb.radius, orb.y - orb.radius);
       }
 
       /* ── Update & draw particles ───────────────────────────────── */
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
+      const mouseRadSq = MOUSE_ATTRACTION_RADIUS * MOUSE_ATTRACTION_RADIUS;
+      const connectionLimitSq = CONNECTION_DISTANCE * CONNECTION_DISTANCE;
 
       for (const p of particles) {
         // Mouse attraction
         const dx = mx - p.x;
         const dy = my - p.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < MOUSE_ATTRACTION_RADIUS && dist > 1) {
+        const distSq = dx * dx + dy * dy;
+        if (distSq < mouseRadSq && distSq > 1) {
+          const dist = Math.sqrt(distSq);
           p.vx += (dx / dist) * MOUSE_ATTRACTION_FORCE;
           p.vy += (dy / dist) * MOUSE_ATTRACTION_FORCE;
         }
 
-        // Damping
+        // Damping & Move
         p.vx *= 0.998;
         p.vy *= 0.998;
-
-        // Move
         p.x += p.vx;
         p.y += p.vy;
 
@@ -186,21 +207,21 @@ export function AnimatedBackground() {
 
       /* ── Draw connections ──────────────────────────────────────── */
       const connectionLight = dark ? 70 : 40;
+      ctx.lineWidth = 0.6;
       for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
         for (let j = i + 1; j < particles.length; j++) {
-          const a = particles[i];
           const b = particles[j];
           const dx = a.x - b.x;
           const dy = a.y - b.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (dist < CONNECTION_DISTANCE) {
-            const alpha = (1 - dist / CONNECTION_DISTANCE) * 0.15;
+          if (distSq < connectionLimitSq) {
+            const alpha = (1 - Math.sqrt(distSq) / CONNECTION_DISTANCE) * 0.15;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
             ctx.strokeStyle = `hsla(${(a.hue + b.hue) / 2}, 70%, ${connectionLight}%, ${alpha})`;
-            ctx.lineWidth = 0.6;
             ctx.stroke();
           }
         }
@@ -208,17 +229,17 @@ export function AnimatedBackground() {
 
       /* ── Mouse proximity connections ───────────────────────────── */
       if (mx > 0 && my > 0) {
+        ctx.lineWidth = 0.8;
         for (const p of particles) {
           const dx = mx - p.x;
           const dy = my - p.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < MOUSE_ATTRACTION_RADIUS) {
-            const alpha = (1 - dist / MOUSE_ATTRACTION_RADIUS) * 0.25;
+          const distSq = dx * dx + dy * dy;
+          if (distSq < mouseRadSq) {
+            const alpha = (1 - Math.sqrt(distSq) / MOUSE_ATTRACTION_RADIUS) * 0.25;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(mx, my);
             ctx.strokeStyle = `hsla(${p.hue}, 80%, ${connectionLight}%, ${alpha})`;
-            ctx.lineWidth = 0.8;
             ctx.stroke();
           }
         }

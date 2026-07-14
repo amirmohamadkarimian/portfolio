@@ -56,7 +56,7 @@ const contactMethods: ContactMethodItem[] = [
 
 export function Contact() {
   return (
-    <AnimatedSection id="contact" className="px-6 py-24 lg:px-8">
+    <AnimatedSection id="contact" className="border-t border-border bg-surface/30 px-6 py-24 lg:px-8">
       <div className="mx-auto max-w-6xl">
         {/* ── Header ─────────────────────────────────────────────────── */}
         <div className="mb-12">

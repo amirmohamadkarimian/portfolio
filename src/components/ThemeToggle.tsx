@@ -3,6 +3,7 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useSyncExternalStore } from "react";
+import { flushSync } from "react-dom";
 
 function useMounted() {
   return useSyncExternalStore(
@@ -21,25 +22,45 @@ export function ThemeToggle() {
       <button
         type="button"
         aria-label="Toggle theme"
-        className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-muted transition-colors"
-      />
+        className="flex h-10 w-10 items-center justify-center rounded-full border border-border/30 bg-surface/30 shadow-sm backdrop-blur-md focus:outline-none"
+        disabled
+      >
+        <div className="h-5 w-5 rounded-full bg-muted/20 animate-pulse" />
+      </button>
     );
   }
 
   const isDark = (theme === "system" ? resolvedTheme : theme) === "dark";
 
+  const toggleTheme = () => {
+    setTheme(isDark ? "light" : "dark");
+  };
+
   return (
     <button
       type="button"
-      onClick={() => setTheme(isDark ? "light" : "dark")}
+      onClick={toggleTheme}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className="group flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-muted transition-all duration-300 hover:border-accent/40 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.15)]"
+      className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-surface/30 hover:bg-surface-elevated/60 border border-border/30 hover:border-border/80 shadow-sm backdrop-blur-md transition-all duration-300 focus:outline-none"
     >
-      {isDark ? (
-        <Sun className="h-4 w-4 transition-transform duration-300 group-hover:rotate-12" />
-      ) : (
-        <Moon className="h-4 w-4 transition-transform duration-300 group-hover:-rotate-12" />
-      )}
+      <Sun
+        strokeWidth={1.5}
+        className={`absolute h-5 w-5 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+          isDark
+            ? "rotate-90 scale-0 opacity-0 text-muted-foreground"
+            : "rotate-0 scale-100 opacity-100 text-amber-500"
+        }`}
+      />
+      
+      <Moon
+        strokeWidth={1.5}
+        className={`absolute h-5 w-5 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+          isDark
+            ? "rotate-0 scale-100 opacity-100 text-indigo-400"
+            : "-rotate-90 scale-0 opacity-0 text-muted-foreground"
+        }`}
+      />
+      <span className="sr-only">Toggle theme</span>
     </button>
   );
 }
