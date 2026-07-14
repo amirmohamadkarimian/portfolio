@@ -1,5 +1,6 @@
 import { journeyMilestones } from "@/lib/data";
 import { AnimatedSection } from "./AnimatedSection";
+import { SectionHeader } from "./ui/SectionHeader";
 
 export function Experience() {
   return (
@@ -9,18 +10,14 @@ export function Experience() {
     >
       <div className="mx-auto max-w-6xl">
         {/* ── Header ─────────────────────────────────────────────────── */}
-        <div className="mb-14 text-center">
-          <p className="text-sm font-medium uppercase tracking-widest text-accent">
-            Journey
-          </p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            My Path as a{" "}
-            <span className="text-gradient">Developer</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-muted">
-            A self-driven frontend developer focused on building real-world
-            projects and continuously learning modern web technologies.
-          </p>
+        <div className="mb-14">
+          <SectionHeader
+            label="Journey"
+            title="My Path as a"
+            gradientWord="Developer"
+            description="A self-driven frontend developer focused on building real-world projects and continuously learning modern web technologies."
+            centered
+          />
         </div>
 
         {/* ── Timeline ───────────────────────────────────────────────── */}

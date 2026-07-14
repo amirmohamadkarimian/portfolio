@@ -3,8 +3,15 @@ import Image from "next/image";
 import { projects } from "@/lib/data";
 import { AnimatedSection } from "./AnimatedSection";
 import { GitHubIcon } from "./icons";
+import { SectionHeader } from "./ui/SectionHeader";
+
+/* ── Tech Badge Colors ─────────────────────────────────────────────────── */
 
 const techColors: Record<string, string> = {
+  HTML: "bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300",
+  CSS: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300",
+  JavaScript:
+    "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300",
   "Next.js":
     "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
   React: "bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300",
@@ -24,22 +31,20 @@ function getTechClass(tech: string) {
   return techColors[tech] ?? "bg-accent/10 text-accent";
 }
 
+/* ── Projects Section ──────────────────────────────────────────────────── */
+
 export function Projects() {
   return (
     <AnimatedSection id="projects" className="px-6 py-24 lg:px-8">
       <div className="mx-auto max-w-6xl">
         {/* ── Header ─────────────────────────────────────────────────── */}
         <div className="mb-12">
-          <p className="text-sm font-medium uppercase tracking-widest text-accent">
-            Projects
-          </p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Featured <span className="text-gradient">Work</span>
-          </h2>
-          <p className="mt-4 max-w-2xl text-muted">
-            A selection of projects that showcase my approach to building
-            modern, user-centered web applications.
-          </p>
+          <SectionHeader
+            label="Projects"
+            title="Featured"
+            gradientWord="Work"
+            description="A selection of projects that showcase my approach to building modern, user-centered web applications."
+          />
         </div>
 
         {/* ── Cards Grid ─────────────────────────────────────────────── */}
@@ -95,6 +100,7 @@ export function Projects() {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`View ${project.title} source code on GitHub`}
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-accent"
                   >
                     <GitHubIcon className="h-4 w-4" />
@@ -104,6 +110,7 @@ export function Projects() {
                     href={project.demo}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`View ${project.title} live demo`}
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-accent"
                   >
                     <ExternalLink className="h-4 w-4" />

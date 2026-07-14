@@ -1,13 +1,4 @@
-import { Mail } from "lucide-react";
-import { GitHubIcon, LinkedInIcon, TelegramIcon } from "@/components/icons";
-import type {
-  ContactMethod,
-  JourneyMilestone,
-  NavLink,
-  Project,
-  SiteConfig,
-  SocialLink,
-} from "./types";
+import type { NavLink, Project, SiteConfig, JourneyMilestone } from "./types";
 
 /* ── Site Config ───────────────────────────────────────────────────────── */
 export const siteConfig: SiteConfig = {
@@ -18,7 +9,7 @@ export const siteConfig: SiteConfig = {
   email: "karimian.dev@gmail.com",
   github: "https://github.com/amirmohamadkarimian",
   linkedin: "https://linkedin.com/in/amirmohammadkarimian",
-  telegram: "https://t.me/amirmohamadkarimian",
+  telegram: "https://t.me/amirmohamadev",
   resume: "/resume.pdf",
 };
 
@@ -65,9 +56,10 @@ export const projects: Project[] = [
   {
     id: "banky",
     title: "Banky",
-    description: "My banky project built with javascrpt",
+    description:
+      "A responsive banking landing page featuring smooth scroll animations, modern UI components, and an interactive design built with vanilla web technologies.",
     image: "/projects/banky.png",
-    technologies: ["html", "css", "javascript"],
+    technologies: ["HTML", "CSS", "JavaScript"],
     github: "https://github.com/amirmohamadkarimian/banky",
     demo: "https://banky-demo.vercel.app",
   },
@@ -92,27 +84,6 @@ export const projects: Project[] = [
     demo: "https://amirmohamadkarimian.dev",
   },
 ];
-
-/* ── Tech Badge Colors ─────────────────────────────────────────────────── */
-export const techColors: Record<string, string> = {
-  "Next.js":
-    "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
-  React: "bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300",
-  TypeScript:
-    "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
-  "Tailwind CSS":
-    "bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300",
-  Zustand:
-    "bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300",
-  "REST API":
-    "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300",
-  "Framer Motion":
-    "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300",
-};
-
-export function getTechClass(tech: string): string {
-  return techColors[tech] ?? "bg-accent/10 text-accent";
-}
 
 /* ── Journey Milestones ────────────────────────────────────────────────── */
 export const journeyMilestones: JourneyMilestone[] = [
@@ -140,48 +111,4 @@ export const journeyMilestones: JourneyMilestone[] = [
     description:
       "Continuously learning and shipping frontend applications — focused on clean code, responsive design, and exceptional user experience.",
   },
-];
-
-/* ── Contact Methods ───────────────────────────────────────────────────── */
-export const contactMethods: ContactMethod[] = [
-  {
-    icon: Mail,
-    label: "Email",
-    value: siteConfig.email,
-    href: `mailto:${siteConfig.email}`,
-    hoverColor: "group-hover:bg-rose-500",
-    hoverText: "group-hover:text-rose-400",
-  },
-  {
-    icon: GitHubIcon,
-    label: "GitHub",
-    value: "github.com/amirmohamadkarimian",
-    href: siteConfig.github,
-    hoverColor: "group-hover:bg-slate-600",
-    hoverText: "group-hover:text-slate-400",
-  },
-  {
-    icon: LinkedInIcon,
-    label: "LinkedIn",
-    value: "linkedin.com/in/amirmohammadkarimian",
-    href: siteConfig.linkedin,
-    hoverColor: "group-hover:bg-blue-600",
-    hoverText: "group-hover:text-blue-400",
-  },
-  {
-    icon: TelegramIcon,
-    label: "Telegram",
-    value: "@amirmohamadkarimian",
-    href: siteConfig.telegram,
-    hoverColor: "group-hover:bg-sky-500",
-    hoverText: "group-hover:text-sky-400",
-  },
-];
-
-/* ── Social Links (Footer / Hero) ──────────────────────────────────────── */
-export const socialLinks: SocialLink[] = [
-  { href: siteConfig.github, icon: GitHubIcon, label: "GitHub" },
-  { href: siteConfig.linkedin, icon: LinkedInIcon, label: "LinkedIn" },
-  { href: `mailto:${siteConfig.email}`, icon: Mail, label: "Email" },
-  { href: siteConfig.telegram, icon: TelegramIcon, label: "Telegram" },
 ];

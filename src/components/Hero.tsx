@@ -1,52 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { Download, Mail } from "lucide-react";
 import Image from "next/image";
 import { roles, siteConfig } from "@/lib/data";
+import { useMouseGlow } from "@/hooks/useMouseGlow";
+import { useTypewriter } from "@/hooks/useTypewriter";
 import { scrollToSection } from "@/lib/scrollTo";
-import { GitHubIcon } from "./icons";
+import { GitHubIcon, LinkedInIcon, TelegramIcon } from "./icons";
 import { GradientButton } from "./ui/GradientButton";
 import { SocialIconButton } from "./ui/SocialIconButton";
 
 /* ── Typewriter ────────────────────────────────────────────────────────── */
 
 function TypewriterRole() {
-  const [displayed, setDisplayed] = useState("");
-  const meta = useRef({ roleIndex: 0, deleting: false, text: "" });
-
-  useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>;
-
-    const tick = () => {
-      const m = meta.current;
-      const current = roles[m.roleIndex];
-
-      if (!m.deleting && m.text.length < current.length) {
-        m.text = current.slice(0, m.text.length + 1);
-        setDisplayed(m.text);
-        timeout = setTimeout(tick, 70);
-      } else if (!m.deleting && m.text.length === current.length) {
-        timeout = setTimeout(() => {
-          m.deleting = true;
-          tick();
-        }, 1800);
-      } else if (m.deleting && m.text.length > 0) {
-        m.text = current.slice(0, m.text.length - 1);
-        setDisplayed(m.text);
-        timeout = setTimeout(tick, 40);
-      } else {
-        timeout = setTimeout(() => {
-          m.deleting = false;
-          m.roleIndex = (m.roleIndex + 1) % roles.length;
-          tick();
-        }, 300);
-      }
-    };
-
-    timeout = setTimeout(tick, 500);
-    return () => clearTimeout(timeout);
-  }, []);
+  const displayed = useTypewriter(roles);
 
   return (
     <span className="inline-flex items-center gap-1 text-xl font-medium sm:text-2xl">
@@ -54,40 +21,6 @@ function TypewriterRole() {
       <span className="animate-blink leading-none text-accent">|</span>
     </span>
   );
-}
-
-/* ── Mouse-following Glow ──────────────────────────────────────────────── */
-
-function useMouseGlow() {
-  const containerRef = useRef<HTMLElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    const glow = glowRef.current;
-    if (!container || !glow) return;
-
-    const handleMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      glow.style.transform = `translate(${x - 200}px, ${y - 200}px)`;
-      glow.style.opacity = "1";
-    };
-
-    const handleLeave = () => {
-      glow.style.opacity = "0";
-    };
-
-    container.addEventListener("mousemove", handleMove);
-    container.addEventListener("mouseleave", handleLeave);
-    return () => {
-      container.removeEventListener("mousemove", handleMove);
-      container.removeEventListener("mouseleave", handleLeave);
-    };
-  }, []);
-
-  return { containerRef, glowRef };
 }
 
 /* ── Hero Section ──────────────────────────────────────────────────────── */
@@ -197,6 +130,21 @@ export function Hero() {
             href={siteConfig.github}
             icon={GitHubIcon}
             label="GitHub profile"
+          />
+          <SocialIconButton
+            href={siteConfig.linkedin}
+            icon={LinkedInIcon}
+            label="LinkedIn profile"
+          />
+          <SocialIconButton
+            href={siteConfig.telegram}
+            icon={TelegramIcon}
+            label="Telegram"
+          />
+          <SocialIconButton
+            href={`mailto:${siteConfig.email}`}
+            icon={Mail}
+            label="Send email"
           />
         </div>
 

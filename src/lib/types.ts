@@ -38,20 +38,3 @@ export interface JourneyMilestone {
   title: string;
   description: string;
 }
-
-/* ── Contact ───────────────────────────────────────────────────────────── */
-export interface ContactMethod {
-  icon: ComponentType<IconProps>;
-  label: string;
-  value: string;
-  href: string;
-  hoverColor: string; // tailwind hover bg for the icon circle
-  hoverText: string; // tailwind hover text for the label
-}
-
-/* ── Social Link ───────────────────────────────────────────────────────── */
-export interface SocialLink {
-  href: string;
-  icon: ComponentType<IconProps>;
-  label: string;
-}
