@@ -1,6 +1,5 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navLinks, siteConfig } from "@/lib/data";
 import { scrollToSection } from "@/lib/scrollTo";
@@ -47,29 +46,42 @@ function MobileNavLink({
   label,
   isActive,
   onNavigate,
+  index,
+  mobileOpen,
 }: {
   href: string;
   label: string;
   isActive: boolean;
   onNavigate: () => void;
+  index: number;
+  mobileOpen: boolean;
 }) {
   return (
-    <li>
+    <li
+      style={{ transitionDelay: mobileOpen ? `${index * 75 + 100}ms` : "0ms" }}
+      className={`transition-all duration-500 ease-out ${
+        mobileOpen ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
+      }`}
+    >
       <a
         href={href}
         onClick={(e) => {
           scrollToSection(e, href);
           onNavigate();
         }}
-        className={`flex items-center gap-3 rounded-xl px-4 py-3 text-lg font-medium transition-colors ${
+        className={`group flex items-center gap-4 rounded-2xl px-5 py-4 text-lg font-medium transition-all active:scale-95 ${
           isActive
-            ? "bg-accent/10 text-accent"
-            : "text-foreground hover:bg-surface hover:text-accent"
+            ? "bg-accent/10 text-accent shadow-sm"
+            : "text-foreground hover:bg-accent/5 hover:text-accent"
         }`}
       >
-        {isActive && (
-          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-        )}
+        <span
+          className={`h-2 w-2 rounded-full transition-all duration-300 ${
+            isActive
+              ? "bg-accent scale-100 shadow-[0_0_8px_var(--accent-glow)]"
+              : "bg-transparent scale-0 group-hover:bg-accent/50 group-hover:scale-100"
+          }`}
+        />
         {label}
       </a>
     </li>
@@ -119,6 +131,26 @@ export function Navbar() {
     };
   }, [mobileOpen]);
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOpen(false);
+    };
+
+    const onResize = () => {
+      if (window.innerWidth >= 768) setMobileOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [mobileOpen]);
+
   const closeMobile = () => setMobileOpen(false);
 
   return (
@@ -160,36 +192,62 @@ export function Navbar() {
             type="button"
             onClick={() => setMobileOpen((prev) => !prev)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-foreground transition-colors hover:border-accent/40 hover:text-accent md:hidden"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
+            className="group relative flex h-10 w-10 flex-col items-center justify-center gap-[5px] rounded-full border border-border bg-surface text-foreground transition-all duration-300 hover:border-accent/40 hover:text-accent active:scale-95 md:hidden"
           >
-            {mobileOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
+            <span
+              className={`block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ease-out ${
+                mobileOpen ? "translate-y-[7px] rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ease-out ${
+                mobileOpen ? "opacity-0 translate-x-2" : ""
+              }`}
+            />
+            <span
+              className={`block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ease-out ${
+                mobileOpen ? "-translate-y-[7px] -rotate-45" : ""
+              }`}
+            />
           </button>
         </div>
       </nav>
 
       {/* ── Mobile Drawer ────────────────────────────────────────────── */}
-      <div
-        className={`fixed inset-0 top-16 z-40 bg-background/95 backdrop-blur-xl transition-all duration-300 md:hidden ${
-          mobileOpen
-            ? "pointer-events-auto opacity-100"
-            : "pointer-events-none opacity-0"
-        }`}
-      >
-        <ul className="flex flex-col gap-1 px-6 py-8">
-          {navLinks.map((link) => (
-            <MobileNavLink
-              key={link.href}
-              href={link.href}
-              label={link.label}
-              isActive={activeSection === link.href.replace("#", "")}
-              onNavigate={closeMobile}
-            />
-          ))}
-        </ul>
+      <div className="md:hidden">
+        <button
+          type="button"
+          onClick={closeMobile}
+          aria-label="Close navigation menu"
+          className={`fixed inset-0 top-16 z-40 bg-background/70 backdrop-blur-sm transition-all duration-300 ${
+            mobileOpen
+              ? "pointer-events-auto opacity-100"
+              : "pointer-events-none opacity-0"
+          }`}
+        />
+
+        <div
+          id="mobile-navigation"
+          className={`fixed right-0 top-16 z-50 flex h-[calc(100vh-4rem)] w-[min(88vw,24rem)] flex-col border-l border-border/60 bg-surface/95 px-5 py-6 shadow-2xl shadow-black/10 backdrop-blur-xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            mobileOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <ul className="flex flex-1 flex-col gap-2">
+            {navLinks.map((link, index) => (
+              <MobileNavLink
+                key={link.href}
+                href={link.href}
+                label={link.label}
+                isActive={activeSection === link.href.replace("#", "")}
+                onNavigate={closeMobile}
+                index={index}
+                mobileOpen={mobileOpen}
+              />
+            ))}
+          </ul>
+        </div>
       </div>
     </header>
   );
