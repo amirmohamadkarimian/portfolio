@@ -99,10 +99,10 @@ export function Contact() {
                   href.startsWith("mailto") ? undefined : "noopener noreferrer"
                 }
                 aria-label={`Contact via ${label}: ${value}`}
-                className="group flex items-center gap-4 rounded-2xl border border-border bg-surface p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_8px_30px_rgba(99,102,241,0.1)]"
+                className="group flex items-center gap-4 rounded-2xl border border-border bg-surface p-5 transition-[transform,border-color,box-shadow] duration-150 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_8px_30px_rgba(99,102,241,0.1)]"
               >
                 <div
-                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent transition-all duration-300 ${hoverBg} group-hover:text-white`}
+                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent transition-[transform,background-color,color] duration-150 ${hoverBg} group-hover:text-white`}
                 >
                   <Icon className="h-5 w-5" />
                 </div>
@@ -114,7 +114,7 @@ export function Contact() {
                     {value}
                   </p>
                 </div>
-                <span className="ml-auto translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 text-muted">
+                <span className="ml-auto translate-x-2 opacity-0 transition-[transform,opacity] duration-150 group-hover:translate-x-0 group-hover:opacity-100 text-muted">
                   →
                 </span>
               </a>
@@ -126,13 +126,13 @@ export function Contact() {
         <div className="mt-12 text-center">
           <a
             href={`mailto:${siteConfig.email}`}
-            className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full px-8 text-sm font-semibold text-white bg-gradient-to-r from-accent via-accent-secondary to-accent transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.5)]"
+            className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full px-8 text-sm font-semibold text-white bg-gradient-to-r from-accent via-accent-secondary to-accent transition-[transform,box-shadow] duration-150 hover:shadow-[0_0_40px_rgba(99,102,241,0.5)]"
           >
             <span className="relative z-10 flex items-center gap-2">
               <Mail className="h-4 w-4" />
               Send Me an Email
             </span>
-            <span className="absolute inset-0 z-0 translate-x-full bg-white/10 transition-transform duration-500 group-hover:translate-x-0" />
+            <span className="absolute inset-0 z-0 translate-x-full bg-white/10 transition-transform duration-150 group-hover:translate-x-0" />
           </a>
         </div>
       </div>

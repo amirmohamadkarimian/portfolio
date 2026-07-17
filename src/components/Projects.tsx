@@ -52,7 +52,7 @@ export function Projects() {
           {projects.map((project, index) => (
             <article
               key={project.id}
-              className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-all duration-500 hover:-translate-y-2 hover:border-accent/40 hover:shadow-[0_20px_60px_rgba(99,102,241,0.15)]"
+              className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-[transform,border-color,box-shadow] duration-150 hover:-translate-y-2 hover:border-accent/40 hover:shadow-[0_20px_60px_rgba(99,102,241,0.15)]"
               style={{ transitionDelay: `${index * 80}ms` }}
             >
               {/* ── Card number ───────────────────────────────────── */}
@@ -66,11 +66,11 @@ export function Projects() {
                   src={project.image}
                   alt={`${project.title} preview`}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="object-cover transition-transform duration-150 group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
               </div>
 
               {/* ── Body ──────────────────────────────────────────── */}
@@ -117,14 +117,14 @@ export function Projects() {
                     Live Demo
                   </a>
                   {/* Hover arrow */}
-                  <span className="ml-auto translate-x-2 text-accent opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                  <span className="ml-auto translate-x-2 text-accent opacity-0 transition-[transform,opacity] duration-150 group-hover:translate-x-0 group-hover:opacity-100">
                     →
                   </span>
                 </div>
               </div>
 
               {/* ── Bottom gradient glow line ──────────────────────── */}
-              <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-accent to-accent-secondary transition-all duration-500 group-hover:w-full" />
+              <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-accent to-accent-secondary transition-all duration-150 group-hover:w-full" />
             </article>
           ))}
         </div>

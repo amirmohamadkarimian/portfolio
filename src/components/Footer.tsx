@@ -42,7 +42,7 @@ export function Footer() {
                 href.startsWith("mailto") ? undefined : "noopener noreferrer"
               }
               aria-label={label}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background text-muted transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.12)] hover:-translate-y-0.5"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background text-muted transition-[transform,border-color,background-color,color,box-shadow] duration-150 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.12)] hover:-translate-y-0.5"
             >
               <Icon className="h-4 w-4" />
             </a>
@@ -53,7 +53,7 @@ export function Footer() {
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             aria-label="Back to top"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-accent/30 bg-accent/10 text-accent transition-all duration-300 hover:bg-accent hover:text-white hover:shadow-[0_0_20px_rgba(99,102,241,0.35)] hover:-translate-y-0.5"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-accent/30 bg-accent/10 text-accent transition-[transform,background-color,color,box-shadow] duration-150 hover:bg-accent hover:text-white hover:shadow-[0_0_20px_rgba(99,102,241,0.35)] hover:-translate-y-0.5"
           >
             <ArrowUp className="h-4 w-4" />
           </button>

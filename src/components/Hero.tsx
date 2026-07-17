@@ -39,7 +39,7 @@ export function Hero() {
         {/* Mouse-following glow */}
         <div
           ref={glowRef}
-          className="absolute h-[400px] w-[400px] rounded-full bg-accent/10 blur-[100px] transition-opacity duration-500"
+          className="absolute h-[400px] w-[400px] rounded-full bg-accent/10 blur-[100px] transition-opacity duration-150"
           style={{ opacity: 0 }}
         />
         <div className="animate-float absolute -left-40 top-1/4 h-96 w-96 rounded-full bg-accent/10 blur-3xl" />
@@ -108,7 +108,7 @@ export function Hero() {
           <a
             href={siteConfig.resume}
             download
-            className="inline-flex h-12 min-w-[9.5rem] items-center justify-center gap-2 rounded-full border border-border bg-surface px-5 text-sm font-semibold text-foreground transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
+            className="inline-flex h-12 min-w-[9.5rem] items-center justify-center gap-2 rounded-full border border-border bg-surface px-5 text-sm font-semibold text-foreground transition-[transform,border-color,background-color,color,box-shadow] duration-150 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
           >
             <Download className="h-4 w-4" />
             Download Resume
@@ -117,7 +117,7 @@ export function Hero() {
           <a
             href="#contact"
             onClick={(e) => scrollToSection(e, "#contact")}
-            className="inline-flex h-12 min-w-[10.75rem] items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-all duration-300 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
+            className="inline-flex h-12 min-w-[10.75rem] items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-[transform,border-color,background-color,color,box-shadow] duration-150 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
           >
             <Mail className="h-4 w-4" />
             Get In Touch
@@ -153,7 +153,7 @@ export function Hero() {
           href="#about"
           onClick={(e) => scrollToSection(e, "#about")}
           aria-label="Scroll to about section"
-          className="animate-bounce-subtle absolute bottom-3 left-1/2 flex flex-col items-center gap-1 text-muted transition-colors hover:text-accent"
+          className="animate-bounce-subtle absolute bottom-3 left-1/2 flex flex-col items-center gap-1 text-muted transition-colors duration-150 hover:text-accent"
         >
           <span className="text-xs font-medium uppercase tracking-widest opacity-60">
             scroll

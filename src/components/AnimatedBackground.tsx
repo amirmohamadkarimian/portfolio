@@ -34,6 +34,9 @@ const CONNECTION_DISTANCE = 140;
 const MOUSE_ATTRACTION_RADIUS = 200;
 const MOUSE_ATTRACTION_FORCE = 0.012;
 
+const REDUCED_PARTICLE_COUNT = 24;
+const REDUCED_ORB_COUNT = 2;
+
 /* ── Helpers ──────────────────────────────────────────────────────────── */
 
 function createParticle(w: number, h: number): Particle {
@@ -76,10 +79,14 @@ export function AnimatedBackground() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const particleCount = prefersReducedMotion ? REDUCED_PARTICLE_COUNT : PARTICLE_COUNT;
+    const orbCount = prefersReducedMotion ? REDUCED_ORB_COUNT : ORB_COUNT;
+
     /* ── Size canvas to viewport ──────────────────────────────────── */
     let w = window.innerWidth;
     let h = window.innerHeight;
-    const dpr = Math.min(window.devicePixelRatio ?? 1, 2);
+    const dpr = Math.min(window.devicePixelRatio ?? 1, 1.5);
 
     const resize = () => {
       w = window.innerWidth;
@@ -106,10 +113,10 @@ export function AnimatedBackground() {
     window.addEventListener("mouseleave", onMouseLeave);
 
     /* ── Create entities ─────────────────────────────────────────── */
-    const particles: Particle[] = Array.from({ length: PARTICLE_COUNT }, () =>
+    const particles: Particle[] = Array.from({ length: particleCount }, () =>
       createParticle(w, h)
     );
-    const orbs: GradientOrb[] = Array.from({ length: ORB_COUNT }, () =>
+    const orbs: GradientOrb[] = Array.from({ length: orbCount }, () =>
       createOrb(w, h)
     );
 
@@ -169,36 +176,33 @@ export function AnimatedBackground() {
       const connectionLimitSq = CONNECTION_DISTANCE * CONNECTION_DISTANCE;
 
       for (const p of particles) {
-        // Mouse attraction
-        const dx = mx - p.x;
-        const dy = my - p.y;
-        const distSq = dx * dx + dy * dy;
-        if (distSq < mouseRadSq && distSq > 1) {
-          const dist = Math.sqrt(distSq);
-          p.vx += (dx / dist) * MOUSE_ATTRACTION_FORCE;
-          p.vy += (dy / dist) * MOUSE_ATTRACTION_FORCE;
+        if (!prefersReducedMotion) {
+          const dx = mx - p.x;
+          const dy = my - p.y;
+          const distSq = dx * dx + dy * dy;
+          if (distSq < mouseRadSq && distSq > 1) {
+            const dist = Math.sqrt(distSq);
+            p.vx += (dx / dist) * MOUSE_ATTRACTION_FORCE;
+            p.vy += (dy / dist) * MOUSE_ATTRACTION_FORCE;
+          }
         }
 
-        // Damping & Move
         p.vx *= 0.998;
         p.vy *= 0.998;
         p.x += p.vx;
         p.y += p.vy;
 
-        // Wrap edges
         if (p.x < 0) p.x = w;
         if (p.x > w) p.x = 0;
         if (p.y < 0) p.y = h;
         if (p.y > h) p.y = 0;
 
-        // Draw particle
         const light = dark ? 75 : 45;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = `hsla(${p.hue}, 80%, ${light}%, ${p.opacity})`;
         ctx.fill();
 
-        // Glow
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius * 3, 0, Math.PI * 2);
         ctx.fillStyle = `hsla(${p.hue}, 80%, ${light}%, ${p.opacity * 0.15})`;
@@ -228,7 +232,7 @@ export function AnimatedBackground() {
       }
 
       /* ── Mouse proximity connections ───────────────────────────── */
-      if (mx > 0 && my > 0) {
+      if (!prefersReducedMotion && mx > 0 && my > 0) {
         ctx.lineWidth = 0.8;
         for (const p of particles) {
           const dx = mx - p.x;

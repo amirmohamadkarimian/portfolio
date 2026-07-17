@@ -59,7 +59,7 @@ function MobileNavLink({
   return (
     <li
       style={{ transitionDelay: mobileOpen ? `${index * 75 + 100}ms` : "0ms" }}
-      className={`transition-all duration-500 ease-out ${
+      className={`transition-[transform,opacity] duration-150 ease-out ${
         mobileOpen ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
       }`}
     >
@@ -69,14 +69,14 @@ function MobileNavLink({
           scrollToSection(e, href);
           onNavigate();
         }}
-        className={`group flex items-center gap-4 rounded-2xl px-5 py-4 text-lg font-medium transition-all active:scale-95 ${
+        className={`group flex items-center gap-4 rounded-2xl px-5 py-4 text-lg font-medium transition-[transform,color,background-color] duration-150 active:scale-95 ${
           isActive
             ? "bg-accent/10 text-accent shadow-sm"
             : "text-foreground hover:bg-accent/5 hover:text-accent"
         }`}
       >
         <span
-          className={`h-2 w-2 rounded-full transition-all duration-300 ${
+          className={`h-2 w-2 rounded-full transition-[transform,background-color,box-shadow] duration-150 ${
             isActive
               ? "bg-accent scale-100 shadow-[0_0_8px_var(--accent-glow)]"
               : "bg-transparent scale-0 group-hover:bg-accent/50 group-hover:scale-100"
@@ -155,9 +155,9 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-150 ${
         scrolled
-          ? "border-b border-border/60 bg-background/90 shadow-sm backdrop-blur-xl"
+          ? "border-b border-border/60 bg-background/90 shadow-sm backdrop-blur-md"
           : "border-b border-transparent bg-background/70 backdrop-blur-sm"
       }`}
     >
@@ -168,7 +168,7 @@ export function Navbar() {
           onClick={(e) => scrollToSection(e, "#home")}
           className="group flex items-center gap-1.5 text-lg font-bold tracking-tight transition-colors"
         >
-          <span className="text-foreground transition-colors duration-300 group-hover:text-accent-secondary">
+          <span className="text-foreground transition-colors duration-150 group-hover:text-accent-secondary">
             {siteConfig.name.split(" ")[0]}
           </span>
         </a>
@@ -194,20 +194,20 @@ export function Navbar() {
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
             aria-controls="mobile-navigation"
-            className="group relative flex h-10 w-10 flex-col items-center justify-center gap-[5px] rounded-full border border-border bg-surface text-foreground transition-all duration-300 hover:border-accent/40 hover:text-accent active:scale-95 md:hidden"
+            className="group relative flex h-10 w-10 flex-col items-center justify-center gap-[5px] rounded-full border border-border bg-surface text-foreground transition-[transform,border-color,color] duration-150 hover:border-accent/40 hover:text-accent active:scale-95 md:hidden will-change-transform"
           >
             <span
-              className={`block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ease-out ${
+              className={`block h-[2px] w-5 rounded-full bg-current transition-[transform,opacity] duration-150 ease-out ${
                 mobileOpen ? "translate-y-[7px] rotate-45" : ""
               }`}
             />
             <span
-              className={`block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ease-out ${
+              className={`block h-[2px] w-5 rounded-full bg-current transition-[transform,opacity] duration-150 ease-out ${
                 mobileOpen ? "opacity-0 translate-x-2" : ""
               }`}
             />
             <span
-              className={`block h-[2px] w-5 rounded-full bg-current transition-all duration-300 ease-out ${
+              className={`block h-[2px] w-5 rounded-full bg-current transition-[transform,opacity] duration-150 ease-out ${
                 mobileOpen ? "-translate-y-[7px] -rotate-45" : ""
               }`}
             />
@@ -221,7 +221,7 @@ export function Navbar() {
           type="button"
           onClick={closeMobile}
           aria-label="Close navigation menu"
-          className={`fixed inset-0 top-16 z-40 bg-background/70 backdrop-blur-sm transition-all duration-300 ${
+          className={`fixed inset-0 top-16 z-40 bg-background/70 backdrop-blur-sm transition-[opacity,pointer-events] duration-150 ${
             mobileOpen
               ? "pointer-events-auto opacity-100"
               : "pointer-events-none opacity-0"
@@ -230,7 +230,7 @@ export function Navbar() {
 
         <div
           id="mobile-navigation"
-          className={`fixed right-0 top-16 z-50 flex h-[calc(100vh-4rem)] w-[min(88vw,24rem)] flex-col border-l border-border/60 bg-surface/95 px-5 py-6 shadow-2xl shadow-black/10 backdrop-blur-xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          className={`fixed right-0 top-16 z-50 flex h-[calc(100vh-4rem)] w-[min(88vw,24rem)] flex-col border-l border-border/60 bg-surface/95 px-5 py-6 shadow-2xl shadow-black/10 backdrop-blur-md transition-transform duration-150 ease-out ${
             mobileOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >

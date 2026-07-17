@@ -41,11 +41,11 @@ export function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-surface/30 hover:bg-surface-elevated/60 border border-border/30 hover:border-border/80 shadow-sm backdrop-blur-md transition-all duration-300 focus:outline-none"
+      className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-surface/30 hover:bg-surface-elevated/60 border border-border/30 hover:border-border/80 shadow-sm backdrop-blur-sm transition-[transform,background-color,border-color,box-shadow] duration-150 focus:outline-none will-change-transform"
     >
       <Sun
         strokeWidth={1.5}
-        className={`absolute h-5 w-5 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+        className={`absolute h-5 w-5 transition-[transform,opacity] duration-150 ease-out ${
           isDark
             ? "rotate-90 scale-0 opacity-0 text-muted-foreground"
             : "rotate-0 scale-100 opacity-100 text-amber-500"
@@ -54,7 +54,7 @@ export function ThemeToggle() {
       
       <Moon
         strokeWidth={1.5}
-        className={`absolute h-5 w-5 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+        className={`absolute h-5 w-5 transition-[transform,opacity] duration-150 ease-out ${
           isDark
             ? "rotate-0 scale-100 opacity-100 text-indigo-400"
             : "-rotate-90 scale-0 opacity-0 text-muted-foreground"

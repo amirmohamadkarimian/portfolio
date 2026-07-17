@@ -44,7 +44,7 @@ export function Experience() {
                     index % 2 === 0 ? "sm:pr-12 sm:text-right" : "sm:pl-12"
                   }`}
                 >
-                  <div className="relative overflow-hidden rounded-2xl border border-border bg-background p-6 transition-all duration-300 hover:border-accent/40 hover:shadow-[0_8px_32px_rgba(99,102,241,0.12)]">
+                  <div className="relative overflow-hidden rounded-2xl border border-border bg-background p-6 transition-[border-color,box-shadow] duration-150 hover:border-accent/40 hover:shadow-[0_8px_32px_rgba(99,102,241,0.12)]">
                     {/* Year badge */}
                     <span className="inline-flex items-center rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent ring-1 ring-accent/20">
                       {milestone.year}
@@ -56,7 +56,7 @@ export function Experience() {
                       {milestone.description}
                     </p>
                     {/* Bottom accent glow line */}
-                    <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-accent to-accent-secondary transition-all duration-500 group-hover:w-full" />
+                    <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-accent to-accent-secondary transition-all duration-150 group-hover:w-full" />
                   </div>
                 </div>
 

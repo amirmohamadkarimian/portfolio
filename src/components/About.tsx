@@ -26,7 +26,7 @@ export function About() {
           {stats.map(({ value, label }) => (
             <div
               key={label}
-              className="glass group rounded-2xl p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.1)]"
+              className="glass group rounded-2xl p-5 text-center transition-[transform,border-color,box-shadow] duration-150 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.1)]"
               style={{ perspective: "600px" }}
             >
               <p className="text-gradient text-3xl font-bold">{value}</p>
@@ -39,7 +39,7 @@ export function About() {
 
         {/* ── Text Blocks ─────────────────────────────────────────────── */}
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-10">
-          <div className="relative space-y-5 rounded-2xl border border-border bg-surface/50 p-7 text-base leading-relaxed text-muted backdrop-blur-sm transition-all duration-300 hover:border-accent/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.07)]">
+          <div className="relative space-y-5 rounded-2xl border border-border bg-surface/50 p-7 text-base leading-relaxed text-muted backdrop-blur-sm transition-[border-color,box-shadow] duration-150 hover:border-accent/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.07)]">
             <span className="absolute left-0 top-6 h-12 w-1 rounded-r-full bg-gradient-to-b from-accent to-accent-secondary" />
             <p className="pl-2">
               I&apos;m a passionate frontend developer who loves turning ideas
@@ -55,7 +55,7 @@ export function About() {
             </p>
           </div>
 
-          <div className="relative space-y-5 rounded-2xl border border-border bg-surface/50 p-7 text-base leading-relaxed text-muted backdrop-blur-sm transition-all duration-300 hover:border-accent/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.07)]">
+          <div className="relative space-y-5 rounded-2xl border border-border bg-surface/50 p-7 text-base leading-relaxed text-muted backdrop-blur-sm transition-[border-color,box-shadow] duration-150 hover:border-accent/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.07)]">
             <span className="absolute left-0 top-6 h-12 w-1 rounded-r-full bg-gradient-to-b from-accent-secondary to-accent" />
             <p className="pl-2">
               User experience is at the heart of everything I build. From
