@@ -2,20 +2,15 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useSyncExternalStore } from "react";
-import { flushSync } from "react-dom";
+import { useEffect, useState, memo } from "react";
 
-function useMounted() {
-  return useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
-}
-
-export function ThemeToggle() {
+export const ThemeToggle = memo(function ThemeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme();
-  const mounted = useMounted();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   if (!mounted) {
     return (
@@ -51,7 +46,7 @@ export function ThemeToggle() {
             : "rotate-0 scale-100 opacity-100 text-amber-500"
         }`}
       />
-      
+
       <Moon
         strokeWidth={1.5}
         className={`absolute h-5 w-5 transition-[transform,opacity] duration-150 ease-out ${
@@ -63,4 +58,4 @@ export function ThemeToggle() {
       <span className="sr-only">Toggle theme</span>
     </button>
   );
-}
+});

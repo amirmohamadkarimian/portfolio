@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
+import { memo } from "react";
 
 /* ── Types ────────────────────────────────────────────────────────────── */
 
@@ -68,9 +69,10 @@ function createOrb(w: number, h: number): GradientOrb {
 
 /* ── Component ────────────────────────────────────────────────────────── */
 
-export function AnimatedBackground() {
+export const AnimatedBackground = memo(function AnimatedBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -9999, y: -9999 });
+  const mouseTargetRef = useRef({ x: -9999, y: -9999 });
   const animIdRef = useRef(0);
 
   const draw = useCallback(() => {
@@ -79,9 +81,22 @@ export function AnimatedBackground() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const particleCount = prefersReducedMotion ? REDUCED_PARTICLE_COUNT : PARTICLE_COUNT;
-    const orbCount = prefersReducedMotion ? REDUCED_ORB_COUNT : ORB_COUNT;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    /* Reduce counts for small viewports or reduced motion */
+    const isSmall = window.innerWidth < 900;
+    const particleCount = prefersReducedMotion
+      ? REDUCED_PARTICLE_COUNT
+      : isSmall
+        ? Math.max(28, Math.floor(PARTICLE_COUNT * 0.6))
+        : PARTICLE_COUNT;
+    const orbCount = prefersReducedMotion
+      ? REDUCED_ORB_COUNT
+      : isSmall
+        ? Math.max(1, Math.floor(ORB_COUNT * 0.5))
+        : ORB_COUNT;
 
     /* ── Size canvas to viewport ──────────────────────────────────── */
     let w = window.innerWidth;
@@ -102,22 +117,22 @@ export function AnimatedBackground() {
 
     /* ── Mouse tracking ──────────────────────────────────────────── */
     const onMouseMove = (e: MouseEvent) => {
-      mouseRef.current.x = e.clientX;
-      mouseRef.current.y = e.clientY;
+      mouseTargetRef.current.x = e.clientX;
+      mouseTargetRef.current.y = e.clientY;
     };
     const onMouseLeave = () => {
-      mouseRef.current.x = -9999;
-      mouseRef.current.y = -9999;
+      mouseTargetRef.current.x = -9999;
+      mouseTargetRef.current.y = -9999;
     };
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseleave", onMouseLeave);
 
     /* ── Create entities ─────────────────────────────────────────── */
     const particles: Particle[] = Array.from({ length: particleCount }, () =>
-      createParticle(w, h)
+      createParticle(w, h),
     );
     const orbs: GradientOrb[] = Array.from({ length: orbCount }, () =>
-      createOrb(w, h)
+      createOrb(w, h),
     );
 
     /* ── Pre-render Gradient Orbs for Performance ────────────────── */
@@ -129,18 +144,25 @@ export function AnimatedBackground() {
         const oCtx = oCanvas.getContext("2d");
         if (oCtx) {
           const grad = oCtx.createRadialGradient(
-            orb.radius, orb.radius, 0,
-            orb.radius, orb.radius, orb.radius
+            orb.radius,
+            orb.radius,
+            0,
+            orb.radius,
+            orb.radius,
+            orb.radius,
           );
           const alpha = isDarkTheme ? orb.opacity : orb.opacity * 0.6;
-          grad.addColorStop(0, `hsla(${orb.hue}, ${orb.saturation}%, ${isDarkTheme ? 60 : 50}%, ${alpha})`);
+          grad.addColorStop(
+            0,
+            `hsla(${orb.hue}, ${orb.saturation}%, ${isDarkTheme ? 60 : 50}%, ${alpha})`,
+          );
           grad.addColorStop(1, "transparent");
           oCtx.fillStyle = grad;
           oCtx.fillRect(0, 0, orb.radius * 2, orb.radius * 2);
         }
         return oCanvas;
       };
-      
+
       return {
         light: renderOrbCanvas(false),
         dark: renderOrbCanvas(true),
@@ -154,6 +176,12 @@ export function AnimatedBackground() {
     const loop = () => {
       const dark = isDark();
       ctx.clearRect(0, 0, w, h);
+
+      /* Smooth mouse updates to avoid rapid writes */
+      mouseRef.current.x +=
+        (mouseTargetRef.current.x - mouseRef.current.x) * 0.22;
+      mouseRef.current.y +=
+        (mouseTargetRef.current.y - mouseRef.current.y) * 0.22;
 
       /* ── Draw ambient gradient orbs ────────────────────────────── */
       for (let i = 0; i < orbs.length; i++) {
@@ -239,7 +267,8 @@ export function AnimatedBackground() {
           const dy = my - p.y;
           const distSq = dx * dx + dy * dy;
           if (distSq < mouseRadSq) {
-            const alpha = (1 - Math.sqrt(distSq) / MOUSE_ATTRACTION_RADIUS) * 0.25;
+            const alpha =
+              (1 - Math.sqrt(distSq) / MOUSE_ATTRACTION_RADIUS) * 0.25;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(mx, my);
@@ -276,4 +305,4 @@ export function AnimatedBackground() {
       style={{ opacity: 0.7 }}
     />
   );
-}
+});

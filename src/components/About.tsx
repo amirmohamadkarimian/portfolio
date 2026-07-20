@@ -2,10 +2,17 @@ import { AnimatedSection } from "./AnimatedSection";
 import { SectionHeader } from "./ui/SectionHeader";
 
 const stats = [
-  { value: "3+", label: "Years Learning" },
-  { value: "5+", label: "Projects Built" },
-  { value: "7+", label: "Technologies" },
-  { value: "100%", label: "Passion" },
+  { value: "3+", label: "Years building frontend experiences" },
+  { value: "12+", label: "Delivered product interfaces" },
+  { value: "7+", label: "Core tools mastered" },
+  { value: "100%", label: "User-focused execution" },
+];
+
+const strengths = [
+  "Accessible, responsive interfaces crafted for real-world users.",
+  "Clean TypeScript architecture that stays easy to maintain and extend.",
+  "Performance-first delivery with fast load times and fluid interactions.",
+  "Close collaboration with product and design teams to align on vision.",
 ];
 
 export function About() {
@@ -13,65 +20,83 @@ export function About() {
     <AnimatedSection
       id="about"
       delay={80}
-      className="border-t border-border bg-surface/30 px-6 py-24 lg:px-8"
+      className="border-t border-border bg-surface/30 px-6 py-20 lg:px-8"
     >
       <div className="mx-auto max-w-6xl">
-        {/* ── Header ─────────────────────────────────────────────────── */}
         <div className="mb-12">
           <SectionHeader
-            label="About Me"
-            title="Crafting"
-            gradientWord="Digital Experiences"
+            label="About"
+            title="About"
+            gradientWord="Me"
+            description="I build polished, accessible web applications with modern frontend tools, thoughtful UX, and a strong focus on performance and collaboration."
+            centered
           />
         </div>
 
-        {/* ── Stats Row ──────────────────────────────────────────────── */}
-        <div className="mb-16 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {stats.map(({ value, label }) => (
-            <div
-              key={label}
-              className="glass group rounded-2xl p-5 text-center transition-[transform,border-color,box-shadow] duration-150 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.1)]"
-              style={{ perspective: "600px" }}
-            >
-              <p className="text-gradient text-3xl font-bold">{value}</p>
-              <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted">
-                {label}
+        <div className="grid gap-8 xl:grid-cols-[1.7fr_1fr] xl:items-start">
+          <div className="space-y-6">
+            <div className="rounded-3xl border border-border bg-background/90 p-8 shadow-sm">
+              <p className="text-base leading-relaxed text-foreground/90">
+                I’m a frontend developer who turns product ideas into fast,
+                intuitive web experiences. I specialize in React, Next.js,
+                TypeScript, and Tailwind CSS to build interfaces that feel
+                polished and behave reliably across devices.
+              </p>
+              <p className="mt-4 text-base leading-relaxed text-foreground/90">
+                My work is driven by clarity — from component architecture to
+                accessible layouts and performance tweaks. I enjoy working with
+                product and design teams to create solutions that are both
+                beautiful and dependable.
+              </p>
+              <p className="mt-4 text-base leading-relaxed text-foreground/75">
+                Whether I’m refining a landing page, optimizing a UI, or
+                shipping a full-featured web app, the goal is the same: make
+                every interaction feel effortless for the people who use it.
               </p>
             </div>
-          ))}
-        </div>
 
-        {/* ── Text Blocks ─────────────────────────────────────────────── */}
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-10">
-          <div className="relative space-y-5 rounded-2xl border border-border bg-surface/50 p-7 text-base leading-relaxed text-muted backdrop-blur-sm transition-[border-color,box-shadow] duration-150 hover:border-accent/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.07)]">
-            <span className="absolute left-0 top-6 h-12 w-1 rounded-r-full bg-gradient-to-b from-accent to-accent-secondary" />
-            <p className="pl-2">
-              I&apos;m a passionate frontend developer who loves turning ideas
-              into beautiful, functional web experiences. My focus is on writing
-              clean, maintainable code and building interfaces that feel
-              intuitive on every device.
-            </p>
-            <p className="pl-2">
-              I specialize in creating responsive websites with modern
-              technologies like React, Next.js, and TypeScript. I&apos;m
-              constantly exploring new tools and best practices to stay at the
-              forefront of web development.
-            </p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {stats.map(({ value, label }) => (
+                <div
+                  key={label}
+                  className="rounded-3xl border border-border bg-surface/80 p-6 text-center shadow-sm"
+                >
+                  <p className="text-3xl font-semibold text-foreground">
+                    {value}
+                  </p>
+                  <p className="mt-3 text-xs font-medium uppercase tracking-[0.24em] text-muted">
+                    {label}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="relative space-y-5 rounded-2xl border border-border bg-surface/50 p-7 text-base leading-relaxed text-muted backdrop-blur-sm transition-[border-color,box-shadow] duration-150 hover:border-accent/30 hover:shadow-[0_4px_30px_rgba(99,102,241,0.07)]">
-            <span className="absolute left-0 top-6 h-12 w-1 rounded-r-full bg-gradient-to-b from-accent-secondary to-accent" />
-            <p className="pl-2">
-              User experience is at the heart of everything I build. From
-              thoughtful micro-interactions to performance-optimized layouts, I
-              strive to deliver applications that are both visually polished and
-              a joy to use.
-            </p>
-            <p className="pl-2">
-              Whether it&apos;s a personal project or a production application,
-              I approach every challenge with curiosity, attention to detail,
-              and a commitment to continuous improvement.
-            </p>
+          <div className="space-y-6">
+            <div className="rounded-3xl border border-border bg-background/90 p-8 shadow-sm">
+              <h3 className="text-lg font-semibold text-foreground">
+                What I bring to the table
+              </h3>
+              <ul className="mt-5 space-y-3 text-sm leading-relaxed text-muted">
+                {strengths.map((strength) => (
+                  <li key={strength} className="flex gap-3">
+                    <span className="mt-1 h-2.5 w-2.5 rounded-full bg-accent" />
+                    {strength}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rounded-3xl border border-border bg-surface/80 p-6 text-sm leading-relaxed text-foreground shadow-sm">
+              <p className="font-semibold text-foreground">
+                Ready to build memorable frontend experiences?
+              </p>
+              <p className="mt-3 text-muted">
+                I’m always looking for projects where thoughtful design and
+                solid engineering come together. Let’s collaborate on a fast,
+                usable product that your users will enjoy.
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -1,60 +1,24 @@
+"use client";
+
 import { Mail } from "lucide-react";
-import type { ComponentType } from "react";
+import { useState, type FormEvent } from "react";
 import { siteConfig } from "@/lib/data";
-import type { IconProps } from "@/lib/types";
 import { AnimatedSection } from "./AnimatedSection";
-import { GitHubIcon, LinkedInIcon, TelegramIcon } from "./icons";
 import { SectionHeader } from "./ui/SectionHeader";
-
-/* ── Contact Methods ───────────────────────────────────────────────────── */
-
-interface ContactMethodItem {
-  icon: ComponentType<IconProps>;
-  label: string;
-  value: string;
-  href: string;
-  hoverBg: string;
-  hoverText: string;
-}
-
-const contactMethods: ContactMethodItem[] = [
-  {
-    icon: Mail,
-    label: "Email",
-    value: siteConfig.email,
-    href: `mailto:${siteConfig.email}`,
-    hoverBg: "group-hover:bg-rose-500",
-    hoverText: "group-hover:text-rose-400",
-  },
-  {
-    icon: GitHubIcon,
-    label: "GitHub",
-    value: "github.com/amirmohamadkarimian",
-    href: siteConfig.github,
-    hoverBg: "group-hover:bg-slate-600",
-    hoverText: "group-hover:text-slate-400",
-  },
-  {
-    icon: LinkedInIcon,
-    label: "LinkedIn",
-    value: "linkedin.com/in/amirmohammadkarimian",
-    href: siteConfig.linkedin,
-    hoverBg: "group-hover:bg-blue-600",
-    hoverText: "group-hover:text-blue-400",
-  },
-  {
-    icon: TelegramIcon,
-    label: "Telegram",
-    value: "@amirmohamadev",
-    href: siteConfig.telegram,
-    hoverBg: "group-hover:bg-sky-500",
-    hoverText: "group-hover:text-sky-400",
-  },
-];
 
 /* ── Contact Section ───────────────────────────────────────────────────── */
 
 export function Contact() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const subject = encodeURIComponent("Website inquiry");
+    const body = encodeURIComponent(`From: ${email}\n\n${message}`);
+    window.location.href = `mailto:${siteConfig.email}?subject=${subject}&body=${body}`;
+  };
+
   return (
     <AnimatedSection
       id="contact"
@@ -66,13 +30,12 @@ export function Contact() {
         <div className="mb-12">
           <SectionHeader
             label="Contact"
-            title="Let's Work"
-            gradientWord="Together"
-            description="Have a project in mind or want to connect? I'd love to hear from you. Reach out through any of the channels below."
+            title="Get in Touch"
+            gradientWord="Directly"
+            description="Have a question or a project idea? Send your email and message below and I’ll reply as soon as possible."
             centered
           />
 
-          {/* ── Available badge ──────────────────────────────────────── */}
           <div className="mt-6 flex justify-center">
             <div
               role="status"
@@ -88,54 +51,48 @@ export function Contact() {
           </div>
         </div>
 
-        {/* ── Contact Cards ───────────────────────────────────────────── */}
-        <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-2">
-          {contactMethods.map(
-            ({ icon: Icon, label, value, href, hoverBg, hoverText }) => (
-              <a
-                key={label}
-                href={href}
-                target={href.startsWith("mailto") ? undefined : "_blank"}
-                rel={
-                  href.startsWith("mailto") ? undefined : "noopener noreferrer"
-                }
-                aria-label={`Contact via ${label}: ${value}`}
-                className="group flex items-center gap-4 rounded-2xl border border-border bg-surface p-5 transition-[transform,border-color,box-shadow] duration-150 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_8px_30px_rgba(99,102,241,0.1)]"
-              >
-                <div
-                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent transition-[transform,background-color,color] duration-150 ${hoverBg} group-hover:text-white`}
-                >
-                  <Icon className="h-5 w-5" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-muted">{label}</p>
-                  <p
-                    className={`truncate text-sm font-semibold text-foreground transition-colors ${hoverText}`}
-                  >
-                    {value}
-                  </p>
-                </div>
-                <span className="ml-auto translate-x-2 opacity-0 transition-[transform,opacity] duration-150 group-hover:translate-x-0 group-hover:opacity-100 text-muted">
-                  →
-                </span>
-              </a>
-            ),
-          )}
-        </div>
+        <form
+          onSubmit={handleSubmit}
+          className="mx-auto max-w-3xl space-y-6 rounded-3xl border border-border bg-background/80 p-8 shadow-sm"
+        >
+          <div className="grid gap-6">
+            <label className="block text-sm font-medium text-foreground">
+              Your Email
+              <input
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                required
+                placeholder="you@example.com"
+                className="mt-3 w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
 
-        {/* ── CTA Button ──────────────────────────────────────────────── */}
-        <div className="mt-12 text-center">
-          <a
-            href={`mailto:${siteConfig.email}`}
-            className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full px-8 text-sm font-semibold text-white bg-gradient-to-r from-accent via-accent-secondary to-accent transition-[transform,box-shadow] duration-150 hover:shadow-[0_0_40px_rgba(99,102,241,0.5)]"
-          >
-            <span className="relative z-10 flex items-center gap-2">
-              <Mail className="h-4 w-4" />
-              Send Me an Email
-            </span>
-            <span className="absolute inset-0 z-0 translate-x-full bg-white/10 transition-transform duration-150 group-hover:translate-x-0" />
-          </a>
-        </div>
+            <label className="block text-sm font-medium text-foreground">
+              Message
+              <textarea
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+                required
+                rows={6}
+                placeholder="Tell me about your project, timeline, or your goals."
+                className="mt-3 w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
+          </div>
+
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-muted">
+              I’ll reply directly to your inbox.
+            </p>
+            <button
+              type="submit"
+              className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-6 text-sm font-semibold text-white transition hover:shadow-[0_0_30px_rgba(99,102,241,0.35)]"
+            >
+              Send Message
+            </button>
+          </div>
+        </form>
       </div>
     </AnimatedSection>
   );
