@@ -153,7 +153,7 @@ export function Hero() {
           href="#about"
           onClick={(e) => scrollToSection(e, "#about")}
           aria-label="Scroll to about section"
-          className="animate-bounce-subtle absolute bottom-3 left-1/2 flex flex-col items-center gap-1 text-muted transition-colors duration-150 hover:text-accent"
+          className="animate-bounce-subtle absolute bottom-6 left-1/2 flex flex-col items-center gap-1 text-muted transition-colors duration-150 hover:text-accent"
         >
           <span className="text-xs font-medium uppercase tracking-widest opacity-60">
             scroll

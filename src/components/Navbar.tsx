@@ -1,5 +1,6 @@
 "use client";
 
+import { Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navLinks, siteConfig } from "@/lib/data";
 import { scrollToSection } from "@/lib/scrollTo";
@@ -186,7 +187,15 @@ export function Navbar() {
         </ul>
 
         {/* ── Right side ───────────────────────────────────────────── */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <a
+            href={siteConfig.resume}
+            download
+            className="hidden items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-2 text-sm font-medium text-accent transition-colors duration-150 hover:bg-accent/20 sm:inline-flex"
+          >
+            <Download className="h-4 w-4" />
+            <span className="hidden md:inline">Resume</span>
+          </a>
           <ThemeToggle />
           <button
             type="button"
@@ -247,6 +256,16 @@ export function Navbar() {
               />
             ))}
           </ul>
+
+          <a
+            href={siteConfig.resume}
+            download
+            onClick={closeMobile}
+            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-3 text-sm font-semibold text-accent transition-colors duration-150 hover:bg-accent/20"
+          >
+            <Download className="h-4 w-4" />
+            Download Resume
+          </a>
         </div>
       </div>
     </header>
