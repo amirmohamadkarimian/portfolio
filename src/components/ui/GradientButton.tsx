@@ -20,10 +20,9 @@ export function GradientButton({
       href={href}
       onClick={onClick}
       download={download || undefined}
-      className={`group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-8 text-sm font-semibold text-white transition-transform duration-150 hover:shadow-[0_0_40px_rgba(99,102,241,0.5)] ${className}`}
+      className={`group relative inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-8 text-sm font-semibold text-white transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_0_40px_rgba(99,102,241,0.5)] active:scale-[0.98] ${className}`}
     >
       <span className="relative z-10 flex items-center gap-2">{children}</span>
-      <span className="absolute inset-0 z-0 translate-x-full bg-white/10 transition-transform duration-150 group-hover:translate-x-0" />
     </a>
   );
 }

@@ -87,7 +87,7 @@ export function Contact() {
             </p>
             <button
               type="submit"
-              className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-6 text-sm font-semibold text-white transition hover:shadow-[0_0_30px_rgba(99,102,241,0.35)]"
+              className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-6 text-sm font-semibold text-white transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)] active:scale-[0.98]"
             >
               Send Message
             </button>
