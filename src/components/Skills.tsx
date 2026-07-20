@@ -85,7 +85,7 @@ export function Skills() {
 
         {/* ── Core Skills ─────────────────────────────────────────────── */}
         <div className="mb-12">
-          <h3 className="mb-6 text-center text-xs font-bold uppercase tracking-widest text-muted">
+          <h3 className="mb-9 text-center text-xs font-bold uppercase tracking-widest text-muted">
             Core Technologies
           </h3>
           <div className="flex flex-wrap justify-center gap-3">
@@ -97,7 +97,7 @@ export function Skills() {
 
         {/* ── Additional Skills ───────────────────────────────────────── */}
         <div>
-          <h3 className="mb-6 text-center text-xs font-bold uppercase tracking-widest text-muted">
+          <h3 className="mb-9 text-center text-xs font-bold uppercase tracking-widest text-muted">
             Additional Skills
           </h3>
           <div className="flex flex-wrap justify-center gap-3">

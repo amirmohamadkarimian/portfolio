@@ -70,7 +70,7 @@ export function Projects() {
                   src={project.image}
                   alt={`${project.title} preview`}
                   fill
-                  className="object-cover transition-transform duration-150 group-hover:scale-110"
+                  className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 {/* Gradient overlay */}

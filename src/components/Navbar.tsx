@@ -194,7 +194,7 @@ export function Navbar() {
             className="hidden items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-2 text-sm font-medium text-accent transition-colors duration-150 hover:bg-accent/20 sm:inline-flex"
           >
             <Download className="h-4 w-4" />
-            <span className="hidden md:inline">Resume</span>
+            <span className="hidden md:inline">Download CV</span>
           </a>
           <ThemeToggle />
           <button
