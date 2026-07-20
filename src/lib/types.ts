@@ -17,10 +17,12 @@ export interface SiteConfig {
   skills: string[];
 }
 
+export type HighlightIcon = "Rocket" | "ShieldCheck" | "Sparkles" | "Bolt";
+
 export interface Highlight {
   title: string;
   description: string;
-  icon: string;
+  icon: HighlightIcon;
 }
 
 /* ── Navigation ────────────────────────────────────────────────────────── */

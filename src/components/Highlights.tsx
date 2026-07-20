@@ -1,9 +1,10 @@
 import { Bolt, Rocket, ShieldCheck, Sparkles } from "lucide-react";
 import { highlights } from "@/lib/data";
+import type { Highlight } from "@/lib/types";
 import { AnimatedSection } from "./AnimatedSection";
 import { SectionHeader } from "./ui/SectionHeader";
 
-const iconMap: Record<string, typeof Rocket> = {
+const iconMap: Record<Highlight["icon"], typeof Rocket> = {
   Rocket,
   ShieldCheck,
   Sparkles,
@@ -29,7 +30,7 @@ export function Highlights() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {highlights.map((item) => {
+          {highlights.map((item: Highlight) => {
             const Icon = iconMap[item.icon] ?? Rocket;
 
             return (

@@ -1,4 +1,10 @@
-import type { NavLink, Project, SiteConfig, JourneyMilestone } from "./types";
+import type {
+  Highlight,
+  NavLink,
+  Project,
+  SiteConfig,
+  JourneyMilestone,
+} from "./types";
 
 /* ── Site Config ───────────────────────────────────────────────────────── */
 export const siteConfig: SiteConfig = {
