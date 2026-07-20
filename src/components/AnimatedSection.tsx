@@ -40,8 +40,8 @@ export function AnimatedSection({
     <section
       id={id}
       ref={ref}
-      className={`transition-[transform,opacity] duration-150 ease-out ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+      className={`transform-gpu will-change-transform transition-all duration-700 ease-out motion-reduce:transition-none ${
+        visible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
       } ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
     >

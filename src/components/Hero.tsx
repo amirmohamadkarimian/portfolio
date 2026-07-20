@@ -91,8 +91,8 @@ export function Hero() {
           <TypewriterRole />
         </div>
 
-        <p className="animate-fade-in-up mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg [animation-delay:300ms]">
-          {siteConfig.intro}
+        <p className="animate-fade-in-up mx-auto mt-5 max-w-3xl text-lg font-medium leading-relaxed text-foreground/80 sm:text-xl [animation-delay:260ms]">
+          {siteConfig.subtitle}
         </p>
 
         {/* ── CTA Buttons ───────────────────────────────────────────── */}
@@ -104,15 +104,6 @@ export function Hero() {
           >
             View My Work
           </GradientButton>
-
-          <a
-            href={siteConfig.resume}
-            download
-            className="inline-flex h-12 min-w-[9.5rem] items-center justify-center gap-2 rounded-full border border-border bg-surface px-5 text-sm font-semibold text-foreground transition-[transform,border-color,background-color,color,box-shadow] duration-150 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
-          >
-            <Download className="h-4 w-4" />
-            Download Resume
-          </a>
 
           <a
             href="#contact"

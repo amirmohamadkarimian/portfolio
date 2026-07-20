@@ -6,6 +6,7 @@ export function Experience() {
   return (
     <AnimatedSection
       id="experience"
+      delay={200}
       className="border-t border-border px-6 py-24 lg:px-8"
     >
       <div className="mx-auto max-w-6xl">

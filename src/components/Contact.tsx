@@ -58,6 +58,7 @@ export function Contact() {
   return (
     <AnimatedSection
       id="contact"
+      delay={240}
       className="border-t border-border bg-surface/30 px-6 py-24 lg:px-8"
     >
       <div className="mx-auto max-w-6xl">

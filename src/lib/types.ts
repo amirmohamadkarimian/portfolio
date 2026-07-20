@@ -7,12 +7,20 @@ export type IconProps = SVGProps<SVGSVGElement>;
 export interface SiteConfig {
   name: string;
   title: string;
+  subtitle: string;
   intro: string;
   email: string;
   github: string;
   linkedin: string;
   telegram: string;
   resume: string;
+  skills: string[];
+}
+
+export interface Highlight {
+  title: string;
+  description: string;
+  icon: string;
 }
 
 /* ── Navigation ────────────────────────────────────────────────────────── */

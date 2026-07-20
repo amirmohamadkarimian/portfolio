@@ -37,7 +37,8 @@ const skillColors: Record<string, string> = {
 
 function CoreSkillBadge({ label, index }: { label: string; index: number }) {
   const Icon = skillIcons[label];
-  const color = skillColors[label] ?? "hover:text-accent hover:border-accent/40";
+  const color =
+    skillColors[label] ?? "hover:text-accent hover:border-accent/40";
 
   return (
     <div
@@ -67,6 +68,7 @@ export function Skills() {
   return (
     <AnimatedSection
       id="skills"
+      delay={120}
       className="border-t border-border px-6 py-24 lg:px-8"
     >
       <div className="mx-auto max-w-6xl">
