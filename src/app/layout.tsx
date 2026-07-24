@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { AnimatedBackground } from "@/components/AnimatedBackground";
+import { AnimatedBackgroundLoader } from "@/components/AnimatedBackgroundLoader";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -84,7 +84,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <ThemeProvider>
           <ScrollToTop />
-          <AnimatedBackground />
+          <AnimatedBackgroundLoader />
           <div className="relative z-10 flex min-h-full flex-col">
             <Navbar />
             <main className="flex-1">{children}</main>

@@ -4,8 +4,9 @@ import { useEffect, useRef } from "react";
  * Creates a mouse-following radial glow that fades in on hover
  * and out on mouse leave.
  *
- * Uses requestAnimationFrame to batch DOM writes and avoid
- * forced reflows from interleaved reads/writes.
+ * Uses requestAnimationFrame to batch layout reads and DOM writes,
+ * avoiding forced reflows from interleaved getBoundingClientRect calls
+ * on every mousemove event.
  *
  * Attach `containerRef` to the bounding element and `glowRef`
  * to the glow `<div>`.
@@ -20,16 +21,17 @@ export function useMouseGlow() {
     if (!container || !glow) return;
 
     let rafId = 0;
-    let targetX = -9999;
-    let targetY = -9999;
+    let clientX = -9999;
+    let clientY = -9999;
     let visible = false;
     let scheduled = false;
 
-    /* Batch all DOM writes into a single rAF callback */
+    /* Batch layout read + DOM writes into a single rAF callback */
     const flush = () => {
       scheduled = false;
       if (visible) {
-        glow.style.transform = `translate(${targetX - 200}px, ${targetY - 200}px)`;
+        const rect = container.getBoundingClientRect();
+        glow.style.transform = `translate(${clientX - rect.left - 200}px, ${clientY - rect.top - 200}px)`;
         glow.style.opacity = "1";
       } else {
         glow.style.opacity = "0";
@@ -43,11 +45,9 @@ export function useMouseGlow() {
       }
     };
 
-    /* Read layout (getBoundingClientRect) only here, write nothing */
     const handleMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      targetX = e.clientX - rect.left;
-      targetY = e.clientY - rect.top;
+      clientX = e.clientX;
+      clientY = e.clientY;
       visible = true;
       scheduleFlush();
     };

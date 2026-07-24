@@ -1,8 +1,10 @@
 import dynamic from "next/dynamic";
 import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
 
 /* ── Lazy-load below-the-fold sections to reduce initial JS payload ──── */
+const About = dynamic(() =>
+  import("@/components/About").then((m) => m.About),
+);
 const Highlights = dynamic(() =>
   import("@/components/Highlights").then((m) => m.Highlights),
 );
