@@ -23,16 +23,20 @@ export function Contact() {
     <AnimatedSection
       id="contact"
       delay={240}
-      className="border-t border-border bg-surface/30 px-6 py-24 lg:px-8"
+      className="relative border-t border-border bg-surface/30 px-6 py-24 lg:px-8 overflow-hidden"
     >
-      <div className="mx-auto max-w-6xl">
+      {/* ── Decorative background orb ────────────────────────────────── */}
+      <div className="pointer-events-none absolute -right-32 top-1/4 h-80 w-80 rounded-full bg-accent/8 blur-[100px]" />
+      <div className="pointer-events-none absolute -left-24 bottom-1/4 h-64 w-64 rounded-full bg-accent-secondary/8 blur-[80px]" />
+
+      <div className="relative mx-auto max-w-6xl">
         {/* ── Header ─────────────────────────────────────────────────── */}
         <div className="mb-12">
           <SectionHeader
             label="Contact"
             title="Get in Touch"
             gradientWord="Directly"
-            description="Have a question or a project idea? Send your email and message below and I’ll reply as soon as possible."
+            description="Have a question or a project idea? Send your email and message below and I'll reply as soon as possible."
             centered
           />
 
@@ -53,9 +57,12 @@ export function Contact() {
 
         <form
           onSubmit={handleSubmit}
-          className="mx-auto max-w-3xl space-y-6 rounded-3xl border border-border bg-background/80 p-8 shadow-sm"
+          className="relative mx-auto max-w-3xl space-y-6 rounded-3xl border border-border bg-background/80 p-8 shadow-sm backdrop-blur-sm"
         >
-          <div className="grid gap-6">
+          {/* Subtle noise texture on form */}
+          <div className="noise-overlay absolute inset-0 rounded-3xl" />
+
+          <div className="relative grid gap-6">
             <label className="block text-sm font-medium text-foreground">
               Your Email
               <input
@@ -64,7 +71,7 @@ export function Contact() {
                 onChange={(event) => setEmail(event.target.value)}
                 required
                 placeholder="you@example.com"
-                className="mt-3 w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+                className="mt-3 block w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
               />
             </label>
 
@@ -76,19 +83,20 @@ export function Contact() {
                 required
                 rows={6}
                 placeholder="Tell me about your project, timeline, or your goals."
-                className="mt-3 w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+                className="mt-3 block w-full resize-none rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
               />
             </label>
           </div>
 
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-muted">
-              I’ll reply directly to your inbox.
+              I&apos;ll reply directly to your inbox.
             </p>
             <button
               type="submit"
-              className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-6 text-sm font-semibold text-white transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)] active:scale-[0.98]"
+              className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-6 text-sm font-semibold text-white transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)] active:scale-[0.98]"
             >
+              <Mail className="h-4 w-4 transition-transform duration-150 group-hover:-translate-y-0.5" />
               Send Message
             </button>
           </div>

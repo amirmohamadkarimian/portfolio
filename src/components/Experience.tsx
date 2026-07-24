@@ -23,10 +23,22 @@ export function Experience() {
 
         {/* ── Timeline ───────────────────────────────────────────────── */}
         <div className="relative mx-auto max-w-3xl">
-          {/* Glowing vertical line */}
+          {/* Glowing vertical line with faded edges */}
           <div className="absolute left-4 top-0 hidden h-full w-px sm:left-1/2 sm:block sm:-translate-x-px">
-            <div className="h-full w-full bg-gradient-to-b from-accent via-accent-secondary to-accent opacity-40" />
-            <div className="absolute inset-0 bg-gradient-to-b from-accent via-accent-secondary to-accent blur-[2px] opacity-30" />
+            <div
+              className="h-full w-full bg-gradient-to-b from-accent via-accent-secondary to-accent opacity-40"
+              style={{
+                maskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+              }}
+            />
+            <div
+              className="absolute inset-0 bg-gradient-to-b from-accent via-accent-secondary to-accent blur-[3px] opacity-25"
+              style={{
+                maskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+              }}
+            />
           </div>
 
           <div className="space-y-12">

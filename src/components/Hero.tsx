@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import Image from "next/image";
 import { roles, siteConfig } from "@/lib/data";
 import { useMouseGlow } from "@/hooks/useMouseGlow";
@@ -16,9 +16,15 @@ function TypewriterRole() {
   const displayed = useTypewriter(roles);
 
   return (
-    <span className="inline-flex items-center gap-1 text-xl font-medium sm:text-2xl">
+    <span
+      className="inline-flex items-center gap-1 text-xl font-medium sm:text-2xl"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       <span className="text-gradient">{displayed || "\u00a0"}</span>
-      <span className="animate-blink leading-none text-accent">|</span>
+      <span className="animate-blink leading-none text-accent" aria-hidden="true">
+        |
+      </span>
     </span>
   );
 }
@@ -67,9 +73,11 @@ export function Hero() {
             <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-accent/40 sm:h-36 sm:w-36">
               <Image
                 src="/profile.png"
-                alt="Amirmohamad Karimian"
-                fill
-                className="object-cover object-top"
+                alt="Amirmohamad Karimian profile picture"
+                width={144}
+                height={144}
+                sizes="(max-width: 640px) 128px, 144px"
+                className="h-full w-full object-cover object-top"
                 priority
               />
             </div>
@@ -91,7 +99,7 @@ export function Hero() {
           <TypewriterRole />
         </div>
 
-        <p className="animate-fade-in-up mx-auto mt-5 max-w-3xl text-lg font-medium leading-relaxed text-foreground/80 sm:text-xl [animation-delay:260ms]">
+        <p className="animate-fade-in-up mx-auto mt-5 max-w-3xl text-lg font-medium leading-relaxed text-foreground/90 sm:text-xl [animation-delay:260ms]">
           {siteConfig.subtitle}
         </p>
 
@@ -100,7 +108,7 @@ export function Hero() {
           <GradientButton
             href="#projects"
             onClick={(e) => scrollToSection(e, "#projects")}
-            className="min-w-[10.75rem]"
+            className="w-full sm:w-auto min-w-[10.75rem] max-w-full"
           >
             View My Work
           </GradientButton>
@@ -108,7 +116,7 @@ export function Hero() {
           <a
             href="#contact"
             onClick={(e) => scrollToSection(e, "#contact")}
-            className="inline-flex h-12 min-w-[10.75rem] items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-[transform,border-color,background-color,color,box-shadow] duration-150 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
+            className="inline-flex h-12 w-full sm:w-auto min-w-[10.75rem] max-w-full items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-[transform,border-color,background-color,color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)] active:scale-[0.98]"
           >
             <Mail className="h-4 w-4" />
             Get In Touch
@@ -116,28 +124,39 @@ export function Hero() {
         </div>
 
         {/* ── Social Links ──────────────────────────────────────────── */}
-        <div className="animate-fade-in-up mt-8 flex items-center justify-center gap-3 [animation-delay:460ms]">
-          <SocialIconButton
-            href={siteConfig.github}
-            icon={GitHubIcon}
-            label="GitHub profile"
-          />
-          <SocialIconButton
-            href={siteConfig.linkedin}
-            icon={LinkedInIcon}
-            label="LinkedIn profile"
-          />
-          <SocialIconButton
-            href={siteConfig.telegram}
-            icon={TelegramIcon}
-            label="Telegram"
-          />
-          <SocialIconButton
-            href={`mailto:${siteConfig.email}`}
-            icon={Mail}
-            label="Send email"
-          />
-        </div>
+        <ul
+          aria-label="Social media links"
+          className="animate-fade-in-up mt-8 flex items-center justify-center gap-3 [animation-delay:460ms]"
+        >
+          <li>
+            <SocialIconButton
+              href={siteConfig.github}
+              icon={GitHubIcon}
+              label="GitHub profile"
+            />
+          </li>
+          <li>
+            <SocialIconButton
+              href={siteConfig.linkedin}
+              icon={LinkedInIcon}
+              label="LinkedIn profile"
+            />
+          </li>
+          <li>
+            <SocialIconButton
+              href={siteConfig.telegram}
+              icon={TelegramIcon}
+              label="Telegram"
+            />
+          </li>
+          <li>
+            <SocialIconButton
+              href={`mailto:${siteConfig.email}`}
+              icon={Mail}
+              label="Send email"
+            />
+          </li>
+        </ul>
 
         {/* ── Scroll indicator ──────────────────────────────────────── */}
         <a

@@ -73,8 +73,8 @@ export function Projects() {
                   className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
+                {/* Gradient overlay — always subtly visible, intensifies on hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-surface/60 via-surface/10 to-transparent opacity-40 transition-opacity duration-200 group-hover:opacity-100" />
               </div>
 
               {/* ── Body ──────────────────────────────────────────── */}
@@ -91,7 +91,7 @@ export function Projects() {
                   {project.technologies.map((tech) => (
                     <span
                       key={tech}
-                      className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${getTechClass(tech)}`}
+                      className={`rounded-full px-3 py-1 text-xs font-medium ${getTechClass(tech)}`}
                     >
                       {tech}
                     </span>

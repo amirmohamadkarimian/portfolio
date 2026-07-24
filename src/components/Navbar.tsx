@@ -124,16 +124,15 @@ export function Navbar() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
-  /* lock body scroll when mobile drawer is open */
+  /* lock body scroll + close on Escape / resize when drawer is open */
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileOpen]);
 
-  useEffect(() => {
-    if (!mobileOpen) return;
+    if (!mobileOpen) {
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setMobileOpen(false);
@@ -147,6 +146,7 @@ export function Navbar() {
     window.addEventListener("resize", onResize);
 
     return () => {
+      document.body.style.overflow = "";
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("resize", onResize);
     };

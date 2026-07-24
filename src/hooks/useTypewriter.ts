@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 interface UseTypewriterConfig {
   /** Delay before typing starts (ms) */
@@ -30,7 +30,13 @@ export function useTypewriter(
   config?: UseTypewriterConfig,
 ): string {
   const [displayed, setDisplayed] = useState("");
-  const opts = { ...defaults, ...config };
+  const opts = useMemo(() => ({ ...defaults, ...config }), [
+    config?.startDelay,
+    config?.typeSpeed,
+    config?.deleteSpeed,
+    config?.holdDuration,
+    config?.pauseBetween,
+  ]);
   const meta = useRef({ index: 0, deleting: false, text: "" });
 
   useEffect(() => {
@@ -64,7 +70,7 @@ export function useTypewriter(
 
     timeout = setTimeout(tick, opts.startDelay);
     return () => clearTimeout(timeout);
-  }, [strings, opts.typeSpeed, opts.deleteSpeed, opts.holdDuration, opts.pauseBetween, opts.startDelay]);
+  }, [strings, opts]);
 
   return displayed;
 }

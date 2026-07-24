@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
-import { memo } from "react";
+import { memo, useCallback, useEffect, useRef } from "react";
 
 /* ── Types ────────────────────────────────────────────────────────────── */
 

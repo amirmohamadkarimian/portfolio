@@ -41,8 +41,8 @@ function CoreSkillBadge({ label, index }: { label: string; index: number }) {
     skillColors[label] ?? "hover:text-accent hover:border-accent/40";
 
   return (
-    <div
-      className={`group relative inline-flex cursor-default items-center gap-2.5 rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm transition-[transform,background-color,box-shadow] duration-150 hover:-translate-y-1 hover:bg-accent/5 hover:shadow-[0_4px_20px_rgba(99,102,241,0.18)] ${color}`}
+    <li
+      className={`badge-shine group relative inline-flex cursor-default items-center gap-2.5 rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm transition-[transform,background-color,box-shadow,border-color] duration-150 hover:-translate-y-1 hover:bg-accent/5 hover:shadow-[0_4px_20px_rgba(99,102,241,0.18)] ${color}`}
       style={{
         animationDelay: `${index * 60}ms`,
         animation: `float ${6 + index * 0.5}s ease-in-out ${index * 0.3}s infinite`,
@@ -52,15 +52,15 @@ function CoreSkillBadge({ label, index }: { label: string; index: number }) {
         <Icon className="h-4 w-4 transition-transform duration-150 group-hover:scale-110" />
       )}
       <span>{label}</span>
-    </div>
+    </li>
   );
 }
 
 function AdditionalSkillBadge({ label }: { label: string }) {
   return (
-    <span className="inline-flex cursor-default items-center rounded-full bg-surface/80 px-4 py-2 text-sm font-medium text-muted transition-[transform,background-color,color,box-shadow] duration-150 hover:-translate-y-0.5 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]">
+    <li className="inline-flex cursor-default items-center rounded-full bg-surface/80 px-4 py-2 text-sm font-medium text-muted transition-[transform,background-color,color,box-shadow] duration-150 hover:-translate-y-0.5 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]">
       {label}
-    </span>
+    </li>
   );
 }
 
@@ -69,9 +69,12 @@ export function Skills() {
     <AnimatedSection
       id="skills"
       delay={120}
-      className="border-t border-border px-6 py-24 lg:px-8"
+      className="relative overflow-hidden border-t border-border px-6 py-24 lg:px-8"
     >
-      <div className="mx-auto max-w-6xl">
+      {/* Decorative background */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5 blur-[120px]" />
+
+      <div className="relative mx-auto max-w-6xl">
         {/* ── Header ─────────────────────────────────────────────────── */}
         <div className="mb-14">
           <SectionHeader
@@ -88,11 +91,14 @@ export function Skills() {
           <h3 className="mb-9 text-center text-xs font-bold uppercase tracking-widest text-muted">
             Core Technologies
           </h3>
-          <div className="flex flex-wrap justify-center gap-3">
+          <ul
+            aria-label="Core technologies"
+            className="flex flex-wrap justify-center gap-3"
+          >
             {coreSkills.map((skill, i) => (
               <CoreSkillBadge key={skill} label={skill} index={i} />
             ))}
-          </div>
+          </ul>
         </div>
 
         {/* ── Additional Skills ───────────────────────────────────────── */}
@@ -100,11 +106,14 @@ export function Skills() {
           <h3 className="mb-9 text-center text-xs font-bold uppercase tracking-widest text-muted">
             Additional Skills
           </h3>
-          <div className="flex flex-wrap justify-center gap-3">
+          <ul
+            aria-label="Additional skills and expertise"
+            className="flex flex-wrap justify-center gap-3"
+          >
             {additionalSkills.map((skill) => (
               <AdditionalSkillBadge key={skill} label={skill} />
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </AnimatedSection>

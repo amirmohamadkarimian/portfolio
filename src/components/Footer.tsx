@@ -3,6 +3,7 @@
 import { ArrowUp, Mail } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 import { GitHubIcon, LinkedInIcon, TelegramIcon } from "./icons";
+import { SocialIconButton } from "./ui/SocialIconButton";
 
 const socialLinks = [
   { href: siteConfig.github, icon: GitHubIcon, label: "GitHub" },
@@ -33,19 +34,14 @@ export function Footer() {
         </div>
 
         <div className="flex items-center gap-3">
-          {socialLinks.map(({ href, icon: Icon, label }) => (
-            <a
+          {socialLinks.map(({ href, icon, label }) => (
+            <SocialIconButton
               key={label}
               href={href}
-              target={href.startsWith("mailto") ? undefined : "_blank"}
-              rel={
-                href.startsWith("mailto") ? undefined : "noopener noreferrer"
-              }
-              aria-label={label}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background text-muted transition-[transform,border-color,background-color,color,box-shadow] duration-150 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.12)] hover:-translate-y-0.5"
-            >
-              <Icon className="h-4 w-4" />
-            </a>
+              icon={icon}
+              label={label}
+              size="sm"
+            />
           ))}
 
           {/* Back to top */}
