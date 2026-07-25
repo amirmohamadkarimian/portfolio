@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { AnimatedBackgroundLoader } from "@/components/AnimatedBackgroundLoader";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { ScrollToTop } from "@/components/ScrollToTop";
+import { AnimatedBackgroundWrapper } from "@/components/AnimatedBackgroundWrapper";
 import { siteConfig } from "@/lib/data";
 import "./globals.css";
 
@@ -86,8 +85,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider>
-          <ScrollToTop />
-          <AnimatedBackgroundLoader />
+          <AnimatedBackgroundWrapper />
           <div className="relative z-10 flex min-h-full flex-col">
             <Navbar />
             <main className="flex-1">{children}</main>

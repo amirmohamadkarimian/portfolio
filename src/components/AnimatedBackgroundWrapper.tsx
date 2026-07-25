@@ -4,12 +4,10 @@ import dynamic from "next/dynamic";
 
 const AnimatedBackground = dynamic(
   () =>
-    import("@/components/AnimatedBackground").then(
-      (m) => m.AnimatedBackground,
-    ),
+    import("@/components/AnimatedBackground").then((m) => m.AnimatedBackground),
   { ssr: false },
 );
 
-export function AnimatedBackgroundLoader() {
+export function AnimatedBackgroundWrapper() {
   return <AnimatedBackground />;
 }

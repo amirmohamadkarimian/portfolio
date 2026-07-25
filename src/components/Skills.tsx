@@ -13,32 +13,47 @@ import {
 } from "./icons";
 import { SectionHeader } from "./ui/SectionHeader";
 
-/* ── Skill icon map ────────────────────────────────────────────────────── */
-const skillIcons: Record<string, ComponentType<IconProps>> = {
-  JavaScript: JavaScriptIcon,
-  TypeScript: TypeScriptIcon,
-  React: ReactIcon,
-  "Next.js": NextjsIcon,
-  "Tailwind CSS": TailwindIcon,
-  Git: GitIcon,
-  GitHub: GitHubIcon,
+/* ── Skill configuration ───────────────────────────────────────────────── */
+type SkillConfig = {
+  icon: ComponentType<IconProps>;
+  color: string;
 };
 
-/* ── Skill badge colors ────────────────────────────────────────────────── */
-const skillColors: Record<string, string> = {
-  JavaScript: "hover:text-yellow-500 hover:border-yellow-500/40",
-  TypeScript: "hover:text-blue-500 hover:border-blue-500/40",
-  React: "hover:text-sky-400 hover:border-sky-400/40",
-  "Next.js": "hover:text-foreground hover:border-foreground/40",
-  "Tailwind CSS": "hover:text-cyan-400 hover:border-cyan-400/40",
-  Git: "hover:text-orange-500 hover:border-orange-500/40",
-  GitHub: "hover:text-foreground hover:border-foreground/40",
+const skillConfig: Record<string, SkillConfig> = {
+  JavaScript: {
+    icon: JavaScriptIcon,
+    color: "hover:text-yellow-500 hover:border-yellow-500/40",
+  },
+  TypeScript: {
+    icon: TypeScriptIcon,
+    color: "hover:text-blue-500 hover:border-blue-500/40",
+  },
+  React: {
+    icon: ReactIcon,
+    color: "hover:text-sky-400 hover:border-sky-400/40",
+  },
+  "Next.js": {
+    icon: NextjsIcon,
+    color: "hover:text-foreground hover:border-foreground/40",
+  },
+  "Tailwind CSS": {
+    icon: TailwindIcon,
+    color: "hover:text-cyan-400 hover:border-cyan-400/40",
+  },
+  Git: {
+    icon: GitIcon,
+    color: "hover:text-orange-500 hover:border-orange-500/40",
+  },
+  GitHub: {
+    icon: GitHubIcon,
+    color: "hover:text-foreground hover:border-foreground/40",
+  },
 };
 
 function CoreSkillBadge({ label, index }: { label: string; index: number }) {
-  const Icon = skillIcons[label];
-  const color =
-    skillColors[label] ?? "hover:text-accent hover:border-accent/40";
+  const config = skillConfig[label];
+  const Icon = config?.icon;
+  const color = config?.color ?? "hover:text-accent hover:border-accent/40";
 
   return (
     <li

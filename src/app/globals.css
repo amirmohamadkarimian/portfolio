@@ -96,7 +96,9 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 @media (prefers-color-scheme: light) {
@@ -165,18 +167,6 @@ body {
   }
 }
 
-@keyframes pulse-ring {
-  0% {
-    box-shadow: 0 0 0 0 var(--accent-glow);
-  }
-  70% {
-    box-shadow: 0 0 0 12px transparent;
-  }
-  100% {
-    box-shadow: 0 0 0 0 transparent;
-  }
-}
-
 @keyframes shimmer {
   0% {
     background-position: -200% center;
@@ -240,40 +230,6 @@ body {
   }
 }
 
-@keyframes button-shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  25%, 100% {
-    transform: translateX(100%);
-  }
-}
-
-/* ─── Button Shimmer ────────────────────────────────────────────────────── */
-.btn-shimmer {
-  position: relative;
-  overflow: hidden;
-}
-.btn-shimmer::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.28) 50%,
-    transparent 100%
-  );
-  transform: translateX(-100%);
-  animation: button-shimmer 4.5s infinite ease-in-out;
-  pointer-events: none;
-  border-radius: inherit;
-  will-change: transform;
-}
-.btn-shimmer:hover::before {
-  animation: button-shimmer 1.5s infinite ease-in-out;
-}
-
 /* ─── Utility Classes ───────────────────────────────────────────────────── */
 .animate-fade-in {
   animation: fade-in 0.8s ease-out both;
@@ -293,10 +249,6 @@ body {
   animation: float 8s ease-in-out infinite;
   will-change: transform;
   transform: translateZ(0);
-}
-.animate-pulse-ring {
-  animation: pulse-ring 2s ease-out infinite;
-  will-change: box-shadow;
 }
 .animate-spin-slow {
   animation: spin-slow 12s linear infinite;
@@ -384,7 +336,6 @@ body {
   mix-blend-mode: overlay;
   pointer-events: none;
 }
-
 
 /* ─── Focus Ring ───────────────────────────────────────────────────────── */
 .focus-ring:focus-visible {

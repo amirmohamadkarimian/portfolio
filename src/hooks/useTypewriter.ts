@@ -30,13 +30,7 @@ export function useTypewriter(
   config?: UseTypewriterConfig,
 ): string {
   const [displayed, setDisplayed] = useState("");
-  const opts = useMemo(() => ({ ...defaults, ...config }), [
-    config?.startDelay,
-    config?.typeSpeed,
-    config?.deleteSpeed,
-    config?.holdDuration,
-    config?.pauseBetween,
-  ]);
+  const opts = useMemo(() => ({ ...defaults, ...config }), [config]);
   const meta = useRef({ index: 0, deleting: false, text: "" });
 
   useEffect(() => {
