@@ -9,8 +9,8 @@ import { SectionHeader } from "./ui/SectionHeader";
 
 const stats = [
   { value: "3+", label: "Years Crafting Web Apps" },
-  { value: "15+", label: "Projects & Demos Built" },
-  { value: "98+", label: "Avg Lighthouse Score" },
+  { value: "10+", label: "Projects & Demos Built" },
+  { value: "15+", label: "Tech Stack" },
   { value: "<100ms", label: "UI Interaction Speed" },
 ];
 
@@ -111,7 +111,7 @@ export function About() {
                   <p className="text-sm leading-relaxed text-foreground/90">
                     Specializing in{" "}
                     <strong className="font-semibold text-foreground">
-                      React 19, Next.js 16, and strict TypeScript
+                      React, Next.js, and strict TypeScript
                     </strong>
                     , I focus on shipping high-performance user interfaces. From
                     engineering dynamic banking dashboards like{" "}
