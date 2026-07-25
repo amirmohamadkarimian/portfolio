@@ -206,19 +206,21 @@ export function Navbar() {
             className="group relative flex h-10 w-10 flex-col items-center justify-center gap-[5px] rounded-full border border-border bg-surface text-foreground transition-[transform,border-color,color] duration-150 hover:border-accent/40 hover:text-accent active:scale-95 md:hidden will-change-transform"
           >
             <span
-              className={`block h-[2px] w-5 rounded-full bg-current transition-[transform,opacity] duration-150 ease-out ${
+              className={`block h-[2px] w-5 rounded-full bg-current transition-[transform,opacity] duration-300 ease-in-out ${
                 mobileOpen ? "translate-y-[7px] rotate-45" : ""
               }`}
+              style={{ transformOrigin: "center" }}
             />
             <span
-              className={`block h-[2px] w-5 rounded-full bg-current transition-[transform,opacity] duration-150 ease-out ${
-                mobileOpen ? "opacity-0 translate-x-2" : ""
+              className={`block h-[2px] w-5 rounded-full bg-current ${
+                mobileOpen ? "opacity-0" : ""
               }`}
             />
             <span
-              className={`block h-[2px] w-5 rounded-full bg-current transition-[transform,opacity] duration-150 ease-out ${
+              className={`block h-[2px] w-5 rounded-full bg-current transition-[transform,opacity] duration-300 ease-in-out ${
                 mobileOpen ? "-translate-y-[7px] -rotate-45" : ""
               }`}
+              style={{ transformOrigin: "center" }}
             />
           </button>
         </div>
