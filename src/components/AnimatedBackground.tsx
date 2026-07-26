@@ -171,9 +171,26 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
     /* ── Detect dark mode ────────────────────────────────────────── */
     const isDark = () => document.documentElement.classList.contains("dark");
 
-    /* ── Animation loop ──────────────────────────────────────────── */
+    /* ── Visibility / pause control ───────────────────────────────
+       Stops the rAF loop entirely when the tab is hidden, so we
+       burn zero CPU/battery in background tabs. This is the single
+       biggest cost-saver for a canvas that otherwise runs forever. */
+    let isRunning = false;
+
+    /* ── Frame-skip for physics ───────────────────────────────────
+       Redraw every rAF (smooth), but only advance particle/orb
+       physics and recompute the O(n^2) connection lines every other
+       frame. Halves the heaviest work without a visible quality
+       loss for slow ambient motion. */
+    let frameCount = 0;
+
     const loop = () => {
+      if (!isRunning) return;
+
       const dark = isDark();
+      const shouldStepPhysics = frameCount % 2 === 0;
+      frameCount++;
+
       ctx.clearRect(0, 0, w, h);
 
       /* Smooth mouse updates to avoid rapid writes */
@@ -185,12 +202,14 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
       /* ── Draw ambient gradient orbs ────────────────────────────── */
       for (let i = 0; i < orbs.length; i++) {
         const orb = orbs[i];
-        orb.x += orb.vx;
-        orb.y += orb.vy;
-        if (orb.x < -orb.radius) orb.x = w + orb.radius;
-        if (orb.x > w + orb.radius) orb.x = -orb.radius;
-        if (orb.y < -orb.radius) orb.y = h + orb.radius;
-        if (orb.y > h + orb.radius) orb.y = -orb.radius;
+        if (shouldStepPhysics) {
+          orb.x += orb.vx * 2;
+          orb.y += orb.vy * 2;
+          if (orb.x < -orb.radius) orb.x = w + orb.radius;
+          if (orb.x > w + orb.radius) orb.x = -orb.radius;
+          if (orb.y < -orb.radius) orb.y = h + orb.radius;
+          if (orb.y > h + orb.radius) orb.y = -orb.radius;
+        }
 
         const cachedCanvas = dark ? orbCanvases[i].dark : orbCanvases[i].light;
         ctx.drawImage(cachedCanvas, orb.x - orb.radius, orb.y - orb.radius);
@@ -203,26 +222,28 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
       const connectionLimitSq = CONNECTION_DISTANCE * CONNECTION_DISTANCE;
 
       for (const p of particles) {
-        if (!prefersReducedMotion) {
-          const dx = mx - p.x;
-          const dy = my - p.y;
-          const distSq = dx * dx + dy * dy;
-          if (distSq < mouseRadSq && distSq > 1) {
-            const dist = Math.sqrt(distSq);
-            p.vx += (dx / dist) * MOUSE_ATTRACTION_FORCE;
-            p.vy += (dy / dist) * MOUSE_ATTRACTION_FORCE;
+        if (shouldStepPhysics) {
+          if (!prefersReducedMotion) {
+            const dx = mx - p.x;
+            const dy = my - p.y;
+            const distSq = dx * dx + dy * dy;
+            if (distSq < mouseRadSq && distSq > 1) {
+              const dist = Math.sqrt(distSq);
+              p.vx += (dx / dist) * MOUSE_ATTRACTION_FORCE * 2;
+              p.vy += (dy / dist) * MOUSE_ATTRACTION_FORCE * 2;
+            }
           }
+
+          p.vx *= 0.998;
+          p.vy *= 0.998;
+          p.x += p.vx * 2;
+          p.y += p.vy * 2;
+
+          if (p.x < 0) p.x = w;
+          if (p.x > w) p.x = 0;
+          if (p.y < 0) p.y = h;
+          if (p.y > h) p.y = 0;
         }
-
-        p.vx *= 0.998;
-        p.vy *= 0.998;
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0) p.x = w;
-        if (p.x > w) p.x = 0;
-        if (p.y < 0) p.y = h;
-        if (p.y > h) p.y = 0;
 
         const light = dark ? 75 : 45;
         ctx.beginPath();
@@ -280,14 +301,36 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
       animIdRef.current = requestAnimationFrame(loop);
     };
 
-    animIdRef.current = requestAnimationFrame(loop);
+    const start = () => {
+      if (isRunning) return;
+      isRunning = true;
+      animIdRef.current = requestAnimationFrame(loop);
+    };
+
+    const stop = () => {
+      isRunning = false;
+      cancelAnimationFrame(animIdRef.current);
+    };
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        stop();
+      } else {
+        start();
+      }
+    };
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    if (!document.hidden) start();
 
     /* ── Cleanup ─────────────────────────────────────────────────── */
     return () => {
-      cancelAnimationFrame(animIdRef.current);
+      stop();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseleave", onMouseLeave);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
   }, []);
 

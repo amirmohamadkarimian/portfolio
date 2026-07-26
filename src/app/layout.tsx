@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://amirmohamadkarimian.dev"),
   title: {
     default: `${siteConfig.name} | ${siteConfig.title}`,
     template: `%s | ${siteConfig.name}`,
@@ -40,16 +41,33 @@ export const metadata: Metadata = {
     title: `${siteConfig.name} | ${siteConfig.title}`,
     description: siteConfig.intro,
     siteName: siteConfig.name,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} | ${siteConfig.title}`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} | ${siteConfig.title}`,
     description: siteConfig.intro,
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
     follow: true,
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+  ],
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({
