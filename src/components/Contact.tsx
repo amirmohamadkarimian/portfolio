@@ -15,6 +15,7 @@ type SubmitStatus = "idle" | "loading" | "success" | "error";
 /* ── Contact Section ───────────────────────────────────────────────────── */
 
 export function Contact() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<SubmitStatus>("idle");
@@ -86,6 +87,7 @@ export function Contact() {
           </div>
         </div>
 
+
         <form
           onSubmit={handleSubmit}
           className="relative mx-auto max-w-3xl space-y-6 rounded-3xl border border-border bg-background/80 p-8 shadow-sm backdrop-blur-sm"
@@ -95,10 +97,28 @@ export function Contact() {
 
           <div className="relative grid gap-6">
             <label
+              htmlFor="contact-name"
+              className="block text-sm font-medium text-foreground"
+            >
+              Name
+              <input
+                id="contact-name"
+                name="name"
+                type="text"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                required
+                autoComplete="name"
+                placeholder="Enter your name"
+                className="mt-3 block w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
+
+            <label
               htmlFor="contact-email"
               className="block text-sm font-medium text-foreground"
             >
-              Your Email
+              Email
               <input
                 id="contact-email"
                 name="email"
@@ -160,7 +180,7 @@ export function Contact() {
 
           <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-muted">
-              I&apos;ll reply directly to your inbox.
+              {"I'll reply directly to your inbox."}
             </p>
             <button
               type="submit"

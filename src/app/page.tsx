@@ -1,25 +1,10 @@
-import dynamic from "next/dynamic";
 import { Hero } from "@/components/Hero";
-
-/* ── Lazy-load below-the-fold sections to reduce initial JS payload ──── */
-const About = dynamic(() =>
-  import("@/components/About").then((m) => m.About),
-);
-const Highlights = dynamic(() =>
-  import("@/components/Highlights").then((m) => m.Highlights),
-);
-const Skills = dynamic(() =>
-  import("@/components/Skills").then((m) => m.Skills),
-);
-const Projects = dynamic(() =>
-  import("@/components/Projects").then((m) => m.Projects),
-);
-const Experience = dynamic(() =>
-  import("@/components/Experience").then((m) => m.Experience),
-);
-const Contact = dynamic(() =>
-  import("@/components/Contact").then((m) => m.Contact),
-);
+import { About } from "@/components/About";
+import { Highlights } from "@/components/Highlights";
+import { Skills } from "@/components/Skills";
+import { Projects } from "@/components/Projects";
+import { Experience } from "@/components/Experience";
+import { Contact } from "@/components/Contact";
 
 export default function Home() {
   return (
