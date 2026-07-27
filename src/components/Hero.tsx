@@ -149,14 +149,7 @@ export function Hero() {
               label="Telegram"
             />
           </li>
-          <li>
-            <SocialIconButton
-              href={`mailto:${siteConfig.email}`}
-              icon={Mail}
-              label="Send email"
-            />
-          </li>
-        </ul>
+          </ul>
 
         {/* ── Scroll indicator ──────────────────────────────────────── */}
         <a

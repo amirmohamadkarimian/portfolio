@@ -81,7 +81,6 @@ export default function RootLayout({
     name: siteConfig.name,
     jobTitle: siteConfig.title,
     description: siteConfig.intro,
-    email: siteConfig.email,
     url: "https://amirmohamadkarimian.vercel.app",
     sameAs: [siteConfig.github, siteConfig.linkedin, siteConfig.telegram],
   };

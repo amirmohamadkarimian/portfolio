@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, Mail } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 import { GitHubIcon, LinkedInIcon, TelegramIcon } from "./icons";
 import { SocialIconButton } from "./ui/SocialIconButton";
@@ -8,7 +8,6 @@ import { SocialIconButton } from "./ui/SocialIconButton";
 const socialLinks = [
   { href: siteConfig.github, icon: GitHubIcon, label: "GitHub" },
   { href: siteConfig.linkedin, icon: LinkedInIcon, label: "LinkedIn" },
-  { href: `mailto:${siteConfig.email}`, icon: Mail, label: "Email" },
   { href: siteConfig.telegram, icon: TelegramIcon, label: "Telegram" },
 ];
 

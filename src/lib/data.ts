@@ -14,7 +14,6 @@ export const siteConfig: SiteConfig = {
     "I help teams ship polished, responsive web experiences with modern frontend tooling and thoughtful UX.",
   intro:
     "I build modern, fast, and user-friendly web applications using React, Next.js, and TypeScript.",
-  email: "karimian.dev@gmail.com",
   github: "https://github.com/amirmohamadkarimian",
   linkedin: "https://linkedin.com/in/amirmohammadkarimian",
   telegram: "https://t.me/amirmohamadev",

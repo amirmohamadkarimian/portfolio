@@ -1,42 +1,53 @@
 "use client";
 
-import { Check, Copy, Mail } from "lucide-react";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Loader2,
+  Mail,
+} from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { siteConfig } from "@/lib/data";
 import { AnimatedSection } from "./AnimatedSection";
 import { SectionHeader } from "./ui/SectionHeader";
+
+type SubmitStatus = "idle" | "loading" | "success" | "error";
 
 /* ── Contact Section ───────────────────────────────────────────────────── */
 
 export function Contact() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [copied, setCopied] = useState(false);
+  const [status, setStatus] = useState<SubmitStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const copyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(siteConfig.email);
-    } catch {
-      const textArea = document.createElement("textarea");
-      textArea.value = siteConfig.email;
-      textArea.setAttribute("readonly", "");
-      textArea.style.position = "absolute";
-      textArea.style.left = "-9999px";
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-    }
-
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const subject = encodeURIComponent("Website inquiry");
-    const body = encodeURIComponent(`From: ${email}\n\n${message}`);
-    window.location.href = `mailto:${siteConfig.email}?subject=${subject}&body=${body}`;
+    setStatus("loading");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, message }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send message.");
+      }
+
+      setStatus("success");
+      setEmail("");
+      setMessage("");
+      window.setTimeout(() => setStatus("idle"), 5000);
+    } catch (err) {
+      setStatus("error");
+      setErrorMessage(
+        err instanceof Error ? err.message : "Something went wrong.",
+      );
+    }
   };
 
   return (
@@ -56,7 +67,7 @@ export function Contact() {
             label="Contact"
             title="Get in Touch"
             gradientWord="Directly"
-            description="Have a question or a project idea? Copy my email for your own client, or send a message through the form below."
+            description="Have a question or a project idea? Send a message through the form below."
             centered
           />
 
@@ -72,41 +83,6 @@ export function Contact() {
               </span>
               Available for new opportunities
             </div>
-          </div>
-        </div>
-
-        <div className="relative mx-auto mb-6 max-w-3xl rounded-2xl border border-border bg-background/80 p-4 shadow-sm backdrop-blur-sm sm:p-5">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="min-w-0">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted">
-                Prefer your own email client?
-              </p>
-              <a
-                href={`mailto:${siteConfig.email}`}
-                className="mt-1 block truncate text-sm font-semibold text-foreground transition-colors hover:text-accent sm:text-base"
-              >
-                {siteConfig.email}
-              </a>
-            </div>
-
-            <button
-              type="button"
-              onClick={copyEmail}
-              aria-label={copied ? "Email copied" : "Copy email address"}
-              className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full border border-border bg-surface px-5 text-sm font-semibold text-foreground transition-[transform,border-color,background-color,color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)] active:scale-[0.98]"
-            >
-              {copied ? (
-                <>
-                  <Check className="h-4 w-4 text-emerald-500" aria-hidden="true" />
-                  Copied
-                </>
-              ) : (
-                <>
-                  <Copy className="h-4 w-4" aria-hidden="true" />
-                  Copy Email
-                </>
-              )}
-            </button>
           </div>
         </div>
 
@@ -132,7 +108,8 @@ export function Contact() {
                 required
                 autoComplete="email"
                 placeholder="you@example.com"
-                className="mt-3 block w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+                disabled={status === "loading"}
+                className="mt-3 block w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
               />
             </label>
 
@@ -147,12 +124,39 @@ export function Contact() {
                 value={message}
                 onChange={(event) => setMessage(event.target.value)}
                 required
+                minLength={10}
+                maxLength={5000}
                 rows={6}
                 placeholder="Tell me about your project, timeline, or your goals."
-                className="mt-3 block w-full resize-none rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+                disabled={status === "loading"}
+                className="mt-3 block w-full resize-none rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
               />
+              <span className="mt-1 block text-right text-xs text-muted">
+                {message.length}/5000
+              </span>
             </label>
           </div>
+
+          {/* ── Status messages ──────────────────────────────────────── */}
+          {status === "success" && (
+            <div
+              role="status"
+              className="relative flex items-center gap-2 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-600 dark:text-emerald-400"
+            >
+              <CheckCircle2 className="h-4 w-4 shrink-0" />
+              Message sent! I&apos;ll get back to you soon.
+            </div>
+          )}
+
+          {status === "error" && (
+            <div
+              role="alert"
+              className="relative flex items-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-600 dark:text-red-400"
+            >
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              {errorMessage}
+            </div>
+          )}
 
           <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-muted">
@@ -160,10 +164,20 @@ export function Contact() {
             </p>
             <button
               type="submit"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-6 text-sm font-semibold text-white transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)] active:scale-[0.98]"
+              disabled={status === "loading"}
+              className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-6 text-sm font-semibold text-white transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-none"
             >
-              <Mail className="h-4 w-4 transition-transform duration-150 group-hover:-translate-y-0.5" />
-              Send Message
+              {status === "loading" ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Mail className="h-4 w-4 transition-transform duration-150 group-hover:-translate-y-0.5" />
+                  Send Message
+                </>
+              )}
             </button>
           </div>
         </form>

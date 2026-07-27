@@ -9,7 +9,6 @@ export interface SiteConfig {
   title: string;
   subtitle: string;
   intro: string;
-  email: string;
   github: string;
   linkedin: string;
   telegram: string;
