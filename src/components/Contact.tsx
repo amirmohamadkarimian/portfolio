@@ -1,16 +1,12 @@
 "use client";
 
-import {
-  AlertCircle,
-  CheckCircle2,
-  Loader2,
-  Mail,
-} from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { Mail } from "lucide-react";
+import { useState } from "react";
+import type React from "react";
 import { AnimatedSection } from "./AnimatedSection";
 import { SectionHeader } from "./ui/SectionHeader";
 
-type SubmitStatus = "idle" | "loading" | "success" | "error";
+const CONTACT_EMAIL = "karimian.dev@gmail.com";
 
 /* ── Contact Section ───────────────────────────────────────────────────── */
 
@@ -18,37 +14,18 @@ export function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<SubmitStatus>("idle");
-  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setStatus("loading");
-    setErrorMessage("");
 
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, message }),
-      });
+    const subject = "Portfolio contact";
+    const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
 
-      const data = await res.json();
+    const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+      subject,
+    )}&body=${encodeURIComponent(body)}`;
 
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to send message.");
-      }
-
-      setStatus("success");
-      setEmail("");
-      setMessage("");
-      window.setTimeout(() => setStatus("idle"), 5000);
-    } catch (err) {
-      setStatus("error");
-      setErrorMessage(
-        err instanceof Error ? err.message : "Something went wrong.",
-      );
-    }
+    window.location.href = mailtoUrl;
   };
 
   return (
@@ -86,7 +63,6 @@ export function Contact() {
             </div>
           </div>
         </div>
-
 
         <form
           onSubmit={handleSubmit}
@@ -129,8 +105,7 @@ export function Contact() {
                   required
                   autoComplete="email"
                   placeholder="you@example.com"
-                  disabled={status === "loading"}
-                  className="mt-2 block w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
+                  className="mt-2 block w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
                 />
               </label>
             </div>
@@ -150,8 +125,7 @@ export function Contact() {
                 maxLength={5000}
                 rows={6}
                 placeholder="Tell me about your project, timeline, or your goals."
-                disabled={status === "loading"}
-                className="mt-2 block w-full resize-none rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
+                className="mt-2 block w-full resize-none rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
               />
               <span className="mt-1 block text-right text-xs text-muted">
                 {message.length}/5000
@@ -159,47 +133,16 @@ export function Contact() {
             </label>
           </div>
 
-          {/* ── Status messages ──────────────────────────────────────── */}
-          {status === "success" && (
-            <div
-              role="status"
-              className="relative flex items-center gap-2 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-600 dark:text-emerald-400"
-            >
-              <CheckCircle2 className="h-4 w-4 shrink-0" />
-              Message sent! I&apos;ll get back to you soon.
-            </div>
-          )}
-
-          {status === "error" && (
-            <div
-              role="alert"
-              className="relative flex items-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-600 dark:text-red-400"
-            >
-              <AlertCircle className="h-4 w-4 shrink-0" />
-              {errorMessage}
-            </div>
-          )}
-
           <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-muted">
-              {"I'll reply directly to your inbox."}
+              {"This opens your email app with the message pre-filled."}
             </p>
             <button
               type="submit"
-              disabled={status === "loading"}
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-6 text-sm font-semibold text-white transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+              className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-6 text-sm font-semibold text-white transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)] active:scale-[0.98]"
             >
-              {status === "loading" ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Sending...
-                </>
-              ) : (
-                <>
-                  <Mail className="h-4 w-4 transition-transform duration-150 group-hover:-translate-y-0.5" />
-                  Send Message
-                </>
-              )}
+              <Mail className="h-4 w-4 transition-transform duration-150 group-hover:-translate-y-0.5" />
+              Send Message
             </button>
           </div>
         </form>
