@@ -233,40 +233,29 @@ body {
 /* ─── Utility Classes ───────────────────────────────────────────────────── */
 .animate-fade-in {
   animation: fade-in 0.8s ease-out both;
-  will-change: opacity;
 }
 .animate-fade-in-up {
   animation: fade-in-up 0.8s ease-out both;
-  will-change: transform, opacity;
-  transform: translateZ(0);
 }
 .animate-float {
   animation: float 6s ease-in-out infinite;
   will-change: transform;
-  transform: translateZ(0);
 }
 .animate-float-slow {
   animation: float 8s ease-in-out infinite;
   will-change: transform;
-  transform: translateZ(0);
 }
 .animate-spin-slow {
   animation: spin-slow 12s linear infinite;
-  will-change: transform;
-  transform: translateZ(0);
 }
 .animate-blink {
   animation: blink 1s step-end infinite;
-  will-change: opacity;
 }
 .animate-bounce-subtle {
   animation: bounce-subtle 2s ease-in-out infinite;
-  will-change: transform;
-  transform: translateZ(0);
 }
 .animate-pulse-dot {
   animation: pulse-dot 2s ease-in-out infinite;
-  will-change: transform, opacity;
 }
 
 .shimmer-text {
@@ -327,6 +316,7 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: gradient-shift 4s ease infinite;
+  will-change: background-position;
 }
 
 /* ─── Noise Overlay ────────────────────────────────────────────────────── */

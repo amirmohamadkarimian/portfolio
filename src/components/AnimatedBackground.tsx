@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 
 /* ── Types ────────────────────────────────────────────────────────────── */
 
@@ -74,19 +74,19 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
   const mouseTargetRef = useRef({ x: -9999, y: -9999 });
   const animIdRef = useRef(0);
 
-  const draw = useCallback(() => {
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    /* ── One-time checks (not per-frame) ──────────────────────────── */
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
-    /* Reduce counts for small viewports or reduced motion */
-    const isSmall = window.innerWidth < 900;
-    const particleCount = prefersReducedMotion
+    let isSmall = window.innerWidth < 900;
+    let particleCount = prefersReducedMotion
       ? REDUCED_PARTICLE_COUNT
       : isSmall
         ? Math.max(28, Math.floor(PARTICLE_COUNT * 0.6))
@@ -102,7 +102,7 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
     let h = window.innerHeight;
     const dpr = Math.min(window.devicePixelRatio ?? 1, 1.5);
 
-    const resize = () => {
+    const applySize = () => {
       w = window.innerWidth;
       h = window.innerHeight;
       canvas.width = w * dpr;
@@ -111,8 +111,23 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
-    resize();
-    window.addEventListener("resize", resize);
+    applySize();
+
+    /* Debounced resize — re-apply size, update isSmall */
+    let resizeTimer = 0;
+    const resize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        applySize();
+        isSmall = window.innerWidth < 900;
+        particleCount = prefersReducedMotion
+          ? REDUCED_PARTICLE_COUNT
+          : isSmall
+            ? Math.max(28, Math.floor(PARTICLE_COUNT * 0.6))
+            : PARTICLE_COUNT;
+      }, 100);
+    };
+    window.addEventListener("resize", resize, { passive: true });
 
     /* ── Mouse tracking ──────────────────────────────────────────── */
     const onMouseMove = (e: MouseEvent) => {
@@ -123,7 +138,7 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
       mouseTargetRef.current.x = -9999;
       mouseTargetRef.current.y = -9999;
     };
-    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
     window.addEventListener("mouseleave", onMouseLeave);
 
     /* ── Create entities ─────────────────────────────────────────── */
@@ -173,16 +188,18 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
 
     /* ── Visibility / pause control ───────────────────────────────
        Stops the rAF loop entirely when the tab is hidden, so we
-       burn zero CPU/battery in background tabs. This is the single
-       biggest cost-saver for a canvas that otherwise runs forever. */
+       burn zero CPU/battery in background tabs. */
     let isRunning = false;
 
     /* ── Frame-skip for physics ───────────────────────────────────
        Redraw every rAF (smooth), but only advance particle/orb
-       physics and recompute the O(n^2) connection lines every other
-       frame. Halves the heaviest work without a visible quality
-       loss for slow ambient motion. */
+       physics and the O(n^2) connection pass every other frame.
+       Halves the heaviest work without visible quality loss. */
     let frameCount = 0;
+
+    const TAU = Math.PI * 2;
+    const connectionLimitSq = CONNECTION_DISTANCE * CONNECTION_DISTANCE;
+    const mouseRadSq = MOUSE_ATTRACTION_RADIUS * MOUSE_ATTRACTION_RADIUS;
 
     const loop = () => {
       if (!isRunning) return;
@@ -193,13 +210,13 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
 
       ctx.clearRect(0, 0, w, h);
 
-      /* Smooth mouse updates to avoid rapid writes */
+      /* Smooth mouse updates */
       mouseRef.current.x +=
         (mouseTargetRef.current.x - mouseRef.current.x) * 0.22;
       mouseRef.current.y +=
         (mouseTargetRef.current.y - mouseRef.current.y) * 0.22;
 
-      /* ── Draw ambient gradient orbs ────────────────────────────── */
+      /* ── Draw ambient gradient orbs ─────────────────────────────── */
       for (let i = 0; i < orbs.length; i++) {
         const orb = orbs[i];
         if (shouldStepPhysics) {
@@ -215,14 +232,20 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
         ctx.drawImage(cachedCanvas, orb.x - orb.radius, orb.y - orb.radius);
       }
 
-      /* ── Update & draw particles ───────────────────────────────── */
+      /* ── Update & draw particles — batched per style pass ────────
+         Pass 1: solid core dots (all same style per dark/light)
+         Pass 2: soft glow halos (all same style per dark/light)
+         This replaces N×2 beginPath/fill calls with 2 beginPath/fill
+         calls at the cost of grouped per-particle fillStyle strings.
+         We use a Map to batch by fillStyle. */
+
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
-      const mouseRadSq = MOUSE_ATTRACTION_RADIUS * MOUSE_ATTRACTION_RADIUS;
-      const connectionLimitSq = CONNECTION_DISTANCE * CONNECTION_DISTANCE;
+      const light = dark ? 75 : 45;
 
-      for (const p of particles) {
-        if (shouldStepPhysics) {
+      /* Advance physics for all particles first */
+      if (shouldStepPhysics) {
+        for (const p of particles) {
           if (!prefersReducedMotion) {
             const dx = mx - p.x;
             const dy = my - p.y;
@@ -244,20 +267,41 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
           if (p.y < 0) p.y = h;
           if (p.y > h) p.y = 0;
         }
+      }
 
-        const light = dark ? 75 : 45;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${p.hue}, 80%, ${light}%, ${p.opacity})`;
-        ctx.fill();
+      /* Batch draw: group particles by their fillStyle to minimise
+         ctx.fillStyle reassignments. Core dots first. */
+      const coreBuckets = new Map<string, Particle[]>();
+      const glowBuckets = new Map<string, Particle[]>();
 
+      for (const p of particles) {
+        const coreStyle = `hsla(${p.hue}, 80%, ${light}%, ${p.opacity})`;
+        const glowStyle = `hsla(${p.hue}, 80%, ${light}%, ${(p.opacity * 0.15).toFixed(3)})`;
+
+        let bucket = coreBuckets.get(coreStyle);
+        if (!bucket) { bucket = []; coreBuckets.set(coreStyle, bucket); }
+        bucket.push(p);
+
+        let gBucket = glowBuckets.get(glowStyle);
+        if (!gBucket) { gBucket = []; glowBuckets.set(glowStyle, gBucket); }
+        gBucket.push(p);
+      }
+
+      for (const [style, ps] of coreBuckets) {
+        ctx.fillStyle = style;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius * 3, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${p.hue}, 80%, ${light}%, ${p.opacity * 0.15})`;
+        for (const p of ps) ctx.arc(p.x, p.y, p.radius, 0, TAU);
         ctx.fill();
       }
 
-      /* ── Draw connections ──────────────────────────────────────── */
+      for (const [style, ps] of glowBuckets) {
+        ctx.fillStyle = style;
+        ctx.beginPath();
+        for (const p of ps) ctx.arc(p.x, p.y, p.radius * 3, 0, TAU);
+        ctx.fill();
+      }
+
+      /* ── Draw connections ───────────────────────────────────────── */
       const connectionLight = dark ? 70 : 40;
       ctx.lineWidth = 0.6;
       for (let i = 0; i < particles.length; i++) {
@@ -279,7 +323,7 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
         }
       }
 
-      /* ── Mouse proximity connections ───────────────────────────── */
+      /* ── Mouse proximity connections ────────────────────────────── */
       if (!prefersReducedMotion && mx > 0 && my > 0) {
         ctx.lineWidth = 0.8;
         for (const p of particles) {
@@ -327,17 +371,13 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
     /* ── Cleanup ─────────────────────────────────────────────────── */
     return () => {
       stop();
+      clearTimeout(resizeTimer);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseleave", onMouseLeave);
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
   }, []);
-
-  useEffect(() => {
-    const cleanup = draw();
-    return cleanup;
-  }, [draw]);
 
   return (
     <canvas

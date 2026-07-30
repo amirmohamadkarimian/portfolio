@@ -40,10 +40,15 @@ export function AnimatedSection({
     <section
       id={id}
       ref={ref}
-      className={`transform-gpu will-change-transform transition-all duration-700 ease-out motion-reduce:transition-none ${
+      className={`transition-all duration-700 ease-out motion-reduce:transition-none ${
         visible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
       } ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{
+        transitionDelay: `${delay}ms`,
+        /* Keep the compositor layer only while the entry animation is
+           in-flight; once visible the layer is released to free GPU memory. */
+        willChange: visible ? "auto" : "transform, opacity",
+      }}
     >
       {children}
     </section>

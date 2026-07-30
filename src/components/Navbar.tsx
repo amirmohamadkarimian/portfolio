@@ -1,7 +1,7 @@
 "use client";
 
 import { Download } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { navLinks, siteConfig } from "@/lib/data";
 import { scrollToSection } from "@/lib/scrollTo";
 import { ThemeToggle } from "./ThemeToggle";
@@ -95,33 +95,45 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  /* Ref mirror of `scrolled` so the scroll handler can compare
+     without capturing a stale closure value. */
+  const scrolledRef = useRef(false);
 
-  /* scroll shadow */
+  /* scroll shadow — guard setState so React only re-renders on change */
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      const nowScrolled = window.scrollY > 20;
+      if (nowScrolled !== scrolledRef.current) {
+        scrolledRef.current = nowScrolled;
+        setScrolled(nowScrolled);
+      }
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* active-section tracker */
+  /* active-section tracker — single shared observer for all sections */
   useEffect(() => {
     const sectionIds = navLinks.map((l) => l.href.replace("#", ""));
-    const observers: IntersectionObserver[] = [];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+            break;
+          }
+        }
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
 
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActiveSection(id);
-        },
-        { rootMargin: "-40% 0px -55% 0px" },
-      );
-      obs.observe(el);
-      observers.push(obs);
+      if (el) observer.observe(el);
     });
 
-    return () => observers.forEach((o) => o.disconnect());
+    return () => observer.disconnect();
   }, []);
 
   /* lock body scroll + close on Escape / resize when drawer is open */
