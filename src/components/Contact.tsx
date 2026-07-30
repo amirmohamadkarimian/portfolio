@@ -95,43 +95,45 @@ export function Contact() {
           {/* Subtle noise texture on form */}
           <div className="noise-overlay absolute inset-0 rounded-3xl" />
 
-          <div className="relative grid gap-6">
-            <label
-              htmlFor="contact-name"
-              className="block text-sm font-medium text-foreground"
-            >
-              Name
-              <input
-                id="contact-name"
-                name="name"
-                type="text"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                required
-                autoComplete="name"
-                placeholder="Enter your name"
-                className="mt-3 block w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
-              />
-            </label>
+          <div className="relative space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <label
+                htmlFor="contact-name"
+                className="block text-sm font-medium text-foreground"
+              >
+                Name
+                <input
+                  id="contact-name"
+                  name="name"
+                  type="text"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  required
+                  autoComplete="name"
+                  placeholder="Enter your name"
+                  className="mt-2 block w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+                />
+              </label>
 
-            <label
-              htmlFor="contact-email"
-              className="block text-sm font-medium text-foreground"
-            >
-              Email
-              <input
-                id="contact-email"
-                name="email"
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                required
-                autoComplete="email"
-                placeholder="you@example.com"
-                disabled={status === "loading"}
-                className="mt-3 block w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
-              />
-            </label>
+              <label
+                htmlFor="contact-email"
+                className="block text-sm font-medium text-foreground"
+              >
+                Email
+                <input
+                  id="contact-email"
+                  name="email"
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  required
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  disabled={status === "loading"}
+                  className="mt-2 block w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
+                />
+              </label>
+            </div>
 
             <label
               htmlFor="contact-message"
@@ -149,7 +151,7 @@ export function Contact() {
                 rows={6}
                 placeholder="Tell me about your project, timeline, or your goals."
                 disabled={status === "loading"}
-                className="mt-3 block w-full resize-none rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
+                className="mt-2 block w-full resize-none rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
               />
               <span className="mt-1 block text-right text-xs text-muted">
                 {message.length}/5000
