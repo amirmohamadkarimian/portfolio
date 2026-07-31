@@ -22,7 +22,10 @@ function TypewriterRole() {
       aria-atomic="true"
     >
       <span className="text-gradient">{displayed || "\u00a0"}</span>
-      <span className="animate-blink leading-none text-accent" aria-hidden="true">
+      <span
+        className="animate-blink leading-none text-accent"
+        aria-hidden="true"
+      >
         |
       </span>
     </span>
@@ -48,9 +51,9 @@ export function Hero() {
           className="absolute h-[400px] w-[400px] rounded-full bg-accent/10 blur-[100px] transition-opacity duration-150"
           style={{ opacity: 0 }}
         />
-        <div className="animate-float absolute -left-40 top-1/4 h-96 w-96 rounded-full bg-accent/10 blur-3xl" />
-        <div className="animate-float-slow absolute -right-40 bottom-1/4 h-96 w-96 rounded-full bg-accent-secondary/10 blur-3xl" />
-        <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5 blur-3xl" />
+        <div className="animate-float absolute -left-40 top-1/4 h-96 w-96 rounded-full bg-accent/10 blur-3xl" style={{ transform: "translateZ(0)", willChange: "transform" }} />
+        <div className="animate-float-slow absolute -right-40 bottom-1/4 h-96 w-96 rounded-full bg-accent-secondary/10 blur-3xl" style={{ transform: "translateZ(0)", willChange: "transform" }} />
+        <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5 blur-3xl" style={{ transform: "translate(-50%, -50%) translateZ(0)", willChange: "transform" }} />
         {/* Dot grid */}
         <div
           className="absolute inset-0 opacity-[0.025] dark:opacity-[0.04]"
@@ -91,8 +94,29 @@ export function Hero() {
           Hello, I&apos;m
         </p>
 
-        <h1 className="animate-fade-in-up text-4xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl [animation-delay:150ms]">
-          {siteConfig.name}
+        <h1 className="animate-fade-in-up text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl [animation-delay:150ms]">
+          <span
+            style={{
+              background:
+                "linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #a78bfa 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            Amirmohamad
+          </span>{" "}
+          <span
+            style={{
+              background:
+                "linear-gradient(135deg, #c084fc 0%, #ab53b3ff 50%, #9e44cfff 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            Karimian
+          </span>
         </h1>
 
         <div className="animate-fade-in-up mt-3 flex h-8 items-center justify-center overflow-hidden sm:h-10 [animation-delay:220ms]">
@@ -149,7 +173,7 @@ export function Hero() {
               label="Telegram"
             />
           </li>
-          </ul>
+        </ul>
 
         {/* ── Scroll indicator ──────────────────────────────────────── */}
         <a

@@ -4,7 +4,10 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
-  // lucide-react is already in Next.js's built-in optimizePackageImports list.
+  // Explicitly tree-shake lucide-react to only the icons used in the project.
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
   // compress: true is the default — no need to declare it.
   poweredByHeader: false,
 };

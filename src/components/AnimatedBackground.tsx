@@ -183,17 +183,26 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
       };
     });
 
-    /* ── Detect dark mode ────────────────────────────────────────── */
-    const isDark = () => document.documentElement.classList.contains("dark");
+    /* ── Cache dark mode — observe mutations instead of per-frame DOM query ──
+       Checking classList.contains("dark") 60×/s is a DOM access that can
+       block compositing. A MutationObserver fires only on actual change.    */
+    let darkCache = document.documentElement.classList.contains("dark");
+    const themeObserver = new MutationObserver(() => {
+      darkCache = document.documentElement.classList.contains("dark");
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
 
     /* ── Visibility / pause control ───────────────────────────────
        Stops the rAF loop entirely when the tab is hidden, so we
        burn zero CPU/battery in background tabs. */
     let isRunning = false;
 
-    /* ── Frame-skip for physics ───────────────────────────────────
+    /* ── Frame-skip for physics AND connections ────────────────────
        Redraw every rAF (smooth), but only advance particle/orb
-       physics and the O(n^2) connection pass every other frame.
+       physics and the O(n²) connection pass every other frame.
        Halves the heaviest work without visible quality loss. */
     let frameCount = 0;
 
@@ -201,10 +210,25 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
     const connectionLimitSq = CONNECTION_DISTANCE * CONNECTION_DISTANCE;
     const mouseRadSq = MOUSE_ATTRACTION_RADIUS * MOUSE_ATTRACTION_RADIUS;
 
+    /* ── Reusable alpha-bucket structure for batched connection strokes ──
+       Instead of allocating new Maps each frame, we reuse a fixed
+       array of buckets. Alpha is quantised to 8 steps so the number
+       of distinct strokeStyle strings stays very small. */
+    const ALPHA_STEPS = 8;
+    // connectionBuckets[i] holds an array of [ax,ay,bx,by] quads
+    const connectionBuckets: number[][] = Array.from(
+      { length: ALPHA_STEPS },
+      () => [],
+    );
+    const mouseBuckets: number[][] = Array.from(
+      { length: ALPHA_STEPS },
+      () => [],
+    );
+
     const loop = () => {
       if (!isRunning) return;
 
-      const dark = isDark();
+      const dark = darkCache;
       const shouldStepPhysics = frameCount % 2 === 0;
       frameCount++;
 
@@ -301,42 +325,85 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
         ctx.fill();
       }
 
-      /* ── Draw connections ───────────────────────────────────────── */
-      const connectionLight = dark ? 70 : 40;
-      ctx.lineWidth = 0.6;
-      for (let i = 0; i < particles.length; i++) {
-        const a = particles[i];
-        for (let j = i + 1; j < particles.length; j++) {
-          const b = particles[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const distSq = dx * dx + dy * dy;
+      /* ── Draw connections — batched by quantised alpha ───────────
+         Instead of one beginPath/stroke per pair (~1,770 calls/frame),
+         we bin segments into ALPHA_STEPS buckets and draw each bucket
+         as a single path. Reduces stroke calls from O(n²) to O(steps).
 
-          if (distSq < connectionLimitSq) {
-            const alpha = (1 - Math.sqrt(distSq) / CONNECTION_DISTANCE) * 0.15;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `hsla(${(a.hue + b.hue) / 2}, 70%, ${connectionLight}%, ${alpha})`;
-            ctx.stroke();
+         Connection pass is also frame-skipped (same as physics) to
+         halve the cost of the O(n²) distance checks.               */
+      if (shouldStepPhysics) {
+        const connectionLight = dark ? 70 : 40;
+        const avgHue = 245; // fixed mid-point — avoids per-pair hue calc
+
+        // Clear reusable buckets
+        for (let b = 0; b < ALPHA_STEPS; b++) connectionBuckets[b].length = 0;
+
+        for (let i = 0; i < particles.length; i++) {
+          const a = particles[i];
+          for (let j = i + 1; j < particles.length; j++) {
+            const b = particles[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const distSq = dx * dx + dy * dy;
+
+            if (distSq < connectionLimitSq) {
+              const alpha = (1 - Math.sqrt(distSq) / CONNECTION_DISTANCE) * 0.15;
+              // Quantise alpha to ALPHA_STEPS buckets
+              const bucket = Math.min(
+                Math.floor(alpha * (ALPHA_STEPS / 0.15)),
+                ALPHA_STEPS - 1,
+              );
+              const arr = connectionBuckets[bucket];
+              arr.push(a.x, a.y, b.x, b.y);
+            }
           }
         }
-      }
 
-      /* ── Mouse proximity connections ────────────────────────────── */
-      if (!prefersReducedMotion && mx > 0 && my > 0) {
-        ctx.lineWidth = 0.8;
-        for (const p of particles) {
-          const dx = mx - p.x;
-          const dy = my - p.y;
-          const distSq = dx * dx + dy * dy;
-          if (distSq < mouseRadSq) {
-            const alpha =
-              (1 - Math.sqrt(distSq) / MOUSE_ATTRACTION_RADIUS) * 0.25;
+        ctx.lineWidth = 0.6;
+        for (let b = 0; b < ALPHA_STEPS; b++) {
+          const arr = connectionBuckets[b];
+          if (arr.length === 0) continue;
+          const alpha = ((b + 0.5) / ALPHA_STEPS) * 0.15;
+          ctx.strokeStyle = `hsla(${avgHue}, 70%, ${connectionLight}%, ${alpha.toFixed(3)})`;
+          ctx.beginPath();
+          for (let k = 0; k < arr.length; k += 4) {
+            ctx.moveTo(arr[k], arr[k + 1]);
+            ctx.lineTo(arr[k + 2], arr[k + 3]);
+          }
+          ctx.stroke();
+        }
+
+        /* ── Mouse proximity connections — also batched ────────────── */
+        if (!prefersReducedMotion && mx > 0 && my > 0) {
+          for (let b = 0; b < ALPHA_STEPS; b++) mouseBuckets[b].length = 0;
+
+          for (const p of particles) {
+            const dx = mx - p.x;
+            const dy = my - p.y;
+            const distSq = dx * dx + dy * dy;
+            if (distSq < mouseRadSq) {
+              const alpha =
+                (1 - Math.sqrt(distSq) / MOUSE_ATTRACTION_RADIUS) * 0.25;
+              const bucket = Math.min(
+                Math.floor(alpha * (ALPHA_STEPS / 0.25)),
+                ALPHA_STEPS - 1,
+              );
+              mouseBuckets[bucket].push(p.x, p.y);
+            }
+          }
+
+          ctx.lineWidth = 0.8;
+          for (let b = 0; b < ALPHA_STEPS; b++) {
+            const arr = mouseBuckets[b];
+            if (arr.length === 0) continue;
+            const alpha = ((b + 0.5) / ALPHA_STEPS) * 0.25;
+            ctx.strokeStyle = `hsla(${avgHue}, 80%, ${connectionLight}%, ${alpha.toFixed(3)})`;
             ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(mx, my);
-            ctx.strokeStyle = `hsla(${p.hue}, 80%, ${connectionLight}%, ${alpha})`;
+            for (let k = 0; k < arr.length; k += 2) {
+              ctx.moveTo(arr[k], arr[k + 1]);
+              ctx.lineTo(mx, my);
+            }
             ctx.stroke();
           }
         }
@@ -372,6 +439,7 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
     return () => {
       stop();
       clearTimeout(resizeTimer);
+      themeObserver.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseleave", onMouseLeave);

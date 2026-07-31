@@ -6,37 +6,103 @@ import { navLinks, siteConfig } from "@/lib/data";
 import { scrollToSection } from "@/lib/scrollTo";
 import { ThemeToggle } from "./ThemeToggle";
 
-/* ── Desktop NavLink ───────────────────────────────────────────────────── */
+/* ── Desktop Nav ────────────────────────────────────────────────────────── */
 
-function DesktopNavLink({
-  href,
-  label,
-  isActive,
+function DesktopNav({
+  navLinks,
+  activeSection,
 }: {
-  href: string;
-  label: string;
-  isActive: boolean;
+  navLinks: Array<{ href: string; label: string }>;
+  activeSection: string;
 }) {
+  const navListRef = useRef<HTMLUListElement>(null);
+  const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
+  const [indicatorStyle, setIndicatorStyle] = useState<{
+    left: number;
+    width: number;
+    top: number;
+    height: number;
+    opacity: number;
+  }>({ left: 0, width: 0, top: 0, height: 0, opacity: 0 });
+
+  useEffect(() => {
+    const updateIndicator = () => {
+      const targetId = activeSection;
+      const linkEl = linkRefs.current[targetId];
+      const containerEl = navListRef.current;
+      if (linkEl && containerEl) {
+        const containerRect = containerEl.getBoundingClientRect();
+        const linkRect = linkEl.getBoundingClientRect();
+        setIndicatorStyle({
+          left: linkRect.left - containerRect.left,
+          width: linkRect.width,
+          top: linkRect.top - containerRect.top,
+          height: linkRect.height,
+          opacity: 1,
+        });
+      }
+    };
+
+    updateIndicator();
+
+    const containerEl = navListRef.current;
+    if (!containerEl) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateIndicator();
+    });
+
+    resizeObserver.observe(containerEl);
+    window.addEventListener("resize", updateIndicator);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updateIndicator);
+    };
+  }, [activeSection]);
+
   return (
-    <li>
-      <a
-        href={href}
-        onClick={(e) => scrollToSection(e, href)}
-        className={`relative rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${
-          isActive
-            ? "text-accent"
-            : "text-muted hover:bg-surface hover:text-foreground"
-        }`}
+    <ul ref={navListRef} className="relative hidden items-center gap-1 md:flex">
+      {/* ── Animated Sliding Background Pill & Underline ─────────── */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute rounded-lg bg-accent/10 transition-[transform,width,opacity] duration-300 cubic-bezier(0.25,1,0.5,1) will-change-[transform,width]"
+        style={{
+          transform: `translate3d(${indicatorStyle.left}px, ${indicatorStyle.top}px, 0)`,
+          width: `${indicatorStyle.width}px`,
+          height: `${indicatorStyle.height}px`,
+          opacity: indicatorStyle.opacity,
+        }}
       >
-        {label}
-        {isActive && (
-          <span
-            className="absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-gradient-to-r from-accent to-accent-secondary"
-            style={{ animation: "slide-in-right 0.25s ease-out both" }}
-          />
-        )}
-      </a>
-    </li>
+        <span
+          key={activeSection}
+          className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full bg-gradient-to-r from-accent to-accent-secondary shadow-[0_0_10px_var(--accent-glow)] animate-nav-line-expand"
+        />
+      </span>
+
+      {navLinks.map((link) => {
+        const sectionId = link.href.replace("#", "");
+        const isActive = activeSection === sectionId;
+        return (
+          <li key={link.href} className="relative z-10">
+            <a
+              ref={(el) => {
+                linkRefs.current[sectionId] = el;
+              }}
+              href={link.href}
+              onClick={(e) => scrollToSection(e, link.href)}
+              className={`block rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+                isActive
+                  ? "text-accent font-semibold"
+                  : "text-muted hover:text-foreground"
+              }`}
+            >
+              {link.label}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
@@ -187,23 +253,14 @@ export function Navbar() {
         </a>
 
         {/* ── Desktop Nav ──────────────────────────────────────────── */}
-        <ul className="hidden items-center gap-1 md:flex">
-          {navLinks.map((link) => (
-            <DesktopNavLink
-              key={link.href}
-              href={link.href}
-              label={link.label}
-              isActive={activeSection === link.href.replace("#", "")}
-            />
-          ))}
-        </ul>
+        <DesktopNav navLinks={navLinks} activeSection={activeSection} />
 
         {/* ── Right side ───────────────────────────────────────────── */}
         <div className="flex items-center gap-2 sm:gap-3">
           <a
             href={siteConfig.resume}
             download
-            className="hidden items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-2 text-sm font-medium text-accent transition-colors duration-150 hover:bg-accent/20 sm:inline-flex"
+            className="hidden items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-2 text-sm font-medium text-accent transition-[transform,background-color,border-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(99,102,241,0.25)] active:scale-95 sm:inline-flex"
           >
             <Download className="h-4 w-4" />
             <span className="hidden md:inline">Download CV</span>
@@ -275,7 +332,7 @@ export function Navbar() {
             href={siteConfig.resume}
             download
             onClick={closeMobile}
-            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-3 text-sm font-semibold text-accent transition-colors duration-150 hover:bg-accent/20"
+            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-3 text-sm font-semibold text-accent transition-[transform,background-color,border-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(99,102,241,0.25)] active:scale-95"
           >
             <Download className="h-4 w-4" />
             Download Resume

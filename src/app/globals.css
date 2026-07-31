@@ -230,7 +230,28 @@ body {
   }
 }
 
+@keyframes nav-line-expand {
+  0% {
+    transform: scaleX(0.3);
+    opacity: 0.5;
+  }
+  60% {
+    transform: scaleX(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
 /* ─── Utility Classes ───────────────────────────────────────────────────── */
+.animate-nav-line-expand {
+  animation: nav-line-expand 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
 .animate-fade-in {
   animation: fade-in 0.8s ease-out both;
 }
@@ -316,7 +337,6 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: gradient-shift 4s ease infinite;
-  will-change: background-position;
 }
 
 /* ─── Noise Overlay ────────────────────────────────────────────────────── */
