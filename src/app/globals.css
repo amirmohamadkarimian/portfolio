@@ -86,7 +86,6 @@
 
 html {
   background-color: var(--background);
-  scroll-behavior: smooth;
   view-transition-name: root;
 }
 
@@ -266,6 +265,15 @@ body {
   animation: float 8s ease-in-out infinite;
   will-change: transform;
 }
+
+/* On touch/low-power devices, disable the float animation on hero blobs
+   to avoid continuous compositor layers that cause scroll jank. */
+@media (pointer: coarse) {
+  .hero-blob {
+    animation: none !important;
+    will-change: auto !important;
+  }
+}
 .animate-spin-slow {
   animation: spin-slow 12s linear infinite;
 }
@@ -321,7 +329,6 @@ body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
-  will-change: transform;
 }
 
 .glow-accent {
@@ -332,11 +339,9 @@ body {
 
 .text-gradient {
   background: var(--gradient-primary);
-  background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: gradient-shift 4s ease infinite;
 }
 
 /* ─── Noise Overlay ────────────────────────────────────────────────────── */

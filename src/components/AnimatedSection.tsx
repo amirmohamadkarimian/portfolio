@@ -29,7 +29,7 @@ export function AnimatedSection({
           observer.unobserve(element);
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+      { threshold: 0.05 },
     );
 
     observer.observe(element);
@@ -40,8 +40,8 @@ export function AnimatedSection({
     <section
       id={id}
       ref={ref}
-      className={`transition-all duration-700 ease-out motion-reduce:transition-none ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+      className={`transition-all duration-500 ease-out motion-reduce:transition-none ${
+        visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
       } ${className}`}
       style={{
         transitionDelay: `${delay}ms`,

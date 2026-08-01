@@ -48,12 +48,12 @@ export function Hero() {
         {/* Mouse-following glow */}
         <div
           ref={glowRef}
-          className="absolute h-[400px] w-[400px] rounded-full bg-accent/10 blur-[100px] transition-opacity duration-150"
+          className="absolute h-[400px] w-[400px] rounded-full bg-accent/10 blur-[80px] transition-opacity duration-150"
           style={{ opacity: 0 }}
         />
-        <div className="animate-float absolute -left-40 top-1/4 h-96 w-96 rounded-full bg-accent/10 blur-3xl" style={{ transform: "translateZ(0)", willChange: "transform" }} />
-        <div className="animate-float-slow absolute -right-40 bottom-1/4 h-96 w-96 rounded-full bg-accent-secondary/10 blur-3xl" style={{ transform: "translateZ(0)", willChange: "transform" }} />
-        <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5 blur-3xl" style={{ transform: "translate(-50%, -50%) translateZ(0)", willChange: "transform" }} />
+        <div className="hero-blob animate-float absolute -left-40 top-1/4 h-96 w-96 rounded-full bg-accent/10 blur-3xl" />
+        <div className="hero-blob animate-float-slow absolute -right-40 bottom-1/4 h-96 w-96 rounded-full bg-accent-secondary/10 blur-3xl" />
+        <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5 blur-3xl" />
         {/* Dot grid */}
         <div
           className="absolute inset-0 opacity-[0.025] dark:opacity-[0.04]"

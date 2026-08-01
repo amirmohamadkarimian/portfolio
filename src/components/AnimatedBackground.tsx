@@ -28,14 +28,14 @@ interface GradientOrb {
 
 /* ── Constants ────────────────────────────────────────────────────────── */
 
-const PARTICLE_COUNT = 60;
-const ORB_COUNT = 4;
-const CONNECTION_DISTANCE = 140;
-const MOUSE_ATTRACTION_RADIUS = 200;
+const PARTICLE_COUNT = 40;
+const ORB_COUNT = 3;
+const CONNECTION_DISTANCE = 120;
+const MOUSE_ATTRACTION_RADIUS = 180;
 const MOUSE_ATTRACTION_FORCE = 0.012;
 
-const REDUCED_PARTICLE_COUNT = 24;
-const REDUCED_ORB_COUNT = 2;
+const REDUCED_PARTICLE_COUNT = 16;
+const REDUCED_ORB_COUNT = 1;
 
 /* ── Helpers ──────────────────────────────────────────────────────────── */
 
@@ -89,12 +89,12 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
     let particleCount = prefersReducedMotion
       ? REDUCED_PARTICLE_COUNT
       : isSmall
-        ? Math.max(28, Math.floor(PARTICLE_COUNT * 0.6))
+        ? REDUCED_PARTICLE_COUNT
         : PARTICLE_COUNT;
     const orbCount = prefersReducedMotion
       ? REDUCED_ORB_COUNT
       : isSmall
-        ? Math.max(1, Math.floor(ORB_COUNT * 0.5))
+        ? REDUCED_ORB_COUNT
         : ORB_COUNT;
 
     /* ── Size canvas to viewport ──────────────────────────────────── */
@@ -123,7 +123,7 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
         particleCount = prefersReducedMotion
           ? REDUCED_PARTICLE_COUNT
           : isSmall
-            ? Math.max(28, Math.floor(PARTICLE_COUNT * 0.6))
+            ? REDUCED_PARTICLE_COUNT
             : PARTICLE_COUNT;
       }, 100);
     };
@@ -332,7 +332,9 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
 
          Connection pass is also frame-skipped (same as physics) to
          halve the cost of the O(n²) distance checks.               */
-      if (shouldStepPhysics) {
+      /* Skip the O(n²) connection pass entirely on small screens —
+         biggest single win for low-end mobile scrolling. */
+      if (shouldStepPhysics && !isSmall) {
         const connectionLight = dark ? 70 : 40;
         const avgHue = 245; // fixed mid-point — avoids per-pair hue calc
 
