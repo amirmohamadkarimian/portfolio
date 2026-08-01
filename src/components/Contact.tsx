@@ -1,12 +1,86 @@
 "use client";
 
-import { Mail } from "lucide-react";
+import { Check, Copy, Mail } from "lucide-react";
 import { useState } from "react";
 import type React from "react";
 import { AnimatedSection } from "./AnimatedSection";
 import { SectionHeader } from "./ui/SectionHeader";
 
 const CONTACT_EMAIL = "karimian.dev@gmail.com";
+
+/* ── Direct Email ──────────────────────────────────────────────────────── */
+
+function DirectEmail() {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* fallback: select the text for manual copy */
+    }
+  };
+
+  return (
+    <div className="mx-auto mt-6 max-w-3xl">
+      <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-background/60 px-6 py-4 backdrop-blur-sm sm:flex-row sm:justify-between">
+        {/* Label + address */}
+        <div className="flex items-center gap-3 min-w-0">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
+            <Mail className="h-4 w-4" />
+          </span>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted">
+              Direct Email
+            </p>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="truncate text-sm font-medium text-foreground transition-colors duration-150 hover:text-accent"
+            >
+              {CONTACT_EMAIL}
+            </a>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="flex shrink-0 items-center gap-2">
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border bg-surface px-4 text-xs font-semibold text-foreground transition-[transform,border-color,color] duration-150 hover:-translate-y-px hover:border-accent/40 hover:text-accent active:scale-95"
+          >
+            <Mail className="h-3.5 w-3.5" />
+            Open Mail
+          </a>
+          <button
+            type="button"
+            id="copy-email-btn"
+            onClick={handleCopy}
+            aria-label={copied ? "Email copied!" : "Copy email address"}
+            className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-xs font-semibold transition-[transform,border-color,background-color,color] duration-150 active:scale-95 ${
+              copied
+                ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                : "border-accent/30 bg-accent/10 text-accent hover:-translate-y-px hover:bg-accent/15"
+            }`}
+          >
+            {copied ? (
+              <>
+                <Check className="h-3.5 w-3.5" />
+                Copied!
+              </>
+            ) : (
+              <>
+                <Copy className="h-3.5 w-3.5" />
+                Copy Email
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 /* ── Contact Section ───────────────────────────────────────────────────── */
 
@@ -146,6 +220,9 @@ export function Contact() {
             </button>
           </div>
         </form>
+
+        {/* ── Direct Email ──────────────────────────────────────── */}
+        <DirectEmail />
       </div>
     </AnimatedSection>
   );
