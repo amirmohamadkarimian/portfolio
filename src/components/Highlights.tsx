@@ -2,6 +2,7 @@ import { Bolt, Rocket, ShieldCheck, Sparkles } from "lucide-react";
 import { highlights } from "@/lib/data";
 import type { Highlight } from "@/lib/types";
 import { AnimatedSection } from "./AnimatedSection";
+import { ScrollRevealContainer, ScrollRevealItem } from "./ScrollReveal";
 import { SectionHeader } from "./ui/SectionHeader";
 
 const iconMap: Record<Highlight["icon"], typeof Rocket> = {
@@ -15,7 +16,8 @@ export function Highlights() {
   return (
     <AnimatedSection
       id="highlights"
-      delay={140}
+      direction="up"
+      delay={100}
       className="border-t border-border bg-surface/30 px-6 py-24 lg:px-8"
     >
       <div className="mx-auto max-w-6xl">
@@ -29,13 +31,20 @@ export function Highlights() {
           />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {highlights.map((item: Highlight) => {
+        <ScrollRevealContainer
+          stagger={100}
+          className="grid gap-6 md:grid-cols-2 xl:grid-cols-4"
+        >
+          {highlights.map((item: Highlight, index: number) => {
             const Icon = iconMap[item.icon] ?? Rocket;
 
             return (
-              <article
+              <ScrollRevealItem
                 key={item.title}
+                index={index}
+                direction="up"
+                distance="30px"
+                as="article"
                 className="group rounded-3xl border border-border bg-background/80 p-6 shadow-sm transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_20px_60px_rgba(99,102,241,0.12)]"
               >
                 <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-3xl bg-accent/10 text-accent transition-colors duration-200 group-hover:bg-accent/20">
@@ -47,11 +56,12 @@ export function Highlights() {
                 <p className="mt-3 text-sm leading-relaxed text-muted">
                   {item.description}
                 </p>
-              </article>
+              </ScrollRevealItem>
             );
           })}
-        </div>
+        </ScrollRevealContainer>
       </div>
     </AnimatedSection>
   );
 }
+

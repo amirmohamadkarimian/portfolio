@@ -2,6 +2,7 @@ import { ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { projects } from "@/lib/data";
 import { AnimatedSection } from "./AnimatedSection";
+import { ScrollRevealContainer, ScrollRevealItem } from "./ScrollReveal";
 import { GitHubIcon } from "./icons";
 import { SectionHeader } from "./ui/SectionHeader";
 
@@ -37,7 +38,7 @@ export function Projects() {
   return (
     <AnimatedSection
       id="projects"
-      delay={160}
+      delay={100}
       className="border-t border-border bg-surface/30 px-6 py-24 lg:px-8"
     >
       <div className="mx-auto max-w-6xl">
@@ -52,12 +53,18 @@ export function Projects() {
         </div>
 
         {/* ── Cards Grid ─────────────────────────────────────────────── */}
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <ScrollRevealContainer
+          stagger={120}
+          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+        >
           {projects.map((project, index) => (
-            <article
+            <ScrollRevealItem
               key={project.id}
+              index={index}
+              direction="up"
+              distance="36px"
+              as="article"
               className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-[transform,border-color,box-shadow] duration-150 hover:-translate-y-2 hover:border-accent/40 hover:shadow-[0_20px_60px_rgba(99,102,241,0.15)]"
-              style={{ transitionDelay: `${index * 80}ms` }}
             >
               {/* ── Card number ───────────────────────────────────── */}
               <span className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-xs font-bold text-accent backdrop-blur-sm ring-1 ring-border">
@@ -129,10 +136,11 @@ export function Projects() {
 
               {/* ── Bottom gradient glow line ──────────────────────── */}
               <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-accent to-accent-secondary transition-all duration-150 group-hover:w-full" />
-            </article>
+            </ScrollRevealItem>
           ))}
-        </div>
+        </ScrollRevealContainer>
       </div>
     </AnimatedSection>
   );
 }
+

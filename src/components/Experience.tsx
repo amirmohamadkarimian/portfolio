@@ -1,12 +1,13 @@
 import { journeyMilestones } from "@/lib/data";
 import { AnimatedSection } from "./AnimatedSection";
+import { ScrollRevealContainer, ScrollRevealItem } from "./ScrollReveal";
 import { SectionHeader } from "./ui/SectionHeader";
 
 export function Experience() {
   return (
     <AnimatedSection
       id="experience"
-      delay={200}
+      delay={100}
       className="border-t border-border px-6 py-24 lg:px-8"
     >
       <div className="mx-auto max-w-6xl">
@@ -41,10 +42,13 @@ export function Experience() {
             />
           </div>
 
-          <div className="space-y-12">
+          <ScrollRevealContainer stagger={140} className="space-y-12">
             {journeyMilestones.map((milestone, index) => (
-              <div
+              <ScrollRevealItem
                 key={milestone.year}
+                index={index}
+                direction={index % 2 === 0 ? "left" : "right"}
+                distance="32px"
                 className={`relative flex flex-col gap-4 sm:flex-row sm:items-center ${
                   index % 2 === 0 ? "sm:flex-row-reverse" : ""
                 }`}
@@ -80,11 +84,12 @@ export function Experience() {
                     <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                   </span>
                 </div>
-              </div>
+              </ScrollRevealItem>
             ))}
-          </div>
+          </ScrollRevealContainer>
         </div>
       </div>
     </AnimatedSection>
   );
 }
+

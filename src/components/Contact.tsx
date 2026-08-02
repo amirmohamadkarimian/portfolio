@@ -105,7 +105,8 @@ export function Contact() {
   return (
     <AnimatedSection
       id="contact"
-      delay={240}
+      delay={100}
+      direction="up"
       className="relative border-t border-border bg-surface/30 px-6 py-24 lg:px-8 overflow-hidden"
     >
       {/* ── Decorative background orb ────────────────────────────────── */}

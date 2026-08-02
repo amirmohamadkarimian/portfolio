@@ -5,6 +5,7 @@ import Image from "next/image";
 import { siteConfig } from "@/lib/data";
 import { scrollToSection } from "@/lib/scrollTo";
 import { AnimatedSection } from "./AnimatedSection";
+import { ScrollRevealContainer, ScrollRevealItem } from "./ScrollReveal";
 import { SectionHeader } from "./ui/SectionHeader";
 
 const stats = [
@@ -26,14 +27,19 @@ const standards = [
       "Hardware-accelerated animations that guide user intent without sacrificing performance or battery.",
   },
   {
-    title: "Sub-Second Load Times & SEO",
+    title: "Pixel-Perfect Design Precision",
     description:
-      "Optimized Next.js App Router setup with dynamic SSR/SSG, crisp images, and lean JS bundles.",
+      "Translating Figma concepts into modern responsive CSS with clean layout structures.",
   },
   {
-    title: "Product-Driven Collaboration",
+    title: "Strict Type Safety & Architecture",
     description:
-      "Translating Figma comps into accessible code while keeping git histories clean and communication direct.",
+      "Leveraging TypeScript & modern state management to keep complex apps predictable.",
+  },
+  {
+    title: "Performance & SEO Optimization",
+    description:
+      "Ensuring rapid initial paint, high Core Web Vitals, and standard open graph meta tags.",
   },
 ];
 
@@ -138,29 +144,37 @@ export function About() {
                   <Sparkles className="h-3.5 w-3.5 text-accent" />
                   Primary Production Stack
                 </p>
-                <ul
+                <ScrollRevealContainer
+                  as="ul"
+                  stagger={60}
                   aria-label="Primary production stack technologies"
                   className="flex flex-wrap gap-2"
                 >
-                  {techPills.map((tech) => (
-                    <li
+                  {techPills.map((tech, i) => (
+                    <ScrollRevealItem
                       key={tech}
+                      as="li"
+                      index={i}
+                      direction="zoom-in"
+                      distance="12px"
                       className="rounded-full border border-border bg-surface px-3.5 py-1.5 text-xs font-semibold text-foreground transition-colors duration-150 hover:border-accent/40 hover:text-accent"
                     >
                       {tech}
-                    </li>
+                    </ScrollRevealItem>
                   ))}
-                </ul>
+                </ScrollRevealContainer>
               </div>
             </div>
 
             {/* Stat Cards (2x2 Grid) */}
-            <div className="grid grid-cols-2 gap-4">
+            <ScrollRevealContainer stagger={80} className="grid grid-cols-2 gap-4">
               {stats.map(({ value, label }, index) => (
-                <div
+                <ScrollRevealItem
                   key={label}
+                  index={index}
+                  direction="up"
+                  distance="24px"
                   className="group relative overflow-hidden rounded-2xl border border-border bg-surface/80 p-5 text-center shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_10px_30px_rgba(99,102,241,0.12)]"
-                  style={{ animationDelay: `${index * 80}ms` }}
                 >
                   <div className="absolute -right-2 -top-2 h-12 w-12 rounded-full bg-accent/5 transition-transform duration-300 group-hover:scale-150" />
                   <p className="text-3xl font-extrabold text-gradient">
@@ -169,9 +183,9 @@ export function About() {
                   <p className="mt-2 text-xs font-bold uppercase tracking-wider text-muted">
                     {label}
                   </p>
-                </div>
+                </ScrollRevealItem>
               ))}
-            </div>
+            </ScrollRevealContainer>
           </div>
 
           {/* Right Column (4 cols): Working Standards & Direct Call to Action */}
@@ -182,9 +196,15 @@ export function About() {
                 <CheckCircle2 className="h-5 w-5 text-accent" />
                 What I Bring to the Team
               </h3>
-              <div className="mt-6 flex-1 space-y-5">
-                {standards.map((item) => (
-                  <div key={item.title} className="group flex gap-3">
+              <ScrollRevealContainer stagger={100} className="mt-6 flex-1 space-y-5">
+                {standards.map((item, index) => (
+                  <ScrollRevealItem
+                    key={item.title}
+                    index={index}
+                    direction="right"
+                    distance="20px"
+                    className="group flex gap-3"
+                  >
                     <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent transition-colors group-hover:bg-accent group-hover:text-white">
                       ✓
                     </span>
@@ -196,13 +216,18 @@ export function About() {
                         {item.description}
                       </p>
                     </div>
-                  </div>
+                  </ScrollRevealItem>
                 ))}
-              </div>
+              </ScrollRevealContainer>
             </div>
 
             {/* Direct Hire / CTA Card (Focal point with accent glow) */}
-            <div className="group relative overflow-hidden rounded-3xl border border-accent/40 bg-gradient-to-br from-accent/10 via-surface to-accent-secondary/10 p-7 shadow-lg shadow-accent/5 backdrop-blur-md transition-all duration-200 hover:border-accent hover:shadow-[0_0_40px_rgba(99,102,241,0.2)]">
+            <ScrollRevealItem
+              direction="up"
+              distance="30px"
+              index={0}
+              className="group relative overflow-hidden rounded-3xl border border-accent/40 bg-gradient-to-br from-accent/10 via-surface to-accent-secondary/10 p-7 shadow-lg shadow-accent/5 backdrop-blur-md transition-all duration-200 hover:border-accent hover:shadow-[0_0_40px_rgba(99,102,241,0.2)]"
+            >
               <div className="relative z-10">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-accent ring-1 ring-accent/30">
                   <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
@@ -235,7 +260,7 @@ export function About() {
                   </a>
                 </div>
               </div>
-            </div>
+            </ScrollRevealItem>
           </div>
         </div>
       </div>

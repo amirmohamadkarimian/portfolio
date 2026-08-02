@@ -1,11 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
+import { ScrollReveal, type AnimationDirection } from "./ScrollReveal";
 
 type AnimatedSectionProps = {
   children: ReactNode;
   className?: string;
   delay?: number;
+  duration?: number;
+  direction?: AnimationDirection;
+  blur?: boolean;
+  distance?: string | number;
+  once?: boolean;
+  threshold?: number;
+  rootMargin?: string;
   id?: string;
 };
 
@@ -13,44 +21,31 @@ export function AnimatedSection({
   children,
   className = "",
   delay = 0,
+  duration = 700,
+  direction = "up",
+  blur = true,
+  distance = "32px",
+  once = true,
+  threshold = 0.1,
+  rootMargin = "0px 0px -50px 0px",
   id,
 }: AnimatedSectionProps) {
-  const ref = useRef<HTMLElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(element);
-        }
-      },
-      { threshold: 0.05 },
-    );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section
+    <ScrollReveal
+      as="section"
       id={id}
-      ref={ref}
-      className={`transition-all duration-500 ease-out motion-reduce:transition-none ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-      } ${className}`}
-      style={{
-        transitionDelay: `${delay}ms`,
-        /* Keep the compositor layer only while the entry animation is
-           in-flight; once visible the layer is released to free GPU memory. */
-        willChange: visible ? "auto" : "transform, opacity",
-      }}
+      direction={direction}
+      delay={delay}
+      duration={duration}
+      blur={blur}
+      distance={distance}
+      once={once}
+      threshold={threshold}
+      rootMargin={rootMargin}
+      className={className}
     >
       {children}
-    </section>
+    </ScrollReveal>
   );
 }
+

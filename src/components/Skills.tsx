@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import { additionalSkills, coreSkills } from "@/lib/data";
 import type { IconProps } from "@/lib/types";
 import { AnimatedSection } from "./AnimatedSection";
+import { ScrollRevealContainer, ScrollRevealItem } from "./ScrollReveal";
 import {
   GitHubIcon,
   GitIcon,
@@ -56,23 +57,32 @@ function CoreSkillBadge({ label, index }: { label: string; index: number }) {
   const color = config?.color ?? "hover:text-accent hover:border-accent/40";
 
   return (
-    <li
+    <ScrollRevealItem
+      as="li"
+      index={index}
+      direction="zoom-in"
+      distance="20px"
       className={`badge-shine group relative inline-flex cursor-default items-center gap-2.5 rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm transition-[transform,background-color,box-shadow,border-color] duration-150 hover:-translate-y-1 hover:bg-accent/5 hover:shadow-[0_4px_20px_rgba(99,102,241,0.18)] ${color}`}
-      style={{ animationDelay: `${index * 60}ms` }}
     >
       {Icon && (
         <Icon className="h-4 w-4 transition-transform duration-150 group-hover:scale-110" />
       )}
       <span>{label}</span>
-    </li>
+    </ScrollRevealItem>
   );
 }
 
-function AdditionalSkillBadge({ label }: { label: string }) {
+function AdditionalSkillBadge({ label, index }: { label: string; index: number }) {
   return (
-    <li className="inline-flex cursor-default items-center rounded-full bg-surface/80 px-4 py-2 text-sm font-medium text-muted transition-[transform,background-color,color,box-shadow] duration-150 hover:-translate-y-0.5 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]">
+    <ScrollRevealItem
+      as="li"
+      index={index}
+      direction="up"
+      distance="16px"
+      className="inline-flex cursor-default items-center rounded-full bg-surface/80 px-4 py-2 text-sm font-medium text-muted transition-[transform,background-color,color,box-shadow] duration-150 hover:-translate-y-0.5 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
+    >
       {label}
-    </li>
+    </ScrollRevealItem>
   );
 }
 
@@ -80,7 +90,7 @@ export function Skills() {
   return (
     <AnimatedSection
       id="skills"
-      delay={120}
+      delay={100}
       className="relative overflow-hidden border-t border-border px-6 py-24 lg:px-8"
     >
       {/* Decorative background */}
@@ -103,14 +113,16 @@ export function Skills() {
           <h3 className="mb-9 text-center text-xs font-bold uppercase tracking-widest text-muted">
             Core Technologies
           </h3>
-          <ul
+          <ScrollRevealContainer
+            as="ul"
+            stagger={70}
             aria-label="Core technologies"
             className="flex flex-wrap justify-center gap-3"
           >
             {coreSkills.map((skill, i) => (
               <CoreSkillBadge key={skill} label={skill} index={i} />
             ))}
-          </ul>
+          </ScrollRevealContainer>
         </div>
 
         {/* ── Additional Skills ───────────────────────────────────────── */}
@@ -118,16 +130,19 @@ export function Skills() {
           <h3 className="mb-9 text-center text-xs font-bold uppercase tracking-widest text-muted">
             Additional Skills
           </h3>
-          <ul
+          <ScrollRevealContainer
+            as="ul"
+            stagger={50}
             aria-label="Additional skills and expertise"
             className="flex flex-wrap justify-center gap-3"
           >
-            {additionalSkills.map((skill) => (
-              <AdditionalSkillBadge key={skill} label={skill} />
+            {additionalSkills.map((skill, i) => (
+              <AdditionalSkillBadge key={skill} label={skill} index={i} />
             ))}
-          </ul>
+          </ScrollRevealContainer>
         </div>
       </div>
     </AnimatedSection>
   );
 }
+
