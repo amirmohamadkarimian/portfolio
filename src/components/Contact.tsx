@@ -107,7 +107,7 @@ export function Contact() {
       id="contact"
       delay={100}
       direction="up"
-      className="relative border-t border-border bg-surface/30 px-6 py-24 lg:px-8 overflow-hidden"
+      className="relative border-t border-border bg-background px-6 py-24 lg:px-8 overflow-hidden"
     >
       {/* ── Decorative background orb ────────────────────────────────── */}
       <div className="pointer-events-none absolute -right-32 top-1/4 h-80 w-80 rounded-full bg-accent/8 blur-[100px]" />
