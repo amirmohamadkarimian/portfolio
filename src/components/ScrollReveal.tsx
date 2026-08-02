@@ -136,17 +136,16 @@ export function ScrollReveal({
     ...style,
     opacity: isVisible ? 1 : 0,
     transform: getTransform(),
-    filter: blur ? (isVisible ? "blur(0px)" : "blur(8px)") : "none",
-    transition: `opacity ${duration}ms ${easing}, transform ${duration}ms ${easing}, filter ${duration}ms ${easing}`,
+    transition: `opacity ${duration}ms ${easing}, transform ${duration}ms ${easing}`,
     transitionDelay: `${delay}ms`,
-    willChange: isVisible ? "auto" : "opacity, transform, filter",
+    willChange: isVisible ? "auto" : "opacity, transform",
   };
 
   return (
     <Component
       id={id}
       ref={ref}
-      className={`motion-reduce:!transform-none motion-reduce:!opacity-100 motion-reduce:!filter-none motion-reduce:!transition-none ${className}`}
+      className={`motion-reduce:!transform-none motion-reduce:!opacity-100 motion-reduce:!transition-none ${className}`}
       style={computedStyle}
       {...restProps}
     >
@@ -264,15 +263,14 @@ export function ScrollRevealItem({
     ...style,
     opacity: isVisible ? 1 : 0,
     transform: getTransform(),
-    filter: blur ? (isVisible ? "blur(0px)" : "blur(8px)") : "none",
-    transition: `opacity ${duration}ms ${easing}, transform ${duration}ms ${easing}, filter ${duration}ms ${easing}`,
+    transition: `opacity ${duration}ms ${easing}, transform ${duration}ms ${easing}`,
     transitionDelay: `${calculatedDelay}ms`,
-    willChange: isVisible ? "auto" : "opacity, transform, filter",
+    willChange: isVisible ? "auto" : "opacity, transform",
   };
 
   return (
     <Component
-      className={`motion-reduce:!transform-none motion-reduce:!opacity-100 motion-reduce:!filter-none motion-reduce:!transition-none ${className}`}
+      className={`motion-reduce:!transform-none motion-reduce:!opacity-100 motion-reduce:!transition-none ${className}`}
       style={computedStyle}
       {...restProps}
     >

@@ -454,7 +454,7 @@ export const AnimatedBackground = memo(function AnimatedBackground() {
       ref={canvasRef}
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0"
-      style={{ opacity: 0.7 }}
+      style={{ opacity: 0.7, willChange: "transform", contain: "strict" }}
     />
   );
 });

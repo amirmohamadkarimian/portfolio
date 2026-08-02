@@ -103,7 +103,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <AnimatedBackgroundWrapper />
-          <div className="relative z-10 flex min-h-full flex-col">
+          <div className="relative z-10 flex min-h-full flex-col" style={{ contain: "layout style" }}>
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
