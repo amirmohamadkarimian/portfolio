@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, CheckCircle2, Mail, Sparkles, Zap } from "lucide-react";
+import { ArrowRight, CheckCircle2, Code2, Mail, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { siteConfig } from "@/lib/data";
 import { scrollToSection } from "@/lib/scrollTo";
@@ -9,37 +9,27 @@ import { ScrollRevealContainer, ScrollRevealItem } from "./ScrollReveal";
 import { SectionHeader } from "./ui/SectionHeader";
 
 const stats = [
-  { value: "3+", label: "Years Crafting Web Apps" },
-  { value: "10+", label: "Projects & Demos Built" },
-  { value: "15+", label: "Tech Stack" },
-  { value: "<100ms", label: "UI Interaction Speed" },
+  { value: "3+", label: "Years Experience" },
+  { value: "10+", label: "Projects Completed" },
+  { value: "100%", label: "Responsive Design" },
+  { value: "Clean", label: "Type-Safe Code" },
 ];
 
-const standards = [
+const focusAreas = [
   {
-    title: "Strict TypeScript Architecture",
+    title: "Clean Code & Type Safety",
     description:
-      "Zero implicit any, end-to-end type safety, and predictable state control that prevents production bugs.",
+      "Writing maintainable TypeScript and building modular React components that scale predictably.",
   },
   {
-    title: "60fps Motion & Fluid Micro-Interactions",
+    title: "Responsive & Accessible UI",
     description:
-      "Hardware-accelerated animations that guide user intent without sacrificing performance or battery.",
+      "Crafting pixel-perfect layouts using Tailwind CSS that work seamlessly across all screen sizes.",
   },
   {
-    title: "Pixel-Perfect Design Precision",
+    title: "Performance & Usability",
     description:
-      "Translating Figma concepts into modern responsive CSS with clean layout structures.",
-  },
-  {
-    title: "Strict Type Safety & Architecture",
-    description:
-      "Leveraging TypeScript & modern state management to keep complex apps predictable.",
-  },
-  {
-    title: "Performance & SEO Optimization",
-    description:
-      "Ensuring rapid initial paint, high Core Web Vitals, and standard open graph meta tags.",
+      "Optimizing load speeds, Core Web Vitals, and smooth interactive experiences.",
   },
 ];
 
@@ -48,8 +38,8 @@ const techPills = [
   "Next.js",
   "TypeScript",
   "Tailwind CSS",
-  "Motion UI",
   "REST APIs",
+  "Git & GitHub",
 ];
 
 export function About() {
@@ -60,34 +50,34 @@ export function About() {
       className="relative border-t border-border bg-surface/30 px-6 py-24 lg:px-8"
     >
       {/* Decorative ambient background blur */}
-      <div className="pointer-events-none absolute left-10 top-1/3 h-72 w-72 rounded-full bg-accent/8 blur-[100px]" />
-      <div className="pointer-events-none absolute right-10 bottom-10 h-80 w-80 rounded-full bg-accent-secondary/8 blur-[120px]" />
+      <div className="pointer-events-none absolute left-10 top-1/3 h-72 w-72 rounded-full bg-accent/5 blur-[100px]" />
+      <div className="pointer-events-none absolute right-10 bottom-10 h-80 w-80 rounded-full bg-accent-secondary/5 blur-[120px]" />
 
       <div className="relative mx-auto max-w-6xl">
         {/* ── Section Header ─────────────────────────────────────────── */}
         <div className="mb-14">
           <SectionHeader
-            label="Engineering & Vision"
-            title="Beyond the"
-            gradientWord="Code"
-            description="A frontend developer who bridges modern web architecture with high-converting, fluid user experience."
+            label="About Me"
+            title="Background &"
+            gradientWord="Focus"
+            description="A frontend developer dedicated to building clean, fast, and responsive user interfaces."
             centered
           />
         </div>
 
         {/* ── Main Layout: Asymmetric Bento Grid ────────────────────── */}
         <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
-          {/* Left Column (8 cols): Bio & Stats */}
+          {/* Left Column (7 cols): Bio & Stats */}
           <div className="flex flex-col gap-6 lg:col-span-7">
             {/* Bio Card */}
-            <div className="group relative flex flex-1 flex-col justify-between overflow-hidden rounded-3xl border border-border bg-background/90 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-accent/30 hover:shadow-[0_12px_40px_rgba(99,102,241,0.08)]">
+            <div className="group relative flex flex-1 flex-col justify-between overflow-hidden rounded-3xl border border-border bg-background/90 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-accent/30 hover:shadow-[0_12px_40px_rgba(99,102,241,0.06)]">
               {/* Noise texture overlay */}
               <div className="noise-overlay absolute inset-0" />
 
               <div className="relative z-10 space-y-6">
-                {/* Intro Avatar + Badge Header */}
+                {/* Intro Avatar + Role Header */}
                 <div className="flex items-center gap-4">
-                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border-2 border-accent/40 shadow-md">
+                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-border shadow-sm">
                     <Image
                       src="/profile.png"
                       alt={siteConfig.name}
@@ -102,38 +92,26 @@ export function About() {
                       {siteConfig.name}
                     </h3>
                     <p className="flex items-center gap-2 text-sm font-medium text-accent">
-                      <Zap className="h-3.5 w-3.5 fill-accent" />
-                      Frontend Specialist &amp; UI Architect
+                      <Code2 className="h-4 w-4 text-accent" />
+                      Frontend Developer
                     </p>
                   </div>
                 </div>
 
                 {/* Main Pitch Narrative */}
-                <div className="space-y-4 text-base leading-relaxed text-foreground">
-                  <p className="font-medium text-foreground">
-                    I don&apos;t just write code — I build web applications
-                    people actually enjoy using.
+                <div className="space-y-4 text-sm leading-relaxed text-foreground/90">
+                  <p className="text-base font-medium text-foreground">
+                    I focus on building functional, responsive, and user-friendly web applications.
                   </p>
-                  <p className="text-sm leading-relaxed text-foreground/90">
+                  <p>
                     Specializing in{" "}
                     <strong className="font-semibold text-foreground">
-                      React, Next.js, and strict TypeScript
+                      React, Next.js, and TypeScript
                     </strong>
-                    , I focus on shipping high-performance user interfaces. From
-                    engineering dynamic banking dashboards like{" "}
-                    <span className="text-accent font-medium">Banky</span> to
-                    live weather platforms like{" "}
-                    <span className="text-accent font-medium">Weatherly</span>,
-                    my focus stays anchored on sub-second loads and 98+
-                    Lighthouse scores.
+                    , I bridge the gap between design and clean code implementation. I enjoy turning complex ideas into simple, clear digital interfaces.
                   </p>
-                  <p className="text-sm leading-relaxed text-foreground/90">
-                    <strong className="font-semibold text-foreground">
-                      My work philosophy:
-                    </strong>{" "}
-                    Great software is invisible. Users shouldn&apos;t think
-                    about state machines or memoized hooks — they should simply
-                    feel speed, clarity, and zero friction.
+                  <p>
+                    My approach is straightforward: prioritize performance, maintain clear component structure, and keep user experience smooth across all devices.
                   </p>
                 </div>
               </div>
@@ -142,12 +120,12 @@ export function About() {
               <div className="relative z-10 mt-8 border-t border-border/60 pt-6">
                 <p className="mb-3 text-xs font-bold uppercase tracking-wider text-muted flex items-center gap-1.5">
                   <Sparkles className="h-3.5 w-3.5 text-accent" />
-                  Primary Production Stack
+                  Core Technologies
                 </p>
                 <ScrollRevealContainer
                   as="ul"
                   stagger={60}
-                  aria-label="Primary production stack technologies"
+                  aria-label="Core technologies list"
                   className="flex flex-wrap gap-2"
                 >
                   {techPills.map((tech, i) => (
@@ -174,13 +152,12 @@ export function About() {
                   index={index}
                   direction="up"
                   distance="24px"
-                  className="group relative overflow-hidden rounded-2xl border border-border bg-surface/80 p-5 text-center shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_10px_30px_rgba(99,102,241,0.12)]"
+                  className="group relative overflow-hidden rounded-2xl border border-border bg-surface/80 p-5 text-center shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_10px_30px_rgba(99,102,241,0.08)]"
                 >
-                  <div className="absolute -right-2 -top-2 h-12 w-12 rounded-full bg-accent/5 transition-transform duration-300 group-hover:scale-150" />
-                  <p className="text-3xl font-extrabold text-gradient">
+                  <p className="text-2xl font-bold text-gradient">
                     {value}
                   </p>
-                  <p className="mt-2 text-xs font-bold uppercase tracking-wider text-muted">
+                  <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-muted">
                     {label}
                   </p>
                 </ScrollRevealItem>
@@ -188,16 +165,16 @@ export function About() {
             </ScrollRevealContainer>
           </div>
 
-          {/* Right Column (4 cols): Working Standards & Direct Call to Action */}
+          {/* Right Column (5 cols): Development Focus & Call to Action */}
           <div className="flex flex-col gap-6 lg:col-span-5">
-            {/* Engineering Standards Card */}
+            {/* Development Focus Card */}
             <div className="flex flex-1 flex-col rounded-3xl border border-border bg-background/90 p-7 shadow-sm backdrop-blur-sm">
-              <h3 className="flex items-center gap-2 text-lg font-bold text-foreground">
+              <h3 className="flex items-center gap-2 text-base font-bold text-foreground">
                 <CheckCircle2 className="h-5 w-5 text-accent" />
-                What I Bring to the Team
+                What I Focus On
               </h3>
               <ScrollRevealContainer stagger={100} className="mt-6 flex-1 space-y-5">
-                {standards.map((item, index) => (
+                {focusAreas.map((item, index) => (
                   <ScrollRevealItem
                     key={item.title}
                     index={index}
@@ -205,7 +182,7 @@ export function About() {
                     distance="20px"
                     className="group flex gap-3"
                   >
-                    <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent transition-colors group-hover:bg-accent group-hover:text-white">
+                    <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-accent/10 text-xs font-bold text-accent">
                       ✓
                     </span>
                     <div>
@@ -221,42 +198,37 @@ export function About() {
               </ScrollRevealContainer>
             </div>
 
-            {/* Direct Hire / CTA Card (Focal point with accent glow) */}
+            {/* Direct Contact Card */}
             <ScrollRevealItem
               direction="up"
               distance="30px"
               index={0}
-              className="group relative overflow-hidden rounded-3xl border border-accent/40 bg-gradient-to-br from-accent/10 via-surface to-accent-secondary/10 p-7 shadow-lg shadow-accent/5 backdrop-blur-md transition-all duration-200 hover:border-accent hover:shadow-[0_0_40px_rgba(99,102,241,0.2)]"
+              className="group relative overflow-hidden rounded-3xl border border-border bg-surface p-7 shadow-sm transition-all duration-200 hover:border-accent/40"
             >
               <div className="relative z-10">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-accent ring-1 ring-accent/30">
-                  <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-                  Available for Hire
-                </span>
-                <h3 className="mt-4 text-xl font-bold text-foreground">
-                  Ready to build a high-impact web product?
+                <h3 className="text-lg font-bold text-foreground">
+                  Interested in Working Together?
                 </h3>
                 <p className="mt-2 text-xs leading-relaxed text-muted">
-                  Open for full-time frontend engineering roles and select
-                  contract work.
+                  Open for frontend developer roles, team opportunities, and select projects.
                 </p>
 
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <a
                     href="#contact"
                     onClick={(e) => scrollToSection(e, "#contact")}
-                    className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-5 text-sm font-semibold text-white transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(99,102,241,0.4)] active:scale-[0.98]"
+                    className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-accent px-5 text-xs font-semibold text-white transition-all duration-150 hover:bg-accent-hover active:scale-[0.98]"
                   >
-                    <Mail className="h-4 w-4" />
-                    Book a Quick Chat
+                    <Mail className="h-3.5 w-3.5" />
+                    Get in Touch
                   </a>
                   <a
                     href="#projects"
                     onClick={(e) => scrollToSection(e, "#projects")}
-                    className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-border bg-surface px-5 text-sm font-semibold text-foreground transition-all duration-150 hover:-translate-y-0.5 hover:border-accent/40 hover:text-accent active:scale-[0.98]"
+                    className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-border bg-background px-5 text-xs font-semibold text-foreground transition-all duration-150 hover:border-accent/40 hover:text-accent active:scale-[0.98]"
                   >
-                    View My Work
-                    <ArrowRight className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-1" />
+                    View Projects
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-1" />
                   </a>
                 </div>
               </div>
@@ -267,3 +239,4 @@ export function About() {
     </AnimatedSection>
   );
 }
+

@@ -109,7 +109,7 @@ export function Hero() {
           <span
             style={{
               background:
-                "linear-gradient(135deg, #c084fc 0%, #ab53b3ff 50%, #9e44cfff 100%)",
+                "linear-gradient(135deg, #c084fc 0%, #a652fe 50%, #7000ff 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
