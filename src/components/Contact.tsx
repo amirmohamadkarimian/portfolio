@@ -24,7 +24,7 @@ function DirectEmail() {
   };
 
   return (
-    <div className="mx-auto mt-6 max-w-3xl">
+    <div className="mx-auto max-w-3xl">
       <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-background/60 px-6 py-4 backdrop-blur-sm sm:flex-row sm:justify-between">
         {/* Label + address */}
         <div className="flex items-center gap-3 min-w-0">
@@ -107,7 +107,7 @@ export function Contact() {
       id="contact"
       delay={100}
       direction="up"
-      className="relative border-t border-border bg-background px-6 py-24 lg:px-8 overflow-hidden"
+      className="relative border-t border-border px-6 py-24 lg:px-8 overflow-hidden"
     >
       {/* ── Decorative background orb ────────────────────────────────── */}
       <div className="pointer-events-none absolute -right-32 top-1/4 h-80 w-80 rounded-full bg-accent/8 blur-[100px]" />
@@ -139,9 +139,12 @@ export function Contact() {
           </div>
         </div>
 
+        {/* ── Direct Email ──────────────────────────────────────── */}
+        <DirectEmail />
+
         <form
           onSubmit={handleSubmit}
-          className="relative mx-auto max-w-3xl space-y-6 rounded-3xl border border-border bg-background/80 p-8 shadow-sm backdrop-blur-sm"
+          className="relative mx-auto mt-6 max-w-3xl space-y-6 rounded-3xl border border-border bg-background/80 p-8 shadow-sm backdrop-blur-sm"
         >
           {/* Subtle noise texture on form */}
           <div className="noise-overlay absolute inset-0 rounded-3xl" />
@@ -221,9 +224,6 @@ export function Contact() {
             </button>
           </div>
         </form>
-
-        {/* ── Direct Email ──────────────────────────────────────── */}
-        <DirectEmail />
       </div>
     </AnimatedSection>
   );

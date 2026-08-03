@@ -47,7 +47,7 @@ export function About() {
     <AnimatedSection
       id="about"
       delay={80}
-      className="relative border-t border-border bg-surface/30 px-6 py-24 lg:px-8"
+      className="relative border-t border-border bg-surface/30 px-6 py-16 lg:py-24 lg:px-8"
     >
       {/* Decorative ambient background blur */}
       <div className="pointer-events-none absolute left-10 top-1/3 h-72 w-72 rounded-full bg-accent/5 blur-[100px]" />
@@ -55,7 +55,7 @@ export function About() {
 
       <div className="relative mx-auto max-w-6xl">
         {/* ── Section Header ─────────────────────────────────────────── */}
-        <div className="mb-14">
+        <div className="mb-10 lg:mb-14">
           <SectionHeader
             label="About Me"
             title="Background &"
@@ -66,11 +66,11 @@ export function About() {
         </div>
 
         {/* ── Main Layout: Asymmetric Bento Grid ────────────────────── */}
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
+        <div className="grid gap-6 lg:gap-8 lg:grid-cols-12 lg:items-stretch">
           {/* Left Column (7 cols): Bio & Stats */}
           <div className="flex flex-col gap-6 lg:col-span-7">
             {/* Bio Card */}
-            <div className="group relative flex flex-1 flex-col justify-between overflow-hidden rounded-3xl border border-border bg-background/90 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-accent/30 hover:shadow-[0_12px_40px_rgba(99,102,241,0.06)]">
+            <div className="group relative flex flex-col lg:flex-1 lg:justify-between overflow-hidden rounded-3xl border border-border bg-background/90 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-accent/30 hover:shadow-[0_12px_40px_rgba(99,102,241,0.06)]">
               {/* Noise texture overlay */}
               <div className="noise-overlay absolute inset-0" />
 
@@ -168,7 +168,7 @@ export function About() {
           {/* Right Column (5 cols): Development Focus & Call to Action */}
           <div className="flex flex-col gap-6 lg:col-span-5">
             {/* Development Focus Card */}
-            <div className="flex flex-1 flex-col rounded-3xl border border-border bg-background/90 p-7 shadow-sm backdrop-blur-sm">
+            <div className="flex flex-col rounded-3xl border border-border bg-background/90 p-7 shadow-sm backdrop-blur-sm">
               <h3 className="flex items-center gap-2 text-base font-bold text-foreground">
                 <CheckCircle2 className="h-5 w-5 text-accent" />
                 What I Focus On
