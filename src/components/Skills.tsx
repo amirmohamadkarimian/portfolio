@@ -62,7 +62,7 @@ function CoreSkillBadge({ label, index }: { label: string; index: number }) {
       index={index}
       direction="zoom-in"
       distance="20px"
-      className={`badge-shine group relative inline-flex cursor-default items-center gap-2.5 rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm transition-[transform,background-color,box-shadow,border-color] duration-150 hover:-translate-y-1 hover:bg-accent/5 hover:shadow-[0_4px_20px_rgba(99,102,241,0.18)] ${color}`}
+      className={`badge-shine group relative inline-flex cursor-default items-center gap-2.5 rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm transition-[transform,background-color,box-shadow,border-color] duration-150 hover:bg-accent/5 hover:shadow-[0_4px_20px_rgba(99,102,241,0.18)] ${color}`}
     >
       {Icon && (
         <Icon className="h-4 w-4 transition-transform duration-150 group-hover:scale-110" />
@@ -79,7 +79,7 @@ function AdditionalSkillBadge({ label, index }: { label: string; index: number }
       index={index}
       direction="up"
       distance="16px"
-      className="inline-flex cursor-default items-center rounded-full bg-surface/80 px-4 py-2 text-sm font-medium text-muted transition-[transform,background-color,color,box-shadow] duration-150 hover:-translate-y-0.5 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
+      className="inline-flex cursor-default items-center rounded-full bg-surface/80 px-4 py-2 text-sm font-medium text-muted transition-[transform,background-color,color,box-shadow] duration-150 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
     >
       {label}
     </ScrollRevealItem>

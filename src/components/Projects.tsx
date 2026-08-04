@@ -64,7 +64,7 @@ export function Projects() {
               direction="up"
               distance="36px"
               as="article"
-              className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-[transform,border-color,box-shadow] duration-150 hover:-translate-y-2 hover:border-accent/40 hover:shadow-[0_20px_60px_rgba(99,102,241,0.15)]"
+              className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-[transform,border-color,box-shadow] duration-150 hover:border-accent/40 hover:shadow-[0_20px_60px_rgba(99,102,241,0.15)]"
             >
               {/* ── Card number ───────────────────────────────────── */}
               <span className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-xs font-bold text-accent backdrop-blur-sm ring-1 ring-border">

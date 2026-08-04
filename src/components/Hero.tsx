@@ -140,7 +140,7 @@ export function Hero() {
           <a
             href="#contact"
             onClick={(e) => scrollToSection(e, "#contact")}
-            className="inline-flex h-12 w-full sm:w-auto min-w-[10.75rem] max-w-full items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-[transform,border-color,background-color,color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)] active:scale-[0.98]"
+            className="inline-flex h-12 w-full sm:w-auto min-w-[10.75rem] max-w-full items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-[transform,border-color,background-color,color,box-shadow] duration-150 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)] active:scale-[0.98]"
           >
             <Mail className="h-4 w-4" />
             Get In Touch

@@ -260,7 +260,7 @@ export function Navbar() {
           <a
             href={siteConfig.resume}
             download
-            className="hidden items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-2 text-sm font-medium text-accent transition-[transform,background-color,border-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(99,102,241,0.25)] active:scale-95 sm:inline-flex"
+            className="hidden items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-2 text-sm font-medium text-accent transition-[transform,background-color,border-color,box-shadow] duration-150 hover:border-accent/50 hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(99,102,241,0.25)] active:scale-95 sm:inline-flex"
           >
             <Download className="h-4 w-4" />
             <span className="hidden md:inline">Download CV</span>
@@ -332,7 +332,7 @@ export function Navbar() {
             href={siteConfig.resume}
             download
             onClick={closeMobile}
-            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-3 text-sm font-semibold text-accent transition-[transform,background-color,border-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(99,102,241,0.25)] active:scale-95"
+            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-3 text-sm font-semibold text-accent transition-[transform,background-color,border-color,box-shadow] duration-150 hover:border-accent/50 hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(99,102,241,0.25)] active:scale-95"
           >
             <Download className="h-4 w-4" />
             Download Resume

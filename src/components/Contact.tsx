@@ -48,7 +48,7 @@ function DirectEmail() {
         <div className="flex shrink-0 items-center gap-2">
           <a
             href={`mailto:${CONTACT_EMAIL}`}
-            className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border bg-surface px-4 text-xs font-semibold text-foreground transition-[transform,border-color,color] duration-150 hover:-translate-y-px hover:border-accent/40 hover:text-accent active:scale-95"
+            className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border bg-surface px-4 text-xs font-semibold text-foreground transition-[transform,border-color,color] duration-150 hover:border-accent/40 hover:text-accent active:scale-95"
           >
             <Mail className="h-3.5 w-3.5" />
             Open Mail
@@ -61,7 +61,7 @@ function DirectEmail() {
             className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-xs font-semibold transition-[transform,border-color,background-color,color] duration-150 active:scale-95 ${
               copied
                 ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                : "border-accent/30 bg-accent/10 text-accent hover:-translate-y-px hover:bg-accent/15"
+                : "border-accent/30 bg-accent/10 text-accent hover:bg-accent/15"
             }`}
           >
             {copied ? (
@@ -217,9 +217,9 @@ export function Contact() {
             </p>
             <button
               type="submit"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-6 text-sm font-semibold text-white transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)] active:scale-[0.98]"
+              className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-6 text-sm font-semibold text-white transition-[transform,box-shadow] duration-150 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)] active:scale-[0.98]"
             >
-              <Mail className="h-4 w-4 transition-transform duration-150 group-hover:-translate-y-0.5" />
+              <Mail className="h-4 w-4 transition-transform duration-150" />
               Send Message
             </button>
           </div>
