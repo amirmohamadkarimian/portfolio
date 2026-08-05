@@ -217,7 +217,7 @@ export function Contact() {
             </p>
             <button
               type="submit"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-6 text-sm font-semibold text-white transition-[transform,box-shadow] duration-150 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)] active:scale-[0.98]"
+              className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent px-6 text-sm font-semibold text-white transition-[transform,box-shadow,filter] duration-150 hover:brightness-110 hover:shadow-[0_0_30px_rgba(99,102,241,0.35)] active:scale-[0.98]"
             >
               <Mail className="h-4 w-4 transition-transform duration-150" />
               Send Message
