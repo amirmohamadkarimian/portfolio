@@ -4,7 +4,6 @@ import type {
   Project,
   SiteConfig,
   JourneyMilestone,
-  Testimonial,
 } from "./types";
 
 /* ── Site Config ───────────────────────────────────────────────────────── */
@@ -30,7 +29,6 @@ export const navLinks: NavLink[] = [
   { href: "#skills", label: "Skills" },
   { href: "#projects", label: "Projects" },
   { href: "#experience", label: "Journey" },
-  { href: "#testimonials", label: "Testimonials" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -148,30 +146,5 @@ export const journeyMilestones: JourneyMilestone[] = [
     title: "Building Real-World Projects",
     description:
       "Continuously learning and shipping frontend applications — focused on clean code, responsive design, and exceptional user experience.",
-  },
-];
-
-/* ── Testimonials ──────────────────────────────────────────────────────── */
-export const testimonials: Testimonial[] = [
-  {
-    quote:
-      "Amirmohamad turned our rough mockups into a fast, pixel-perfect interface. His attention to detail and clean component structure made handoff effortless.",
-    name: "Sara Ahmadi",
-    role: "Product Designer",
-    initials: "SA",
-  },
-  {
-    quote:
-      "One of the most reliable frontend developers I've worked with. He ships polished, accessible UIs and genuinely cares about performance.",
-    name: "Reza Moradi",
-    role: "Engineering Lead",
-    initials: "RM",
-  },
-  {
-    quote:
-      "Great communicator and a fast learner. The landing page he built loads instantly and looks fantastic on every device we tested.",
-    name: "Niloofar Karimi",
-    role: "Startup Founder",
-    initials: "NK",
   },
 ];

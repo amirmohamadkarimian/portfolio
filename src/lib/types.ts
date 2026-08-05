@@ -47,11 +47,3 @@ export interface JourneyMilestone {
   title: string;
   description: string;
 }
-
-/* ── Testimonials ──────────────────────────────────────────────────────── */
-export interface Testimonial {
-  quote: string;
-  name: string;
-  role: string;
-  initials: string;
-}
