@@ -123,6 +123,15 @@ body {
     will-change: auto !important;
   }
 
+  .hero-blob,
+  .animate-float,
+  .animate-float-slow,
+  .animate-spin-slow,
+  .animate-bounce-subtle,
+  .animate-pulse-dot {
+    animation: none !important;
+  }
+
   .btn-shimmer::before,
   .badge-shine::after {
     display: none !important;

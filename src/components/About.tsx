@@ -101,17 +101,22 @@ export function About() {
                 {/* Main Pitch Narrative */}
                 <div className="space-y-4 text-sm leading-relaxed text-foreground/90">
                   <p className="text-base font-medium text-foreground">
-                    I focus on building functional, responsive, and user-friendly web applications.
+                    I focus on building functional, responsive, and
+                    user-friendly web applications.
                   </p>
                   <p>
                     Specializing in{" "}
                     <strong className="font-semibold text-foreground">
                       React, Next.js, and TypeScript
                     </strong>
-                    , I bridge the gap between design and clean code implementation. I enjoy turning complex ideas into simple, clear digital interfaces.
+                    , I bridge the gap between design and clean code
+                    implementation. I enjoy turning complex ideas into simple,
+                    clear digital interfaces.
                   </p>
                   <p>
-                    My approach is straightforward: prioritize performance, maintain clear component structure, and keep user experience smooth across all devices.
+                    My approach is straightforward: prioritize performance,
+                    maintain clear component structure, and keep user experience
+                    smooth across all devices.
                   </p>
                 </div>
               </div>
@@ -145,18 +150,19 @@ export function About() {
             </div>
 
             {/* Stat Cards (2x2 Grid) */}
-            <ScrollRevealContainer stagger={80} className="grid grid-cols-2 gap-4">
+            <ScrollRevealContainer
+              stagger={80}
+              className="grid grid-cols-2 gap-4"
+            >
               {stats.map(({ value, label }, index) => (
                 <ScrollRevealItem
                   key={label}
                   index={index}
                   direction="up"
                   distance="24px"
-                  className="group relative overflow-hidden rounded-2xl border border-border bg-surface/80 p-5 text-center shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_10px_30px_rgba(99,102,241,0.08)]"
+                  className="group relative overflow-hidden rounded-2xl border border-border bg-surface/80 p-5 text-center shadow-sm backdrop-blur-sm transition-all duration-200 hover:border-accent/40 hover:shadow-[0_10px_30px_rgba(99,102,241,0.08)]"
                 >
-                  <p className="text-2xl font-bold text-gradient">
-                    {value}
-                  </p>
+                  <p className="text-2xl font-bold text-gradient">{value}</p>
                   <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-muted">
                     {label}
                   </p>
@@ -173,7 +179,10 @@ export function About() {
                 <CheckCircle2 className="h-5 w-5 text-accent" />
                 What I Focus On
               </h3>
-              <ScrollRevealContainer stagger={100} className="mt-6 flex-1 space-y-5">
+              <ScrollRevealContainer
+                stagger={100}
+                className="mt-6 flex-1 space-y-5"
+              >
                 {focusAreas.map((item, index) => (
                   <ScrollRevealItem
                     key={item.title}
@@ -210,7 +219,8 @@ export function About() {
                   Interested in Working Together?
                 </h3>
                 <p className="mt-2 text-xs leading-relaxed text-muted">
-                  Open for frontend developer roles, team opportunities, and select projects.
+                  Open for frontend developer roles, team opportunities, and
+                  select projects.
                 </p>
 
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -239,4 +249,3 @@ export function About() {
     </AnimatedSection>
   );
 }
-

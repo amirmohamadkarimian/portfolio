@@ -45,7 +45,7 @@ export function Highlights() {
                 direction="up"
                 distance="30px"
                 as="article"
-                className="group rounded-3xl border border-border bg-background/80 p-6 shadow-sm transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-1 hover:border-accent/30 hover:shadow-[0_20px_60px_rgba(99,102,241,0.12)]"
+                className="group rounded-3xl border border-border bg-background/80 p-6 shadow-sm transition-[box-shadow,border-color] duration-200 hover:border-accent/30 hover:shadow-[0_20px_60px_rgba(99,102,241,0.12)]"
               >
                 <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-3xl bg-accent/10 text-accent transition-colors duration-200 group-hover:bg-accent/20">
                   <Icon className="h-6 w-6" />
@@ -64,4 +64,3 @@ export function Highlights() {
     </AnimatedSection>
   );
 }
-

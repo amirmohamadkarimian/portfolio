@@ -17,11 +17,13 @@ function TypewriterRole() {
 
   return (
     <span
-      className="inline-flex items-center gap-1 text-xl font-medium sm:text-2xl"
+      className="inline-flex items-center gap-1 text-xl font-semibold tracking-[-0.04em] text-foreground/95 sm:text-2xl"
       aria-live="polite"
       aria-atomic="true"
     >
-      <span className="text-gradient">{displayed || "\u00a0"}</span>
+      <span className="text-gradient drop-shadow-[0_0_18px_rgba(129,140,248,0.22)]">
+        {displayed || "\u00a0"}
+      </span>
       <span
         className="animate-blink leading-none text-accent"
         aria-hidden="true"
@@ -67,13 +69,13 @@ export function Hero() {
         <div className="noise-overlay absolute inset-0" />
       </div>
 
-      <div className="relative mx-auto max-w-4xl pb-24 text-center">
+      <div className="relative mx-auto max-w-5xl pb-24 text-center">
         {/* ── Profile Photo ─────────────────────────────────────────── */}
         <div className="animate-fade-in mb-8 flex justify-center">
           <div className="relative">
             <div className="animate-spin-slow absolute -inset-1 rounded-full bg-gradient-to-r from-accent via-accent-secondary to-accent opacity-60 blur-[2px]" />
             <div className="absolute -inset-3 rounded-full bg-accent/20 blur-xl" />
-            <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-accent/40 sm:h-36 sm:w-36">
+            <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-accent/40 bg-surface/60 shadow-[0_0_35px_rgba(129,140,248,0.18)] ring-1 ring-white/10 sm:h-36 sm:w-36">
               <Image
                 src="/profile.png"
                 alt="Amirmohamad Karimian profile picture"
@@ -90,7 +92,7 @@ export function Hero() {
           </div>
         </div>
 
-        <p className="animate-fade-in mb-3 text-sm font-medium uppercase tracking-widest text-accent [animation-delay:100ms]">
+        <p className="animate-fade-in mb-3 text-xs font-medium uppercase tracking-[0.32em] text-accent sm:text-sm [animation-delay:100ms]">
           Hello, I&apos;m
         </p>
 
@@ -132,7 +134,7 @@ export function Hero() {
           <GradientButton
             href="#projects"
             onClick={(e) => scrollToSection(e, "#projects")}
-            className="w-full sm:w-auto min-w-[10.75rem] max-w-full"
+            className="h-14 w-full min-w-[10.75rem] max-w-full sm:w-auto"
           >
             View My Work
           </GradientButton>
@@ -140,7 +142,7 @@ export function Hero() {
           <a
             href="#contact"
             onClick={(e) => scrollToSection(e, "#contact")}
-            className="inline-flex h-12 w-full sm:w-auto min-w-[10.75rem] max-w-full items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-[transform,border-color,background-color,color,box-shadow] duration-150 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)] active:scale-[0.98]"
+            className="inline-flex h-14 w-full sm:w-auto min-w-[10.75rem] max-w-full items-center justify-center gap-2 rounded-full border border-border bg-surface/80 px-6 text-sm font-semibold text-foreground backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/5 hover:text-accent hover:shadow-[0_0_20px_rgba(99,102,241,0.1)] active:scale-[0.98]"
           >
             <Mail className="h-4 w-4" />
             Get In Touch
