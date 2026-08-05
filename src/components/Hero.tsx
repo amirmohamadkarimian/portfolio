@@ -98,6 +98,7 @@ export function Hero() {
 
         <h1 className="animate-fade-in-up text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl [animation-delay:150ms]">
           <span
+            className="animate-gradient"
             style={{
               background:
                 "linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #a78bfa 100%)",
@@ -109,6 +110,7 @@ export function Hero() {
             Amirmohamad
           </span>{" "}
           <span
+            className="animate-gradient"
             style={{
               background:
                 "linear-gradient(135deg, #c084fc 0%, #9776fc 50%, #8b30ff 100%)",

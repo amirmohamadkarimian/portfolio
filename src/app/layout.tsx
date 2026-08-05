@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { ScrollProgress } from "@/components/ScrollProgress";
 import { AnimatedBackgroundWrapper } from "@/components/AnimatedBackgroundWrapper";
 import { siteConfig } from "@/lib/data";
 import "./globals.css";
@@ -102,6 +103,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider>
+          <ScrollProgress />
           <AnimatedBackgroundWrapper />
           <div className="relative z-10 flex min-h-full flex-col">
             <Navbar />

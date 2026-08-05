@@ -1,5 +1,8 @@
+"use client";
+
 import { ExternalLink } from "lucide-react";
 import Image from "next/image";
+import { useMemo, useState } from "react";
 import { projects } from "@/lib/data";
 import { AnimatedSection } from "./AnimatedSection";
 import { ScrollRevealContainer, ScrollRevealItem } from "./ScrollReveal";
@@ -32,9 +35,32 @@ function getTechClass(tech: string) {
   return techColors[tech] ?? "bg-accent/10 text-accent";
 }
 
+const ALL_FILTER = "All";
+
 /* ── Projects Section ──────────────────────────────────────────────────── */
 
 export function Projects() {
+  const [activeFilter, setActiveFilter] = useState(ALL_FILTER);
+
+  /* Unique, stable list of technologies across all projects */
+  const filters = useMemo(() => {
+    const techs = new Set<string>();
+    projects.forEach((project) =>
+      project.technologies.forEach((tech) => techs.add(tech)),
+    );
+    return [ALL_FILTER, ...Array.from(techs)];
+  }, []);
+
+  const filteredProjects = useMemo(
+    () =>
+      activeFilter === ALL_FILTER
+        ? projects
+        : projects.filter((project) =>
+            project.technologies.includes(activeFilter),
+          ),
+    [activeFilter],
+  );
+
   return (
     <AnimatedSection
       id="projects"
@@ -43,7 +69,7 @@ export function Projects() {
     >
       <div className="mx-auto max-w-6xl">
         {/* ── Header ─────────────────────────────────────────────────── */}
-        <div className="mb-12">
+        <div className="mb-8">
           <SectionHeader
             label="Projects"
             title="Featured"
@@ -52,12 +78,39 @@ export function Projects() {
           />
         </div>
 
+        {/* ── Filter Chips ───────────────────────────────────────────── */}
+        <div
+          role="group"
+          aria-label="Filter projects by technology"
+          className="mb-12 flex flex-wrap gap-2"
+        >
+          {filters.map((filter) => {
+            const isActive = activeFilter === filter;
+            return (
+              <button
+                key={filter}
+                type="button"
+                onClick={() => setActiveFilter(filter)}
+                aria-pressed={isActive}
+                className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-[transform,background-color,border-color,color,box-shadow] duration-150 active:scale-95 ${
+                  isActive
+                    ? "border-accent/40 bg-accent/10 text-accent shadow-[0_0_20px_rgba(99,102,241,0.15)]"
+                    : "border-border bg-surface text-muted hover:border-accent/30 hover:text-accent"
+                }`}
+              >
+                {filter}
+              </button>
+            );
+          })}
+        </div>
+
         {/* ── Cards Grid ─────────────────────────────────────────────── */}
         <ScrollRevealContainer
+          key={activeFilter}
           stagger={120}
           className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
         >
-          {projects.map((project, index) => (
+          {filteredProjects.map((project, index) => (
             <ScrollRevealItem
               key={project.id}
               index={index}
@@ -139,6 +192,14 @@ export function Projects() {
             </ScrollRevealItem>
           ))}
         </ScrollRevealContainer>
+
+        {filteredProjects.length === 0 && (
+          <p className="py-16 text-center text-sm text-muted">
+            No projects match{" "}
+            <span className="font-semibold text-accent">{activeFilter}</span>{" "}
+            yet.
+          </p>
+        )}
       </div>
     </AnimatedSection>
   );
